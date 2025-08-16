@@ -31,6 +31,7 @@ int menu(void) {
     printf("+-----------------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
     scanf("%d",&opcao);
+    getchar();
     return opcao;
     
 }
@@ -63,36 +64,30 @@ int main() {
             printf("Voce saiu do programa! Ate logo!\n");
             printf("Pressione ENTER ... \n");
             getchar();
-            getchar();
             break;
         case 1:
             printf("Modulo de Clientes\n");
             printf("Pressione ENTER ... \n");
-            getchar();
             getchar();
             break;
         case 2:
             printf("Modulo de Advogados\n");
             printf("Pressione ENTER ... \n");
             getchar();
-            getchar();
             break;
         case 3:
             printf("Modulo de processos\n");
             printf("Pressione ENTER ... \n");
-            getchar();
             getchar();
             break;
         case 4:
             sobre();
             printf("Pressione ENTER ... \n");
             getchar();
-            getchar();
             break;
         default:
             printf("Voce digitou uma opcao invalida\n");
             printf("Pressione ENTER ... \n");
-            getchar();
             getchar();
             break;
         }
