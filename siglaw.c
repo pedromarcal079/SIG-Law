@@ -3,6 +3,7 @@
 
 int menu(void) {
 
+    system("clear");
     int opcao;
     printf("+-----------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                     |\n");
@@ -31,11 +32,27 @@ int menu(void) {
     printf("===> Digite sua opcao: ");
     scanf("%d",&opcao);
     return opcao;
-
+    
 }
 
 
+
 int main() {
-    menu();
+    int opcao;
+    while (opcao != 0) {
+        opcao = menu();
+        switch (opcao) {
+        case 0:
+            printf("Voce saiu do programa! Ate logo!\n");
+        case 1:
+            printf("Modulo de Clientes\n");
+        case 2:
+            printf("Modulo de Advogados\n");
+        case 3:
+            printf("Modulo de processos\n");
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+        }
+    }
     return 0;
 }
