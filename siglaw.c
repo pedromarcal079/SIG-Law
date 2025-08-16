@@ -36,6 +36,11 @@ int menu(void) {
 }
 
 
+void sobre(void) {
+    printf("PAGINA SOBRE\n");
+}
+
+
 
 int main() {
     int opcao = 1;
@@ -62,6 +67,12 @@ int main() {
             break;
         case 3:
             printf("Modulo de processos\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            getchar();
+            break;
+        case 4:
+            sobre();
             printf("Pressione ENTER ... \n");
             getchar();
             getchar();
