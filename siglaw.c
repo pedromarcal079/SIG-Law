@@ -37,7 +37,19 @@ int menu(void) {
 
 
 void sobre(void) {
-    printf("PAGINA SOBRE\n");
+    
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                         Universidade Federal do Rio Grande do Norte                         |\n");
+    printf("|                             Centro de Ensino Superior do Seridó                             |\n");
+    printf("|                            Bacharelado em Sistemas de Informacao                            |\n");
+    printf("|                               Disciplina DCT1106 - Programacao                              |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|         O projeto SIG-Law é um sistema de agendamento para escritórios de advocacia         |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+
 }
 
 
