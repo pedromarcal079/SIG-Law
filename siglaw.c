@@ -44,14 +44,19 @@ int main() {
         switch (opcao) {
         case 0:
             printf("Voce saiu do programa! Ate logo!\n");
+            break;
         case 1:
             printf("Modulo de Clientes\n");
+            break;
         case 2:
             printf("Modulo de Advogados\n");
+            break;
         case 3:
             printf("Modulo de processos\n");
+            break;
         default:
             printf("Voce digitou uma opcao invalida\n");
+            break;
         }
     }
     return 0;
