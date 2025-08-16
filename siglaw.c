@@ -38,7 +38,7 @@ int menu(void) {
 
 
 int main() {
-    int opcao;
+    int opcao = 1;
     while (opcao != 0) {
         opcao = menu();
         switch (opcao) {
