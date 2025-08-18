@@ -37,7 +37,7 @@ int menu(void) {
 }
 
 
-void sobre(void) {
+void telaSobre(void) {
     
     system("clear");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -48,7 +48,13 @@ void sobre(void) {
     printf("|                               Disciplina DCT1106 - Programacao                              |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("|         O projeto SIG-Law é um sistema de agendamento para escritórios de advocacia         |\n");
+    printf("|                                                                                             |\n");
+    printf("|        Projeto desenvolvido para a disciplina DCT1106 - Programação, como parte da          |\n");
+    printf("|         avaliação da matéria. O sistema implementa um modelo de agendamento para            |\n");
+    printf("|        escritórios de advocacia, reunindo os principais modulos e funcionalidades           |\n");
+    printf("|      estudadas ao longo do curso. O objetivo é aplicar na prática os conhecimentos          |\n");
+    printf("|     adquiridos e demonstrar as habilidades desenvolvidas por nós durante a disciplina       |\n");
+    printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 
 }
