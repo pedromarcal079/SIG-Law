@@ -37,7 +37,7 @@ int menu(void) {
 }
 
 
-void sobre(void) {
+void telaSobre(void) {
     
     system("clear");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -48,9 +48,62 @@ void sobre(void) {
     printf("|                               Disciplina DCT1106 - Programacao                              |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("|         O projeto SIG-Law é um sistema de agendamento para escritórios de advocacia         |\n");
+    printf("|                                                                                             |\n");
+    printf("|        Projeto desenvolvido para a disciplina DCT1106 - Programação, como parte da          |\n");
+    printf("|         avaliação da matéria. O sistema implementa um modelo de agendamento para            |\n");
+    printf("|        escritórios de advocacia, reunindo os principais modulos e funcionalidades           |\n");
+    printf("|      estudadas ao longo do curso. O objetivo é aplicar na prática os conhecimentos          |\n");
+    printf("|     adquiridos e demonstrar as habilidades desenvolvidas por nós durante a disciplina       |\n");
+    printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 
+}
+
+void telaEquipe(void) {
+    
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                         Universidade Federal do Rio Grande do Norte                         |\n");
+    printf("|                             Centro de Ensino Superior do Seridó                             |\n");
+    printf("|                            Bacharelado em Sistemas de Informacao                            |\n");
+    printf("|                               Disciplina DCT1106 - Programacao                              |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|               +++++ Sig-Law: Agendamentos para Escritórios de Advocacia +++++               |\n");
+    printf("|                                                                                             |\n");
+    printf("|               Este projeto exemplo foi desenvolvido por:                                    |\n");
+    printf("|                                                                                             |\n");
+    printf("|               Vanesca Héllen dos Santos Silva                                               |\n");
+    printf("|               E-mail: vanesca.santos.115@ufrn.edu.br                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("|               Pedro William Azevedo                                                         |\n");
+    printf("|               E-mail: pedro.marcal.079@ufrn.edu.br                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("|               Git: https://github.com/pedromarcal079/SIG-Law.git                            |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    
+}
+
+void telaSair(void) {
+
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                         Universidade Federal do Rio Grande do Norte                         |\n");
+    printf("|                             Centro de Ensino Superior do Seridó                             |\n");
+    printf("|                            Bacharelado em Sistemas de Informacao                            |\n");
+    printf("|                               Disciplina DCT1106 - Programacao                              |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                  Voce encerrou o programa!                                  |\n");
+    printf("|                                         Até Logo!                                           |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    
 }
 
 
@@ -61,7 +114,7 @@ int main() {
         opcao = menu();
         switch (opcao) {
         case 0:
-            printf("Voce saiu do programa! Ate logo!\n");
+            telaSair();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
@@ -81,7 +134,12 @@ int main() {
             getchar();
             break;
         case 4:
-            sobre();
+            telaSobre();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 5:
+            telaEquipe();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
