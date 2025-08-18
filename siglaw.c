@@ -87,6 +87,25 @@ void telaEquipe(void) {
     
 }
 
+void telaSair(void) {
+
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                         Universidade Federal do Rio Grande do Norte                         |\n");
+    printf("|                             Centro de Ensino Superior do Seridó                             |\n");
+    printf("|                            Bacharelado em Sistemas de Informacao                            |\n");
+    printf("|                               Disciplina DCT1106 - Programacao                              |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                  Voce encerrou o programa!                                  |\n");
+    printf("|                                         Até Logo!                                           |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    
+}
+
 
 
 int main() {
@@ -95,7 +114,7 @@ int main() {
         opcao = menu();
         switch (opcao) {
         case 0:
-            printf("Voce saiu do programa! Ate logo!\n");
+            telaSair();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
