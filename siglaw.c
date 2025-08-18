@@ -134,7 +134,7 @@ int main() {
             getchar();
             break;
         case 4:
-            sobre();
+            telaSobre();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
