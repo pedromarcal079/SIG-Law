@@ -6,7 +6,7 @@ void telaSobre(void);
 void telaEquipe(void);
 void telaSair(void);
 
-int main() {
+int main(void) {
     int opcao = 1;
     while (opcao != 0) {
         opcao = menu();
