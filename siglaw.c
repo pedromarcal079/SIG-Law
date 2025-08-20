@@ -1,6 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int menu(void);
+void telaSobre(void);
+void telaEquipe(void);
+void telaSair(void);
+
+int main() {
+    int opcao = 1;
+    while (opcao != 0) {
+        opcao = menu();
+        switch (opcao) {
+        case 0:
+            telaSair();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            printf("Modulo de Clientes\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            printf("Modulo de Advogados\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            printf("Modulo de processos\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            telaSobre();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 5:
+            telaEquipe();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    }
+    return 0;
+}
+
+
+
 int menu(void) {
 
     system("clear");
@@ -104,51 +156,4 @@ void telaSair(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     
-}
-
-
-
-int main() {
-    int opcao = 1;
-    while (opcao != 0) {
-        opcao = menu();
-        switch (opcao) {
-        case 0:
-            telaSair();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 1:
-            printf("Modulo de Clientes\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 2:
-            printf("Modulo de Advogados\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 3:
-            printf("Modulo de processos\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 4:
-            telaSobre();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 5:
-            telaEquipe();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        default:
-            printf("Voce digitou uma opcao invalida\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        }
-    }
-    return 0;
 }
