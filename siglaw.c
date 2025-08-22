@@ -188,7 +188,21 @@ int menuAdvogado(void) {
 
 
 void criaAdvogado(void) {
-    printf("Cria advogado\n");
+    system("clear");
+    char cpf[15];
+    char nome[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Criar Advogado                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    getchar();
+    printf("===> Digite o nome do advogado: ");
+    fgets(nome, sizeof(nome), stdin);
+    getchar();
 }
 
 
