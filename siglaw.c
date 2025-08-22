@@ -5,6 +5,11 @@ int menu(void);
 void telaSobre(void);
 void telaEquipe(void);
 void telaSair(void);
+int menuAdvogado(void);
+void criaAdvogado(void);
+void editaAdvogado(void);
+void excluiAdvogado(void);
+void listaAdvogado(void);
 
 int main(void) {
     int opcao = 1;
