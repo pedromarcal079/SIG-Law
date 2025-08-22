@@ -165,7 +165,22 @@ void telaSair(void) {
 
 
 int menuAdvogado(void) {
-    return 0;
+    system("clear");
+    int opcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Modulo de Advogados                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                               1 - Cria Advogado                                             |\n");
+    printf("|                               2 - Edita Advogado                                            |\n");
+    printf("|                               3 - Exclui Processo                                           |\n");
+    printf("|                               4 - Lista Advogado                                            |\n");
+    printf("|                               0 - Sair                                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    return opcao;
 }
 
 
