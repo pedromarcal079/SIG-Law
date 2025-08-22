@@ -1,5 +1,5 @@
 # SIG-Law
-<p>Sistema de agendamento para um escrtório de advocacia, desenvolvido na disciplina DCT1106 - Programação, do curso de Sistemas de Informação na UFRN CERES, como parte da avaliação da matéria.</p>
+<p>Sistema de agendamento para escrtórios de advocacia, desenvolvido na disciplina DCT1106 - Programação, do curso de Sistemas de Informação na UFRN CERES, como parte da avaliação da matéria.</p>
 <p>O projeto reune os principais módulos e funcionalidades estudadas ao longo do curso.</p>
 <p>O objetivo é aplicar na prática os conhecimentos adquiridos e demonstrar as habilidades desenvolvidas por nós durante a disciplina.</p>
 
