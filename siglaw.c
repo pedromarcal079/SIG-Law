@@ -180,6 +180,9 @@ int menuAdvogado(void) {
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
     return opcao;
 }
 
