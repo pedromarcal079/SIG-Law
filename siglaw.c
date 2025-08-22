@@ -207,7 +207,21 @@ void criaAdvogado(void) {
 
 
 void editaAdvogado(void) {
-    printf("Edita Advogado\n");
+    system("clear");
+    char cpf[15];
+    char nome[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Editar Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    getchar();
+    printf("===> Digite o novo nome do advogado: ");
+    fgets(nome, sizeof(nome), stdin);
+    getchar();
 }
 
 
