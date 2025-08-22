@@ -226,7 +226,19 @@ void editaAdvogado(void) {
 
 
 void excluiAdvogado(void) {
-    printf("Exclui Advogado\n");
+    system("clear");
+    char cpf[15];
+    char nome[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado que deseja excluir: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    getchar();
+    printf("\n===> Advogado excluido com sucesso!\n");
 }
 
 
