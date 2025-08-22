@@ -162,3 +162,28 @@ void telaSair(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     
 }
+
+
+int menuAdvogado(void) {
+    return 0;
+}
+
+
+void criaAdvogado(void) {
+    printf("Cria advogado\n");
+}
+
+
+void editaAdvogado(void) {
+    printf("Edita Advogado\n");
+}
+
+
+void excluiAdvogado(void) {
+    printf("Exclui Advogado\n");
+}
+
+
+void listaAdvogado(void){
+    printf("Lista Advogado\n");
+}
