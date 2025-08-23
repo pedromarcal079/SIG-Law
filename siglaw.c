@@ -232,10 +232,8 @@ void criaAdvogado(void) {
     printf("\n");
     printf("===> Digite o cpf do advogado: ");
     fgets(cpf, sizeof(cpf), stdin);
-    getchar();
     printf("===> Digite o nome do advogado: ");
     fgets(nome, sizeof(nome), stdin);
-    getchar();
 }
 
 
@@ -251,10 +249,8 @@ void editaAdvogado(void) {
     printf("\n");
     printf("===> Digite o cpf do advogado: ");
     fgets(cpf, sizeof(cpf), stdin);
-    getchar();
     printf("===> Digite o novo nome do advogado: ");
     fgets(nome, sizeof(nome), stdin);
-    getchar();
 }
 
 
@@ -269,7 +265,6 @@ void excluiAdvogado(void) {
     printf("\n");
     printf("===> Digite o cpf do advogado que deseja excluir: ");
     fgets(cpf, sizeof(cpf), stdin);
-    getchar();
     printf("\n===> Advogado excluido com sucesso!\n");
 }
 
@@ -285,6 +280,5 @@ void listaAdvogado(void){
     printf("\n");
     printf("===> Digite o cpf do advogado que deseja pesquisar: ");
     fgets(cpf, sizeof(cpf), stdin);
-    getchar();
     printf("\nNome: Advogado Fulano\n");
 }
