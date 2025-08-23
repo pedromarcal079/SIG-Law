@@ -27,9 +27,42 @@ int main(void) {
             getchar();
             break;
         case 2:
-            printf("Modulo de Advogados\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int opcaoAdvogado=1;
+            while (opcaoAdvogado != 0) {
+                opcaoAdvogado = menuAdvogado();
+                switch (opcaoAdvogado)
+                {
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    criaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    listaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
             break;
         case 3:
             printf("Modulo de processos\n");
