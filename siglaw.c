@@ -5,11 +5,18 @@ int menu(void);
 void telaSobre(void);
 void telaEquipe(void);
 void telaSair(void);
+
 int menuAdvogado(void);
 void criaAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
 void listaAdvogado(void);
+
+int menuCliente(void);
+void cadastraCliente(void);
+void editaCliente(void);
+void excluiCliente(void);
+void mostraCliente(void);
 
 int main(void) {
     int opcao = 1;
@@ -22,9 +29,41 @@ int main(void) {
             getchar();
             break;
         case 1:
-            printf("Modulo de Clientes\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int cliOpcao = 1;
+            while (cliOpcao != 0) {
+                cliOpcao = menuCliente();
+                switch (cliOpcao){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    mostraCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
             break;
         case 2:
             int opcaoAdvogado=1;
@@ -281,4 +320,90 @@ void listaAdvogado(void){
     printf("===> Digite o cpf do advogado que deseja pesquisar: ");
     fgets(cpf, sizeof(cpf), stdin);
     printf("\nNome: Advogado Fulano\n");
+}
+
+
+int menuCliente(void) {
+    system("clear");
+    int cliOpcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Menu do Cliente                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra cliente                                               |\n");
+    printf("|                          2 - Edita cliente                                                  |\n");
+    printf("|                          3 - Exclui cliente                                                 |\n");
+    printf("|                          4 - Mostra cliente                                                 |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&cliOpcao);
+    getchar();
+    return cliOpcao;
+}
+
+
+void cadastraCliente(void) {
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Cadastrar Cliente                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Informe os dados do cliente:                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Nome completo:                                                     |\n");
+    printf("|                          CPF:                                                               |\n");
+    printf("|                          Idade:                                                             |\n");
+    printf("|                          Telefone:                                                          |\n");
+    printf("|                          E-mail:                                                            |\n");
+    printf("|                          Endereço:                                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void mostraCliente(void) {
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Mostrar Cliente                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void editaCliente(void) {
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                        Alterar Cliente                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void excluiCliente(void) {
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                        Excluir Cliente                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
