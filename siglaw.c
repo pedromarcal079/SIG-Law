@@ -29,9 +29,41 @@ int main(void) {
             getchar();
             break;
         case 1:
-            printf("Modulo de Clientes\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int cliOpcao = 1;
+            while (cliOpcao != 0) {
+                cliOpcao = menuCliente();
+                switch (cliOpcao){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    mostraCliente();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
             break;
         case 2:
             int opcaoAdvogado=1;
