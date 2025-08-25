@@ -312,3 +312,24 @@ int menuCliente(void) {
     getchar();
     return cliOpcao;
 }
+
+
+void cadastraCliente(void) {
+    system("clear");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Cadastrar Cliente                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Informe os dados do cliente:                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("|                          Nome completo:                                                     |\n");
+    printf("|                          CPF:                                                               |\n");
+    printf("|                          Idade:                                                             |\n");
+    printf("|                          Telefone:                                                          |\n");
+    printf("|                          E-mail:                                                            |\n");
+    printf("|                          Endereço:                                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
