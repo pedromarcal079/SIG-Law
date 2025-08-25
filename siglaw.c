@@ -1,6 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int menu(void);
+void telaSobre(void);
+void telaEquipe(void);
+void telaSair(void);
+int menuAdvogado(void);
+void criaAdvogado(void);
+void editaAdvogado(void);
+void excluiAdvogado(void);
+void listaAdvogado(void);
+
+int main(void) {
+    int opcao = 1;
+    while (opcao != 0) {
+        opcao = menu();
+        switch (opcao) {
+        case 0:
+            telaSair();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            printf("Modulo de Clientes\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            int opcaoAdvogado=1;
+            while (opcaoAdvogado != 0) {
+                opcaoAdvogado = menuAdvogado();
+                switch (opcaoAdvogado)
+                {
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    criaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    listaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
+            break;
+        case 3:
+            printf("Modulo de processos\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            telaSobre();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 5:
+            telaEquipe();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    }
+    return 0;
+}
+
+
+
 int menu(void) {
 
     system("clear");
@@ -107,48 +197,88 @@ void telaSair(void) {
 }
 
 
+int menuAdvogado(void) {
+    system("clear");
+    int opcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Modulo de Advogados                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                               1 - Cria Advogado                                             |\n");
+    printf("|                               2 - Edita Advogado                                            |\n");
+    printf("|                               3 - Exclui Processo                                           |\n");
+    printf("|                               4 - Lista Advogado                                            |\n");
+    printf("|                               0 - Sair                                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
+    return opcao;
+}
 
-int main() {
-    int opcao = 1;
-    while (opcao != 0) {
-        opcao = menu();
-        switch (opcao) {
-        case 0:
-            telaSair();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 1:
-            printf("Modulo de Clientes\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 2:
-            printf("Modulo de Advogados\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 3:
-            printf("Modulo de processos\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 4:
-            telaSobre();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        case 5:
-            telaEquipe();
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        default:
-            printf("Voce digitou uma opcao invalida\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
-            break;
-        }
-    }
-    return 0;
+
+void criaAdvogado(void) {
+    system("clear");
+    char cpf[15];
+    char nome[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Criar Advogado                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("===> Digite o nome do advogado: ");
+    fgets(nome, sizeof(nome), stdin);
+}
+
+
+void editaAdvogado(void) {
+    system("clear");
+    char cpf[15];
+    char nome[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Editar Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("===> Digite o novo nome do advogado: ");
+    fgets(nome, sizeof(nome), stdin);
+}
+
+
+void excluiAdvogado(void) {
+    system("clear");
+    char cpf[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado que deseja excluir: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("\n===> Advogado excluido com sucesso!\n");
+}
+
+
+void listaAdvogado(void){
+    system("clear");
+    char cpf[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Listar Advogado                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cpf do advogado que deseja pesquisar: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("\nNome: Advogado Fulano\n");
 }
