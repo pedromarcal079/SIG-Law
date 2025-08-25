@@ -5,11 +5,18 @@ int menu(void);
 void telaSobre(void);
 void telaEquipe(void);
 void telaSair(void);
+
 int menuAdvogado(void);
 void criaAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
 void listaAdvogado(void);
+
+int menuCliente(void);
+void cadastraCliente(void);
+void editaCliente(void);
+void excluiCliente(void);
+void mostraCliente(void);
 
 int main(void) {
     int opcao = 1;
@@ -282,3 +289,5 @@ void listaAdvogado(void){
     fgets(cpf, sizeof(cpf), stdin);
     printf("\nNome: Advogado Fulano\n");
 }
+
+
