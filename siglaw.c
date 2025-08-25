@@ -291,3 +291,24 @@ void listaAdvogado(void){
 }
 
 
+int menuCliente(void) {
+    system("clear");
+    int cliOpcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Menu do Cliente                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra cliente                                               |\n");
+    printf("|                          2 - Edita cliente                                                  |\n");
+    printf("|                          3 - Exclui cliente                                                 |\n");
+    printf("|                          4 - Mostra cliente                                                 |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&cliOpcao);
+    getchar();
+    return cliOpcao;
+}
