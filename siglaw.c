@@ -104,16 +104,31 @@ int main(void) {
             }
             break;
         case 3:
-            printf("Modulo de processos\n");
+            printf("Modulo de processos PF\n");
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 4:
-            telaSobre();
+            printf("Modulo de Empresas\n");
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 5:
+            printf("Modulo de processos PJ\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 6:
+            printf("Relatorios\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 7:
+            telaSobre();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 8:
             telaEquipe();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -152,9 +167,12 @@ int menu(void) {
     printf("|                                                                                                     |\n");
     printf("|                          1 - Módulo de Clientes                                                     |\n");
     printf("|                          2 - Módulo de Advogados                                                    |\n");
-    printf("|                          3 - Módulo de Processos                                                    |\n");
-    printf("|                          4 - Sobre                                                                  |\n");
-    printf("|                          5 - Equipe                                                                 |\n");
+    printf("|                          3 - Módulo de Processos PF                                                 |\n");
+    printf("|                          4 - Módulo de Empresas                                                     |\n");
+    printf("|                          5 - Módulo de Processos PJ                                                 |\n");
+    printf("|                          6 - Relatorios                                                             |\n");
+    printf("|                          7 - Sobre                                                                  |\n");
+    printf("|                          8 - Equipe                                                                 |\n");
     printf("|                          0 - Sair                                                                   |\n");
     printf("|                                                                                                     |\n");
     printf("+-----------------------------------------------------------------------------------------------------+\n");
