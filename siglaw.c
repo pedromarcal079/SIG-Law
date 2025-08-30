@@ -7,10 +7,10 @@ void telaEquipe(void);
 void telaSair(void);
 
 int menuAdvogado(void);
-void criaAdvogado(void);
+void cadastraAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
-void listaAdvogado(void);
+void mostraAdvogado(void);
 
 int menuCliente(void);
 void cadastraCliente(void);
@@ -83,7 +83,7 @@ int main(void) {
                     getchar();
                     break;
                 case 1:
-                    criaAdvogado();
+                    cadastraAdvogado();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -93,12 +93,12 @@ int main(void) {
                     getchar();
                     break;
                 case 3:
-                    excluiAdvogado();
+                    mostraAdvogado();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
                 case 4:
-                    listaAdvogado();
+                    excluiAdvogado();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -135,12 +135,12 @@ int main(void) {
                     getchar();
                     break;
                 case 3:
-                    excluiEmpresa();
+                    mostraEmpresa();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
                 case 4:
-                    mostraEmpresa();
+                    excluiEmpresa();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -222,7 +222,6 @@ int menu(void) {
     
 }
 
-
 void telaSobre(void) {
     
     system("clear");
@@ -303,10 +302,10 @@ int menuAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                               1 - Cria Advogado                                             |\n");
+    printf("|                               1 - Cadastra Advogado                                         |\n");
     printf("|                               2 - Edita Advogado                                            |\n");
-    printf("|                               3 - Exclui Processo                                           |\n");
-    printf("|                               4 - Lista Advogado                                            |\n");
+    printf("|                               3 - Mostra Advogado                                           |\n");
+    printf("|                               4 - Exclui Processo                                           |\n");
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -317,20 +316,43 @@ int menuAdvogado(void) {
 }
 
 
-void criaAdvogado(void) {
+void cadastraAdvogado(void) {
     system("clear");
     char cpf[15];
     char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                     Criar Advogado                                          |\n");
+    printf("|                                    Cadastrar Advogado                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cpf do advogado: ");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados do advogado:                                                        |\n");
+    printf("|   ===> CPF: ");
     fgets(cpf, sizeof(cpf), stdin);
-    printf("===> Digite o nome do advogado: ");
+    printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Advogado cadastrado com sucesso!                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void mostraAdvogado(void){
+    system("clear");
+    char cpf[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostrar Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Nome: Advogado Fulano de Town                                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -343,11 +365,17 @@ void editaAdvogado(void) {
     printf("|                                     Editar Advogado                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cpf do advogado: ");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o cpf do advogado: ");
     fgets(cpf, sizeof(cpf), stdin);
-    printf("===> Digite o novo nome do advogado: ");
-    fgets(nome, sizeof(nome), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Digite os novos dados:                                                               |\n");
+    printf("|        Nome: ");
+    fgets(nome, sizeof(nome), stdin);  
+    printf("|                                                                                             |\n");
+    printf("|        Dados atualizados com sucesso!                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -359,25 +387,13 @@ void excluiAdvogado(void) {
     printf("|                                    Excluir Advogado                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cpf do advogado que deseja excluir: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("\n===> Advogado excluido com sucesso!\n");
-}
-
-
-void listaAdvogado(void){
-    system("clear");
-    char cpf[15];
-    printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                    Listar Advogado                                          |\n");
+    printf("|   ===> Digite o cpf do advogado: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Advogado excluido com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cpf do advogado que deseja pesquisar: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("\nNome: Advogado Fulano\n");
 }
 
 // Cliente
@@ -439,10 +455,11 @@ void mostraCliente(void) {
     printf("|   ===> Digite o cpf do cliente: ");
     fgets(cpf, sizeof(cpf), stdin);
     printf("|                                                                                             |\n");
-    printf("|        Cliente: Fulano de Town                                                              |\n");
+    printf("|        Nome: Fulano de Town                                                                 |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
+
 
 void editaCliente(void) {
     system("clear");
@@ -450,7 +467,7 @@ void editaCliente(void) {
     char nome[30];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                        Alterar Cliente                                      |\n");
+    printf("|                                       Editar Cliente                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -461,7 +478,7 @@ void editaCliente(void) {
     printf("|        Nome: ");
     fgets(nome, sizeof(nome), stdin);  
     printf("|                                                                                             |\n");
-    printf("|        Cliente: Fulano de Town                                                              |\n");
+    printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
@@ -479,7 +496,7 @@ void excluiCliente(void) {
     printf("|   ===> Digite o cpf do cliente: ");
     fgets(cpf, sizeof(cpf), stdin);
     printf("|                                                                                             |\n");
-    printf("|        Cliente deletado com sucesso!                                                        |\n");
+    printf("|        Cliente excluido com sucesso!                                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
@@ -497,8 +514,8 @@ int menuEmpresa(void) {
     printf("|                                                                                             |\n");
     printf("|                          1 - Cadastra empresa                                               |\n");
     printf("|                          2 - Edita empresa                                                  |\n");
-    printf("|                          3 - Exclui empresa                                                 |\n");
-    printf("|                          4 - Mostra empresa                                                 |\n");
+    printf("|                          3 - Mostra empresa                                                 |\n");
+    printf("|                          4 - Exclui empresa                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -543,21 +560,6 @@ void editaEmpresa(void) {
 }
 
 
-void excluiEmpresa(void) {
-    system("clear");
-    char cnpj[15];
-    printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("|                                                                                             |\n");
-    printf("|                                    Excluir Empresa                                          |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa que deseja excluir: ");
-    fgets(cnpj, sizeof(cnpj), stdin);
-    printf("\n===> Empresa excluida com sucesso!\n");
-}
-
-
 void mostraEmpresa(void){
     system("clear");
     char cnpj[15];
@@ -570,4 +572,19 @@ void mostraEmpresa(void){
     printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("\nNome: Empresa Legal\n");
+}
+
+
+void excluiEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja excluir: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\n===> Empresa excluida com sucesso!\n");
 }
