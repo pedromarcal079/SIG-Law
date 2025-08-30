@@ -18,6 +18,13 @@ void editaCliente(void);
 void excluiCliente(void);
 void mostraCliente(void);
 
+int menuEmpresa(void);
+void cadastraEmpresa(void);
+void editaEmpresa(void);
+void excluiEmpresa(void);
+void mostraEmpresa(void);
+
+
 int main(void) {
     int opcao = 1;
     while (opcao != 0) {
@@ -109,9 +116,41 @@ int main(void) {
             getchar();
             break;
         case 4:
-            printf("Modulo de Empresas\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int opcaoEmpresa=1;
+            while (opcaoEmpresa != 0) {
+                opcaoEmpresa = menuEmpresa();
+                switch (opcaoEmpresa){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    mostraEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
             break;
         case 5:
             printf("Modulo de processos PJ\n");
@@ -424,4 +463,91 @@ void excluiCliente(void) {
     printf("|                          Informe o CPF do cliente:                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+int menuEmpresa(void) {
+    system("clear");
+    int opcaoEmpresa;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Modulo de Empresa                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra empresa                                               |\n");
+    printf("|                          2 - Edita empresa                                                  |\n");
+    printf("|                          3 - Exclui empresa                                                 |\n");
+    printf("|                          4 - Mostra empresa                                                 |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcaoEmpresa);
+    getchar();
+    return opcaoEmpresa;
+}
+
+
+void cadastraEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    char nome[30];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Cadastrar Empresa                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("===> Digite o nome da empresa: ");
+    fgets(nome, sizeof(nome), stdin);
+}
+
+
+void editaEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    char nome[30];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Editar Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("===> Digite o novo nome da empresa: ");
+    fgets(nome, sizeof(nome), stdin);
+}
+
+
+void excluiEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja excluir: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\n===> Empresa excluida com sucesso!\n");
+}
+
+
+void mostraEmpresa(void){
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostra Empresa                                           |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\nNome: Empresa Legal\n");
 }
