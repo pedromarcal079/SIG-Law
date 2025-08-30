@@ -21,6 +21,7 @@ void mostraCliente(void);
 int menuEmpresa(void);
 void cadastraEmpresa(void);
 void editaEmpresa(void);
+void excluiEmpresa(void);
 
 
 int main(void) {
@@ -486,4 +487,19 @@ void editaEmpresa(void) {
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("===> Digite o novo nome da empresa: ");
     fgets(nome, sizeof(nome), stdin);
+}
+
+
+void excluiEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja excluir: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\n===> Empresa excluida com sucesso!\n");
 }
