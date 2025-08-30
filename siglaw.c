@@ -22,6 +22,7 @@ int menuEmpresa(void);
 void cadastraEmpresa(void);
 void editaEmpresa(void);
 void excluiEmpresa(void);
+void mostraEmpresa(void);
 
 
 int main(void) {
@@ -502,4 +503,19 @@ void excluiEmpresa(void) {
     printf("===> Digite o cnpj da empresa que deseja excluir: ");
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("\n===> Empresa excluida com sucesso!\n");
+}
+
+
+void mostraEmpresa(void){
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostra Empresa                                           |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\nNome: Empresa Legal\n");
 }
