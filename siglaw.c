@@ -116,9 +116,41 @@ int main(void) {
             getchar();
             break;
         case 4:
-            printf("Modulo de Empresas\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int opcaoEmpresa;
+            while (opcaoEmpresa != 0) {
+                opcaoEmpresa = menuEmpresa();
+                switch (opcaoEmpresa){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    excluiEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    mostraEmpresa();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
             break;
         case 5:
             printf("Modulo de processos PJ\n");
