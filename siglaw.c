@@ -55,12 +55,12 @@ int main(void) {
                     getchar();
                     break;
                 case 3:
-                    excluiCliente();
+                    mostraCliente();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
                 case 4:
-                    mostraCliente();
+                    excluiCliente();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -292,6 +292,7 @@ void telaSair(void) {
     
 }
 
+// Advogado
 
 int menuAdvogado(void) {
     system("clear");
@@ -379,6 +380,7 @@ void listaAdvogado(void){
     printf("\nNome: Advogado Fulano\n");
 }
 
+// Cliente
 
 int menuCliente(void) {
     system("clear");
@@ -391,8 +393,8 @@ int menuCliente(void) {
     printf("|                                                                                             |\n");
     printf("|                          1 - Cadastra cliente                                               |\n");
     printf("|                          2 - Edita cliente                                                  |\n");
-    printf("|                          3 - Exclui cliente                                                 |\n");
-    printf("|                          4 - Mostra cliente                                                 |\n");
+    printf("|                          3 - Mostra cliente                                                 |\n");
+    printf("|                          4 - Exclui cliente                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -426,27 +428,39 @@ void cadastraCliente(void) {
 
 void mostraCliente(void) {
     system("clear");
+    char cpf[15];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Mostrar Cliente                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|   ===> Digite o cpf do cliente: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Cliente: Fulano de Town                                                              |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
-
 void editaCliente(void) {
     system("clear");
+    char cpf[15];
+    char nome[30];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Alterar Cliente                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|   ===> Digite o cpf do cliente: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Digite os novos dados:                                                               |\n");
+    printf("|        Nome: ");
+    fgets(nome, sizeof(nome), stdin);  
+    printf("|                                                                                             |\n");
+    printf("|        Cliente: Fulano de Town                                                              |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
@@ -454,17 +468,22 @@ void editaCliente(void) {
 
 void excluiCliente(void) {
     system("clear");
+    char cpf[15];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Excluir Cliente                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          Informe o CPF do cliente:                                          |\n");
+    printf("|   ===> Digite o cpf do cliente: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Cliente deletado com sucesso!                                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
+// Empresa
 
 int menuEmpresa(void) {
     system("clear");
