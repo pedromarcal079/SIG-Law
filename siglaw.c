@@ -20,6 +20,7 @@ void mostraCliente(void);
 
 int menuEmpresa(void);
 void cadastraEmpresa(void);
+void editaEmpresa(void);
 
 
 int main(void) {
@@ -467,5 +468,22 @@ void cadastraEmpresa(void) {
     printf("===> Digite o cnpj da empresa: ");
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("===> Digite o nome da empresa: ");
+    fgets(nome, sizeof(nome), stdin);
+}
+
+
+void editaEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    char nome[30];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Editar Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("===> Digite o novo nome da empresa: ");
     fgets(nome, sizeof(nome), stdin);
 }
