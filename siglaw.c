@@ -18,6 +18,8 @@ void editaCliente(void);
 void excluiCliente(void);
 void mostraCliente(void);
 
+int menuEmpresa(void);
+
 int main(void) {
     int opcao = 1;
     while (opcao != 0) {
@@ -424,4 +426,27 @@ void excluiCliente(void) {
     printf("|                          Informe o CPF do cliente:                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+int menuEmpresa(void) {
+    system("clear");
+    int opcaoEmpresa;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Modulo de Empresa                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra empresa                                               |\n");
+    printf("|                          2 - Edita empresa                                                  |\n");
+    printf("|                          3 - Exclui empresa                                                 |\n");
+    printf("|                          4 - Mostra empresa                                                 |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcaoEmpresa);
+    getchar();
+    return opcaoEmpresa;
 }
