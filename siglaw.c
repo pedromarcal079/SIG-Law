@@ -19,6 +19,8 @@ void excluiCliente(void);
 void mostraCliente(void);
 
 int menuEmpresa(void);
+void cadastraEmpresa(void);
+
 
 int main(void) {
     int opcao = 1;
@@ -449,4 +451,21 @@ int menuEmpresa(void) {
     scanf("%d",&opcaoEmpresa);
     getchar();
     return opcaoEmpresa;
+}
+
+
+void cadastraEmpresa(void) {
+    system("clear");
+    char cnpj[15];
+    char nome[30];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Cadastrar Empresa                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("===> Digite o nome da empresa: ");
+    fgets(nome, sizeof(nome), stdin);
 }
