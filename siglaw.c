@@ -116,7 +116,7 @@ int main(void) {
             getchar();
             break;
         case 4:
-            int opcaoEmpresa;
+            int opcaoEmpresa=1;
             while (opcaoEmpresa != 0) {
                 opcaoEmpresa = menuEmpresa();
                 switch (opcaoEmpresa){
