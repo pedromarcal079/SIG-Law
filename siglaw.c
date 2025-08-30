@@ -407,20 +407,21 @@ int menuCliente(void) {
 
 void cadastraCliente(void) {
     system("clear");
+    char cpf[15];
+    char nome[30];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          Informe os dados do cliente:                                       |\n");
+    printf("|        Informe os dados do cliente:                                                         |\n");
+    printf("|   ===> CPF: ");
+    fgets(cpf, sizeof(cpf), stdin);
+    printf("|   ===> Nome: ");
+    fgets(nome, sizeof(nome), stdin);
     printf("|                                                                                             |\n");
-    printf("|                          Nome completo:                                                     |\n");
-    printf("|                          CPF:                                                               |\n");
-    printf("|                          Idade:                                                             |\n");
-    printf("|                          Telefone:                                                          |\n");
-    printf("|                          E-mail:                                                            |\n");
-    printf("|                          Endereço:                                                          |\n");
+    printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
