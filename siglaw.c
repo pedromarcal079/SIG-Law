@@ -18,6 +18,8 @@ void editaCliente(void);
 void excluiCliente(void);
 void mostraCliente(void);
 
+int menuProcessosPF(void);
+
 int menuEmpresa(void);
 void cadastraEmpresa(void);
 void editaEmpresa(void);
@@ -111,7 +113,7 @@ int main(void) {
             }
             break;
         case 3:
-            printf("Modulo de processos PF\n");
+            menuProcessosPF();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
@@ -499,6 +501,30 @@ void excluiCliente(void) {
     printf("|        Cliente excluido com sucesso!                                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+// Processos PF 
+
+int menuProcessosPF(void) {
+    system("clear");
+    int proPfOpcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Menu de Processos PF                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra processo                                              |\n");
+    printf("|                          2 - Edita processo                                                 |\n");
+    printf("|                          3 - Mostra processo                                                |\n");
+    printf("|                          4 - Exclui processo                                                |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&proPfOpcao);
+    getchar();
+    // return proPfOpcao;
 }
 
 // Empresa
