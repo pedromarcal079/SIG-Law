@@ -32,6 +32,7 @@ void excluiEmpresa(void);
 
 int menuProcessoPJ(void);
 void cadastraProcessoPJ(void);
+void mostraProcessoPJ(void);
 
 
 int main(void) {
@@ -204,6 +205,11 @@ int main(void) {
                     break;
                 case 1:
                     cadastraProcessoPJ();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    mostraProcessoPJ();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -800,6 +806,25 @@ void cadastraProcessoPJ(void) {
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void mostraProcessoPJ(void) {
+    system("clear");
+    char procNum[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostrar Processo PJ                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o número do processo: ");
+    fgets(procNum, sizeof(procNum), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Tipo de processo: Civil                                                              |\n");
+    printf("|        Data de abertura: 31/08/2025                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
