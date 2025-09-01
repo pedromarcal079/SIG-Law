@@ -20,6 +20,7 @@ void mostraCliente(void);
 
 int menuProcessoPF(void);
 void cadastraProcessoPF(void);
+void mostraProcessoPF(void);
 void editaProcessoPF(void);
 
 int menuEmpresa(void);
@@ -54,12 +55,12 @@ int main(void) {
                     getchar();
                     break;
                 case 2:
-                    editaCliente();
+                    mostraCliente();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
                 case 3:
-                    mostraCliente();
+                    editaCliente();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -115,10 +116,10 @@ int main(void) {
             }
             break;
         case 3:
-            int proOpcao = 1;
-            while (proOpcao != 0) {
-                proOpcao = menuProcessoPF();
-                switch (proOpcao){
+            int procOpcao = 1;
+            while (procOpcao != 0) {
+                procOpcao = menuProcessoPF();
+                switch (procOpcao){
                 case 0:
                     printf("Pressione ENTER ... \n");
                     getchar();
@@ -129,6 +130,11 @@ int main(void) {
                     getchar();
                     break;
                 case 2:
+                    mostraProcessoPF();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
                     editaProcessoPF();
                     printf("Pressione ENTER ... \n");
                     getchar();
@@ -434,8 +440,8 @@ int menuCliente(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                          1 - Cadastra cliente                                               |\n");
-    printf("|                          2 - Edita cliente                                                  |\n");
-    printf("|                          3 - Mostra cliente                                                 |\n");
+    printf("|                          2 - Mostra cliente                                                 |\n");
+    printf("|                          3 - Edita cliente                                                  |\n");
     printf("|                          4 - Exclui cliente                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
@@ -531,7 +537,7 @@ void excluiCliente(void) {
 
 int menuProcessoPF(void) {
     system("clear");
-    int proPfOpcao;
+    int procPfOpcao;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Menu de Processos PF                                     |\n");
@@ -539,16 +545,16 @@ int menuProcessoPF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                          1 - Cadastra processo                                              |\n");
-    printf("|                          2 - Edita processo                                                 |\n");
-    printf("|                          3 - Mostra processo                                                |\n");
+    printf("|                          2 - Mostra processo                                                |\n");
+    printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&proPfOpcao);
+    scanf("%d",&procPfOpcao);
     getchar();
-    return proPfOpcao;
+    return procPfOpcao;
 }
 
 
@@ -558,7 +564,7 @@ void cadastraProcessoPF(void) {
     char data[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                      Cadastrar Processo                                     |\n");
+    printf("|                                    Cadastrar Processo PF                                    |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -575,6 +581,25 @@ void cadastraProcessoPF(void) {
 }
 
 
+void mostraProcessoPF(void) {
+    system("clear");
+    char procNum[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                  Mostrar Processo PF                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o número do processo: ");
+    fgets(procNum, sizeof(procNum), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Tipo de processo: Civil                                                              |\n");
+    printf("|        Data de abertura: 31/08/2025                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
 void editaProcessoPF(void) {
     system("clear");
     char procNum[15];
@@ -582,7 +607,7 @@ void editaProcessoPF(void) {
     char data[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                     Editar Processo                                         |\n");
+    printf("|                                    Editar Processo PF                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
