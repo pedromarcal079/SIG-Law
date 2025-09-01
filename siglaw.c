@@ -31,6 +31,7 @@ void editaEmpresa(void);
 void excluiEmpresa(void);
 
 int menuProcessoPJ(void);
+void cadastraProcessoPJ(void);
 
 
 int main(void) {
@@ -198,6 +199,11 @@ int main(void) {
                 procPjOpcao = menuProcessoPJ();
                 switch (procPjOpcao){
                 case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraProcessoPJ();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -773,4 +779,27 @@ int menuProcessoPJ(void) {
     scanf("%d",&procPjOpcao);
     getchar();
     return procPjOpcao;
+}
+
+
+void cadastraProcessoPJ(void) {
+    system("clear");
+    char tipo[50];
+    char data[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Cadastrar Processo PJ                                    |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados do processo:                                                        |\n");
+    printf("|   ===> Tipo de processo: ");
+    fgets(tipo, sizeof(tipo), stdin);
+    printf("|   ===> Data de abertura: ");
+    fgets(data, sizeof(data), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Processo cadastrado com sucesso!                                                     |\n");
+    printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
