@@ -18,7 +18,8 @@ void editaCliente(void);
 void excluiCliente(void);
 void mostraCliente(void);
 
-int menuProcessosPF(void);
+int menuProcessoPF(void);
+void cadastraProcessoPF(void);
 
 int menuEmpresa(void);
 void cadastraEmpresa(void);
@@ -113,9 +114,26 @@ int main(void) {
             }
             break;
         case 3:
-            menuProcessosPF();
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int proOpcao = 1;
+            while (proOpcao != 0) {
+                proOpcao = menuProcessoPF();
+                switch (proOpcao){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraProcessoPF();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            } 
             break;
         case 4:
             int opcaoEmpresa=1;
@@ -505,7 +523,7 @@ void excluiCliente(void) {
 
 // Processos PF 
 
-int menuProcessosPF(void) {
+int menuProcessoPF(void) {
     system("clear");
     int proPfOpcao;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -524,7 +542,30 @@ int menuProcessosPF(void) {
     printf("===> Digite sua opcao: ");
     scanf("%d",&proPfOpcao);
     getchar();
-    // return proPfOpcao;
+    return proPfOpcao;
+}
+
+
+void cadastraProcessoPF(void) {
+    system("clear");
+    char tipo[30];
+    char data[30];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                      Cadastrar Processo                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados do processo:                                                        |\n");
+    printf("|   ===> Tipo de processo: ");
+    fgets(tipo, sizeof(tipo), stdin);
+    printf("|   ===> Data de abertura: ");
+    fgets(data, sizeof(data), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Processo cadastrado com sucesso!                                                     |\n");
+    printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 // Empresa
