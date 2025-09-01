@@ -761,11 +761,17 @@ void editaEmpresa(void) {
     printf("|                                     Editar Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa: ");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(cnpj, sizeof(cnpj), stdin);
-    printf("===> Digite o novo nome da empresa: ");
-    fgets(nome, sizeof(nome), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Digite os novos dados:                                                               |\n");
+    printf("|        Nome: ");
+    fgets(nome, sizeof(nome), stdin);  
+    printf("|                                                                                             |\n");
+    printf("|        Dados atualizados com sucesso!                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -777,10 +783,13 @@ void excluiEmpresa(void) {
     printf("|                                    Excluir Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa que deseja excluir: ");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(cnpj, sizeof(cnpj), stdin);
-    printf("\n===> Empresa excluida com sucesso!\n");
+    printf("|                                                                                             |\n");
+    printf("|        Empresa excluida com sucesso!                                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 // Processos PJ 
