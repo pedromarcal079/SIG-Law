@@ -22,6 +22,7 @@ int menuProcessoPF(void);
 void cadastraProcessoPF(void);
 void mostraProcessoPF(void);
 void editaProcessoPF(void);
+void excluiProcessoPF(void);
 
 int menuEmpresa(void);
 void cadastraEmpresa(void);
@@ -136,6 +137,11 @@ int main(void) {
                     break;
                 case 3:
                     editaProcessoPF();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    excluiProcessoPF();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -621,6 +627,24 @@ void editaProcessoPF(void) {
     fgets(data, sizeof(data), stdin);  
     printf("|                                                                                             |\n");
     printf("|        Dados atualizados com sucesso!                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void excluiProcessoPF(void) {
+    system("clear");
+    char procNum[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                  Excluir Processo PF                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o número do processo: ");
+    fgets(procNum, sizeof(procNum), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Processo excluido com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
