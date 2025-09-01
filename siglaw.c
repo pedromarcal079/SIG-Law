@@ -694,7 +694,7 @@ int menuEmpresa(void) {
     int opcaoEmpresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Modulo de Empresa                                     |\n");
+    printf("|                                      Modulo de Empresa                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -721,11 +721,16 @@ void cadastraEmpresa(void) {
     printf("|                                       Cadastrar Empresa                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa: ");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados da empresa:                                                         |\n");
+    printf("|   ===> CNPJ: ");
     fgets(cnpj, sizeof(cnpj), stdin);
-    printf("===> Digite o nome da empresa: ");
+    printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Empresa cadastrada com sucesso!                                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -737,10 +742,13 @@ void mostraEmpresa(void){
     printf("|                                    Mostrar Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(cnpj, sizeof(cnpj), stdin);
-    printf("\nNome: Empresa Legal\n");
+    printf("|                                                                                             |\n");
+    printf("|        Nome: Empresa Legal                                                                  |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
