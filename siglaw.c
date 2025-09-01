@@ -8,15 +8,15 @@ void telaSair(void);
 
 int menuAdvogado(void);
 void cadastraAdvogado(void);
+void mostraAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
-void mostraAdvogado(void);
 
 int menuCliente(void);
 void cadastraCliente(void);
+void mostraCliente(void);
 void editaCliente(void);
 void excluiCliente(void);
-void mostraCliente(void);
 
 int menuProcessoPF(void);
 void cadastraProcessoPF(void);
@@ -26,9 +26,9 @@ void excluiProcessoPF(void);
 
 int menuEmpresa(void);
 void cadastraEmpresa(void);
+void mostraEmpresa(void);
 void editaEmpresa(void);
 void excluiEmpresa(void);
-void mostraEmpresa(void);
 
 
 int main(void) {
@@ -42,6 +42,44 @@ int main(void) {
             getchar();
             break;
         case 1:
+            int advOpcao = 1;
+            while (advOpcao != 0) {
+                advOpcao = menuAdvogado();
+                switch (advOpcao)
+                {
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    mostraAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 3:
+                    editaAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 4:
+                    excluiAdvogado();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            }
+            break;
+        case 2:
             int cliOpcao = 1;
             while (cliOpcao != 0) {
                 cliOpcao = menuCliente();
@@ -67,44 +105,6 @@ int main(void) {
                     break;
                 case 4:
                     excluiCliente();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            }
-            break;
-        case 2:
-            int opcaoAdvogado=1;
-            while (opcaoAdvogado != 0) {
-                opcaoAdvogado = menuAdvogado();
-                switch (opcaoAdvogado)
-                {
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    editaAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    mostraAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiAdvogado();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -154,10 +154,10 @@ int main(void) {
             } 
             break;
         case 4:
-            int opcaoEmpresa=1;
-            while (opcaoEmpresa != 0) {
-                opcaoEmpresa = menuEmpresa();
-                switch (opcaoEmpresa){
+            int empOpcao=1;
+            while (empOpcao != 0) {
+                empOpcao = menuEmpresa();
+                switch (empOpcao){
                 case 0:
                     printf("Pressione ENTER ... \n");
                     getchar();
@@ -168,12 +168,12 @@ int main(void) {
                     getchar();
                     break;
                 case 2:
-                    editaEmpresa();
+                    mostraEmpresa();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
                 case 3:
-                    mostraEmpresa();
+                    editaEmpresa();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -242,8 +242,8 @@ int menu(void) {
     printf("|                                                                                                     |\n");
     printf("+-----------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                     |\n");
-    printf("|                          1 - Módulo de Clientes                                                     |\n");
-    printf("|                          2 - Módulo de Advogados                                                    |\n");
+    printf("|                          1 - Módulo de Advogados                                                    |\n");
+    printf("|                          2 - Módulo de Clientes                                                     |\n");
     printf("|                          3 - Módulo de Processos PF                                                 |\n");
     printf("|                          4 - Módulo de Empresas                                                     |\n");
     printf("|                          5 - Módulo de Processos PJ                                                 |\n");
@@ -341,8 +341,8 @@ int menuAdvogado(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                               1 - Cadastra Advogado                                         |\n");
-    printf("|                               2 - Edita Advogado                                            |\n");
-    printf("|                               3 - Mostra Advogado                                           |\n");
+    printf("|                               2 - Mostra Advogado                                           |\n");
+    printf("|                               3 - Edita Advogado                                            |\n");
     printf("|                               4 - Exclui Processo                                           |\n");
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
@@ -661,8 +661,8 @@ int menuEmpresa(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                          1 - Cadastra empresa                                               |\n");
-    printf("|                          2 - Edita empresa                                                  |\n");
-    printf("|                          3 - Mostra empresa                                                 |\n");
+    printf("|                          2 - Mostra empresa                                                 |\n");
+    printf("|                          3 - Edita empresa                                                  |\n");
     printf("|                          4 - Exclui empresa                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
@@ -691,6 +691,21 @@ void cadastraEmpresa(void) {
 }
 
 
+void mostraEmpresa(void){
+    system("clear");
+    char cnpj[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostrar Empresa                                          |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("\n");
+    printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    printf("\nNome: Empresa Legal\n");
+}
+
+
 void editaEmpresa(void) {
     system("clear");
     char cnpj[15];
@@ -705,21 +720,6 @@ void editaEmpresa(void) {
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("===> Digite o novo nome da empresa: ");
     fgets(nome, sizeof(nome), stdin);
-}
-
-
-void mostraEmpresa(void){
-    system("clear");
-    char cnpj[15];
-    printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("|                                                                                             |\n");
-    printf("|                                    Mostra Empresa                                           |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("===> Digite o cnpj da empresa que deseja pesquisar: ");
-    fgets(cnpj, sizeof(cnpj), stdin);
-    printf("\nNome: Empresa Legal\n");
 }
 
 
