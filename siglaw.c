@@ -20,6 +20,7 @@ void mostraCliente(void);
 
 int menuProcessoPF(void);
 void cadastraProcessoPF(void);
+void editaProcessoPF(void);
 
 int menuEmpresa(void);
 void cadastraEmpresa(void);
@@ -124,6 +125,11 @@ int main(void) {
                     break;
                 case 1:
                     cadastraProcessoPF();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 2:
+                    editaProcessoPF();
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
@@ -444,7 +450,7 @@ int menuCliente(void) {
 void cadastraCliente(void) {
     system("clear");
     char cpf[15];
-    char nome[30];
+    char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -484,7 +490,7 @@ void mostraCliente(void) {
 void editaCliente(void) {
     system("clear");
     char cpf[15];
-    char nome[30];
+    char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Editar Cliente                                        |\n");
@@ -548,8 +554,8 @@ int menuProcessoPF(void) {
 
 void cadastraProcessoPF(void) {
     system("clear");
-    char tipo[30];
-    char data[30];
+    char tipo[50];
+    char data[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                      Cadastrar Processo                                     |\n");
@@ -564,6 +570,32 @@ void cadastraProcessoPF(void) {
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
+
+
+void editaProcessoPF(void) {
+    system("clear");
+    char procNum[15];
+    char tipo[50];
+    char data[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                     Editar Processo                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o número do processo: ");
+    fgets(procNum, sizeof(procNum), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Digite os novos dados:                                                               |\n");
+    printf("|        Tipo: ");
+    fgets(tipo, sizeof(tipo), stdin);  
+    printf("|        Data: ");
+    fgets(data, sizeof(data), stdin);  
+    printf("|                                                                                             |\n");
+    printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
@@ -596,7 +628,7 @@ int menuEmpresa(void) {
 void cadastraEmpresa(void) {
     system("clear");
     char cnpj[15];
-    char nome[30];
+    char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Empresa                                     |\n");
@@ -613,7 +645,7 @@ void cadastraEmpresa(void) {
 void editaEmpresa(void) {
     system("clear");
     char cnpj[15];
-    char nome[30];
+    char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                     Editar Empresa                                          |\n");
