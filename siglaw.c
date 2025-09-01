@@ -30,6 +30,9 @@ void mostraEmpresa(void);
 void editaEmpresa(void);
 void excluiEmpresa(void);
 
+int menuProcessoPJ(void);
+void cadastraProcessoPJ(void);
+
 
 int main(void) {
     int opcao = 1;
@@ -117,10 +120,10 @@ int main(void) {
             }
             break;
         case 3:
-            int procOpcao = 1;
-            while (procOpcao != 0) {
-                procOpcao = menuProcessoPF();
-                switch (procOpcao){
+            int procPfOpcao = 1;
+            while (procPfOpcao != 0) {
+                procPfOpcao = menuProcessoPF();
+                switch (procPfOpcao){
                 case 0:
                     printf("Pressione ENTER ... \n");
                     getchar();
@@ -191,9 +194,26 @@ int main(void) {
             }
             break;
         case 5:
-            printf("Modulo de processos PJ\n");
-            printf("Pressione ENTER ... \n");
-            getchar();
+            int procPjOpcao = 1;
+            while (procPjOpcao != 0) {
+                procPjOpcao = menuProcessoPJ();
+                switch (procPjOpcao){
+                case 0:
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                case 1:
+                    cadastraProcessoPJ();
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                default:
+                    printf("Voce digitou uma opcao invalida\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
+                }
+            } 
             break;
         case 6:
             printf("Relatorios\n");
@@ -735,4 +755,51 @@ void excluiEmpresa(void) {
     printf("===> Digite o cnpj da empresa que deseja excluir: ");
     fgets(cnpj, sizeof(cnpj), stdin);
     printf("\n===> Empresa excluida com sucesso!\n");
+}
+
+// Processos PJ 
+
+int menuProcessoPJ(void) {
+    system("clear");
+    int procPjOpcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Menu de Processos PJ                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                          1 - Cadastra processo                                              |\n");
+    printf("|                          2 - Mostra processo                                                |\n");
+    printf("|                          3 - Edita processo                                                 |\n");
+    printf("|                          4 - Exclui processo                                                |\n");
+    printf("|                          0 - Voltar                                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&procPjOpcao);
+    getchar();
+    return procPjOpcao;
+}
+
+
+void cadastraProcessoPJ(void) {
+    system("clear");
+    char tipo[50];
+    char data[50];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Cadastrar Processo PJ                                    |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados do processo:                                                        |\n");
+    printf("|   ===> Tipo de processo: ");
+    fgets(tipo, sizeof(tipo), stdin);
+    printf("|   ===> Data de abertura: ");
+    fgets(data, sizeof(data), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Processo cadastrado com sucesso!                                                     |\n");
+    printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
