@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Projeto Versão 0.1.0-alpha3 
+
 int menu(void);
 void telaSobre(void);
 void telaEquipe(void);
