@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Projeto Versão 0.1.0-alpha3 
+// Projeto Versão 0.1.0-beta1
 
 int menu(void);
 void telaSobre(void);
