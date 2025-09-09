@@ -7,6 +7,8 @@
 #include "empresa.h"
 #include "processosPJ.h"
 
+// Projeto Versão 0.1.0-beta1
+
 int menu(void);
 void telaSobre(void);
 void telaEquipe(void);
@@ -340,5 +342,5 @@ void telaSair(void) {
     printf("|                                         Até Logo!                                           |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    
+
 }
