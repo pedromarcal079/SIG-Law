@@ -7,7 +7,7 @@
 #include "empresa.h"
 #include "processosPJ.h"
 
-// Projeto Versão 0.1.0-beta1
+// Projeto Versão 0.1.0-rc1
 
 int menu(void);
 void telaSobre(void);
