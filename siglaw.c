@@ -26,42 +26,7 @@ int main(void) {
             getchar();
             break;
         case 1:
-            int advOpcao = 1;
-            while (advOpcao != 0) {
-                advOpcao = menuAdvogado();
-                switch (advOpcao)
-                {
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    mostraAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    editaAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiAdvogado();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            }
+            moduloAdvogado();
             break;
         case 2:
             int cliOpcao = 1;

@@ -2,6 +2,44 @@
 #include <stdlib.h>
 #include "advogado.h"
 
+void moduloAdvogado(void) {
+    int advOpcao;
+    do {
+        advOpcao = menuAdvogado();
+        switch (advOpcao) {
+            case 0:
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 1:
+                cadastraAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 2:
+                mostraAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 3:
+                editaAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 4:
+                excluiAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            default:
+                printf("Voce digitou uma opcao invalida\n");
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+        }
+    } while (advOpcao != 0);
+}
+
 int menuAdvogado(void) {
     system("clear");
     int opcao;
