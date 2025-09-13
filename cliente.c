@@ -2,6 +2,44 @@
 #include <stdlib.h>
 #include "cliente.h"
 
+void moduloCliente(void){
+    int cliOpcao;
+    do {
+        cliOpcao = menuCliente();
+        switch (cliOpcao){
+        case 0:
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            cadastraCliente();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            mostraCliente();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            editaCliente();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            excluiCliente();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    } while (cliOpcao != 0);
+}
+
 int menuCliente(void) {
     system("clear");
     int cliOpcao;

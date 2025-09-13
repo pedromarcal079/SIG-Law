@@ -29,41 +29,7 @@ int main(void) {
             moduloAdvogado();
             break;
         case 2:
-            int cliOpcao = 1;
-            while (cliOpcao != 0) {
-                cliOpcao = menuCliente();
-                switch (cliOpcao){
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraCliente();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    mostraCliente();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    editaCliente();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiCliente();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            }
+            moduloCliente();
             break;
         case 3:
             int procPfOpcao = 1;
