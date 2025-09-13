@@ -56,11 +56,7 @@ int main(void) {
                     getchar();
                     break;
                 default:
-                    printf("+---------------------------------------------------------------------------------------------+\n");
-                    printf("|                                                                                             |\n");
-                    printf("|                              Você digitou uma opção inválida!                               |\n");
-                    printf("|                                                                                             |\n");
-                    printf("+---------------------------------------------------------------------------------------------+\n");
+                    printf("Voce digitou uma opcao invalida\n");
                     printf("Pressione ENTER ... \n");
                     getchar();
                     break;
