@@ -32,41 +32,7 @@ int main(void) {
             moduloCliente();
             break;
         case 3:
-            int procPfOpcao = 1;
-            while (procPfOpcao != 0) {
-                procPfOpcao = menuProcessoPF();
-                switch (procPfOpcao){
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraProcessoPF();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    mostraProcessoPF();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    editaProcessoPF();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiProcessoPF();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            } 
+            moduloProcPF();
             break;
         case 4:
             int empOpcao=1;
