@@ -37,7 +37,7 @@ void moduloProcPF(void) {
             getchar();
             break;
         }
-    } while (procPfOpcao != 0)
+    } while (procPfOpcao != 0);
 }
 
 int menuProcessoPF(void) {
