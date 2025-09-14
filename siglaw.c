@@ -38,41 +38,7 @@ int main(void) {
             moduloEmpresa();
             break;
         case 5:
-            int procPjOpcao = 1;
-            while (procPjOpcao != 0) {
-                procPjOpcao = menuProcessoPJ();
-                switch (procPjOpcao){
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraProcessoPJ();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    mostraProcessoPJ();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    editaProcessoPJ();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiProcessoPJ();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            } 
+            moduloProcPJ();
             break;
         case 6:
             printf("Relatorios\n");

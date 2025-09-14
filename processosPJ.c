@@ -2,6 +2,44 @@
 #include <stdlib.h>
 #include "processosPJ.h"
 
+void moduloProcPJ(void) {
+    int procPjOpcao;
+    do {
+        procPjOpcao = menuProcessoPJ();
+        switch (procPjOpcao){
+        case 0:
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            cadastraProcessoPJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            mostraProcessoPJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            editaProcessoPJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            excluiProcessoPJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    } while (procPjOpcao != 0);
+}
+
 int menuProcessoPJ(void) {
     system("clear");
     int procPjOpcao;
