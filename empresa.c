@@ -2,6 +2,44 @@
 #include <stdlib.h>
 #include "empresa.h"
 
+void moduloEmpresa(void) {
+    int empOpcao;
+    do {
+        empOpcao = menuEmpresa();
+        switch (empOpcao){
+        case 0:
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            cadastraEmpresa();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            mostraEmpresa();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            editaEmpresa();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            excluiEmpresa();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    } while (empOpcao != 0);
+}
+
 int menuEmpresa(void) {
     system("clear");
     int opcaoEmpresa;

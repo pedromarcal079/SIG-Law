@@ -35,41 +35,7 @@ int main(void) {
             moduloProcPF();
             break;
         case 4:
-            int empOpcao=1;
-            while (empOpcao != 0) {
-                empOpcao = menuEmpresa();
-                switch (empOpcao){
-                case 0:
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 1:
-                    cadastraEmpresa();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 2:
-                    mostraEmpresa();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 3:
-                    editaEmpresa();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                case 4:
-                    excluiEmpresa();
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                default:
-                    printf("Voce digitou uma opcao invalida\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
-                }
-            }
+            moduloEmpresa();
             break;
         case 5:
             int procPjOpcao = 1;
