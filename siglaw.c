@@ -16,8 +16,8 @@ void telaSair(void);
 
 
 int main(void) {
-    int opcao = 1;
-    while (opcao != 0) {
+    int opcao;
+    do {
         opcao = menu();
         switch (opcao) {
         case 0:
@@ -61,7 +61,7 @@ int main(void) {
             getchar();
             break;
         }
-    }
+    } while (opcao != 0);
     return 0;
 }
 
