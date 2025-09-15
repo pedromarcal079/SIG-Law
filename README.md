@@ -12,13 +12,9 @@ git clone https://github.com/pedromarcal079/SIG-Law.git
 ``` bash
 cd SIG-Law
 ```
-- Compile o arquivo .c
-``` bash
-gcc -c siglaw.c
-```
 - Crie o executável
 ``` bash
-gcc -o siglaw siglaw.o
+make
 ```
 - Inicie o programa
 ``` bash
