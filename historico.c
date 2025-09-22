@@ -29,7 +29,25 @@ int menuHistorico(void) {
 }
 
 void cadastraHistorico(void) {
-
+    system("clear");
+    int idProcesso;
+    char status[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Cadastrar Histórico                                   |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|        Informe os dados do histórico:                                                       |\n");
+    printf("|   ===> ID do processo: ");
+    scanf("%d",&idProcesso);
+    getchar();
+    printf("|   ===> Status do Processo: ");
+    fgets(status, sizeof(status), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Histórico cadastrada com sucesso!                                                    |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 } 
 
 void mostraHistorico(void){
