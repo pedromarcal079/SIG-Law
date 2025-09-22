@@ -3,7 +3,41 @@
 #include "historico.h"
 
 void moduloHistorico(void){
-
+    int hisOpcao;
+    do {
+        hisOpcao = menuHistorico();
+        switch (hisOpcao){
+        case 0:
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            cadastraHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            mostraHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            editaHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            excluiHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    } while (hisOpcao != 0);
 }
 
 int menuHistorico(void) {
