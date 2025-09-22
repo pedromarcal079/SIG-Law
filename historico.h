@@ -1,5 +1,5 @@
-#ifndef EMPRESA_H
-#define EMPRESA_H
+#ifndef HISTORICO_H
+#define HISTORICO_H
 
 void moduloHistorico(void);
 int menuHistorico(void);
