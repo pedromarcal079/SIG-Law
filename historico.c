@@ -96,5 +96,19 @@ void editaHistorico(void){
 }
 
 void excluiHistorico(void){
-
+    system("clear");
+    int id;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Historico                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Insira o ID do histórico: ");
+    scanf("%d",&id);
+    getchar();
+    printf("|                                                                                             |\n");
+    printf("|        Histórico excluido com sucesso                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
