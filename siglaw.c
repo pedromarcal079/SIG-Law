@@ -6,6 +6,7 @@
 #include "processosPF.h"
 #include "empresa.h"
 #include "processosPJ.h"
+#include "historico.h"
 #include "sobre.h"
 #include "equipe.h"
 
@@ -41,16 +42,19 @@ int main(void) {
             moduloProcPJ();
             break;
         case 6:
+            moduloHistorico();
+            break;
+        case 7:
             printf("Relatorios\n");
             printf("Pressione ENTER ... \n");
             getchar();
             break;
-        case 7:
+        case 8:
             telaSobre();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
-        case 8:
+        case 9:
             telaEquipe();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -92,9 +96,10 @@ int menu(void) {
     printf("|                          3 - Módulo de Processos PF                                                 |\n");
     printf("|                          4 - Módulo de Empresas                                                     |\n");
     printf("|                          5 - Módulo de Processos PJ                                                 |\n");
-    printf("|                          6 - Relatorios                                                             |\n");
-    printf("|                          7 - Sobre                                                                  |\n");
-    printf("|                          8 - Equipe                                                                 |\n");
+    printf("|                          6 - Módulo de Historico                                                    |\n");
+    printf("|                          7 - Relatorios                                                             |\n");
+    printf("|                          8 - Sobre                                                                  |\n");
+    printf("|                          9 - Equipe                                                                 |\n");
     printf("|                          0 - Sair                                                                   |\n");
     printf("|                                                                                                     |\n");
     printf("+-----------------------------------------------------------------------------------------------------+\n");
