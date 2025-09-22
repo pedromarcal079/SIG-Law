@@ -3,7 +3,41 @@
 #include "historico.h"
 
 void moduloHistorico(void){
-
+    int hisOpcao;
+    do {
+        hisOpcao = menuHistorico();
+        switch (hisOpcao){
+        case 0:
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 1:
+            cadastraHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 2:
+            mostraHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 3:
+            editaHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 4:
+            excluiHistorico();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        default:
+            printf("Voce digitou uma opcao invalida\n");
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        }
+    } while (hisOpcao != 0);
 }
 
 int menuHistorico(void) {
@@ -70,9 +104,45 @@ void mostraHistorico(void){
 }
 
 void editaHistorico(void){
-
+    system("clear");
+    int id;
+    int idProcesso;
+    char status[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Editar Histórico                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Insira o ID do histórico: ");
+    scanf("%d",&id);
+    getchar();
+    printf("|        Informe os novos dados do histórico:                                                 |\n");
+    printf("|   ===> ID do processo: ");
+    scanf("%d",&idProcesso);
+    getchar();
+    printf("|   ===> Status do Processo: ");
+    fgets(status, sizeof(status), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Histórico editado com sucesso!                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 void excluiHistorico(void){
-
+    system("clear");
+    int id;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Historico                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Insira o ID do histórico: ");
+    scanf("%d",&id);
+    getchar();
+    printf("|                                                                                             |\n");
+    printf("|        Histórico excluido com sucesso                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
