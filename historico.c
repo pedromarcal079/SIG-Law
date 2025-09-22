@@ -70,7 +70,29 @@ void mostraHistorico(void){
 }
 
 void editaHistorico(void){
-
+    system("clear");
+    int id;
+    int idProcesso;
+    char status[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                       Editar Histórico                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Insira o ID do histórico: ");
+    scanf("%d",&id);
+    getchar();
+    printf("|        Informe os novos dados do histórico:                                                 |\n");
+    printf("|   ===> ID do processo: ");
+    scanf("%d",&idProcesso);
+    getchar();
+    printf("|   ===> Status do Processo: ");
+    fgets(status, sizeof(status), stdin);
+    printf("|                                                                                             |\n");
+    printf("|        Histórico editado com sucesso!                                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 void excluiHistorico(void){
