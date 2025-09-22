@@ -51,7 +51,22 @@ void cadastraHistorico(void) {
 } 
 
 void mostraHistorico(void){
-
+    system("clear");
+    int id;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Mostrar Historico                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Insira o ID do histórico: ");
+    scanf("%d",&id);
+    getchar();
+    printf("|                                                                                             |\n");
+    printf("|        ID do processo: 0001                                                                 |\n");
+    printf("|        Status: Em andamento                                                                 |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 void editaHistorico(void){
