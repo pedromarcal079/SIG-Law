@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "advogado.h"
 
 void moduloAdvogado(void) {
@@ -67,6 +68,8 @@ void cadastraAdvogado(void) {
     system("clear");
     char cpf[15];
     char nome[50];
+    FILE *arq_advogado;
+    int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Advogado                                       |\n");
@@ -76,12 +79,20 @@ void cadastraAdvogado(void) {
     printf("|        Informe os dados do advogado:                                                        |\n");
     printf("|   ===> CPF: ");
     fgets(cpf, sizeof(cpf), stdin);
+    tam = strlen(cpf);
+    cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    tam = strlen(nome);
+    nome[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Advogado cadastrado com sucesso!                                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    arq_advogado = fopen("advogado.csv","at");
+    fprintf(arq_advogado, "%s;", cpf);
+    fprintf(arq_advogado, "%s\n", nome);
+    fclose(arq_advogado);
 }
 
 
