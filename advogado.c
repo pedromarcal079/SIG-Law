@@ -3,6 +3,7 @@
 #include <string.h>
 #include "advogado.h"
 
+
 void moduloAdvogado(void) {
     int advOpcao;
     do {
@@ -68,8 +69,8 @@ void cadastraAdvogado(void) {
     system("clear");
     char cpf[15];
     char nome[50];
-    FILE *arq_advogado;
     int tam;
+    FILE *arq_advogado;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Advogado                                       |\n");
@@ -98,7 +99,11 @@ void cadastraAdvogado(void) {
 
 void mostraAdvogado(void){
     system("clear");
+    char pesquisar_cpf[15];
     char cpf[15];
+    char nome[50];
+    int tam;
+    FILE *arq_advogado;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Mostrar Advogado                                         |\n");
@@ -106,9 +111,20 @@ void mostraAdvogado(void){
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do advogado: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Nome: Advogado Fulano de Town                                                        |\n");
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+    arq_advogado = fopen("advogado.csv", "rt");
+    while (!feof(arq_advogado)){
+        fscanf(arq_advogado, "%[^;]", cpf);
+        fgetc(arq_advogado);
+        fscanf(arq_advogado, "%[^\n]", nome);
+        fgetc(arq_advogado);
+        if (strcmp(cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", cpf);
+            printf("|\t\tNOME: %s\n", nome);
+        }
+    }
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
