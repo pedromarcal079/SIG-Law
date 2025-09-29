@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "cliente.h"
 
 void moduloCliente(void){
@@ -67,6 +68,8 @@ void cadastraCliente(void) {
     system("clear");
     char cpf[15];
     char nome[50];
+    int tam;
+    FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -76,18 +79,30 @@ void cadastraCliente(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|   ===> CPF: ");
     fgets(cpf, sizeof(cpf), stdin);
+    tam = strlen(cpf);
+    cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    tam = strlen(nome);
+    nome[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    arq_cliente = fopen("cliente.csv","at");
+    fprintf(arq_cliente, "%s;", cpf);
+    fprintf(arq_cliente, "%s\n", nome);
+    fclose(arq_cliente);
 }
 
 
 void mostraCliente(void) {
     system("clear");
+    char pesquisar_cpf[15];
     char cpf[15];
+    char nome[50];
+    int tam;
+    FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Mostrar Cliente                                       |\n");
@@ -95,9 +110,20 @@ void mostraCliente(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do cliente: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Nome: Fulano de Town                                                                 |\n");
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+    arq_cliente = fopen("cliente.csv", "rt");
+    while (!feof(arq_cliente)){
+        fscanf(arq_cliente, "%[^;]", cpf);
+        fgetc(arq_cliente);
+        fscanf(arq_cliente, "%[^\n]", nome);
+        fgetc(arq_cliente);
+        if (strcmp(cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", cpf);
+            printf("|\t\tNome: %s\n", nome);
+        }
+    }
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
