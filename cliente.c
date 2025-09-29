@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "cliente.h"
 
 void moduloCliente(void){
@@ -67,6 +68,8 @@ void cadastraCliente(void) {
     system("clear");
     char cpf[15];
     char nome[50];
+    int tam;
+    FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -76,12 +79,20 @@ void cadastraCliente(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|   ===> CPF: ");
     fgets(cpf, sizeof(cpf), stdin);
+    tam = strlen(cpf);
+    cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    tam = strlen(nome);
+    nome[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    arq_cliente = fopen("cliente.csv","at");
+    fprintf(arq_cliente, "%s;", cpf);
+    fprintf(arq_cliente, "%s\n", nome);
+    fclose(arq_cliente);
 }
 
 
