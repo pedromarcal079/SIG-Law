@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "processosPF.h"
 
 void moduloProcPF(void) {
@@ -67,6 +68,8 @@ void cadastraProcessoPF(void) {
     system("clear");
     char tipo[50];
     char data[50];
+    int tam;
+    FILE *arq_processoPF;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Processo PF                                    |\n");
@@ -76,13 +79,21 @@ void cadastraProcessoPF(void) {
     printf("|        Informe os dados do processo:                                                        |\n");
     printf("|   ===> Tipo de processo: ");
     fgets(tipo, sizeof(tipo), stdin);
+    tam = strlen(tipo);
+    cnpj[tam-1] = '\0';
     printf("|   ===> Data de abertura: ");
     fgets(data, sizeof(data), stdin);
+    tam = strlen(data);
+    cnpj[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O número desse processo é: 00000                                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    arq_processoPF = fopen("processoPF.csv","at");
+    fprintf(arq_processoPF, "%s;", tipo);
+    fprintf(arq_processoPF, "%s\n", data);
+    fclose(arq_processoPF);
 }
 
 
