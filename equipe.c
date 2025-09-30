@@ -24,6 +24,9 @@ void telaEquipe(void) {
     printf("|               Pedro William Azevedo                                                         |\n");
     printf("|               E-mail: pedro.marcal.079@ufrn.edu.br                                          |\n");
     printf("|                                                                                             |\n");
+    printf("|               Henderson Emanuel Bernardo de Medeiros                                        |\n");
+    printf("|               E-mail: hendersonbernardo2018@gmail.com                                       |\n");
+    printf("|                                                                                             |\n");
     printf("|               Git: https://github.com/pedromarcal079/SIG-Law.git                            |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
