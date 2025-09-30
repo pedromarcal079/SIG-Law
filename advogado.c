@@ -134,6 +134,11 @@ void editaAdvogado(void) {
     system("clear");
     char cpf[15];
     char nome[50];
+    char pesquisar_cpf;
+    int tam;
+    int dado;
+    char edição[50];
+    FILE *arq_advogado;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                     Editar Advogado                                         |\n");
@@ -141,12 +146,21 @@ void editaAdvogado(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do advogado: ");
-    fgets(cpf, sizeof(cpf), stdin);
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+    printf("|   ===> Qual dado Você deseja editar?                                                        |\n"); //0=cpf,1=nome//         
+    scanf("%d", &dado);                                       
     printf("|                                                                                             |\n");
     printf("|        Digite os novos dados:                                                               |\n");
-    printf("|        Nome: ");
-    fgets(nome, sizeof(nome), stdin);  
+    fgets(dados, sizeof(dados), stdin);
+    tam = strlen(dado);
+    dado[tam-1] = '\0';
     printf("|                                                                                             |\n");
+    arq_advogado = fopen("advogado.csv", "rt");
+    aqr_advo_TEmp = fopen("advo_temp.csv," "at")
+    while ()
+    }
     printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
