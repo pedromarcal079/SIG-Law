@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "empresa.h"
 
 void moduloEmpresa(void) {
@@ -67,6 +68,8 @@ void cadastraEmpresa(void) {
     system("clear");
     char cnpj[15];
     char nome[50];
+    int tam;
+    FILE *arq_empresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Empresa                                     |\n");
@@ -76,18 +79,30 @@ void cadastraEmpresa(void) {
     printf("|        Informe os dados da empresa:                                                         |\n");
     printf("|   ===> CNPJ: ");
     fgets(cnpj, sizeof(cnpj), stdin);
+    tam = strlen(cnpj);
+    cnpj[tam-1] = '\0';
     printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
+    tam = strlen(nome);
+    nome[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Empresa cadastrada com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    arq_empresa = fopen("empresa.csv","at");
+    fprintf(arq_empresa, "%s;", cnpj);
+    fprintf(arq_empresa, "%s\n", nome);
+    fclose(arq_empresa);
 }
 
 
 void mostraEmpresa(void){
     system("clear");
     char cnpj[15];
+    char pesquisar_cnpj[15];
+    char nome[50];
+    int tam;
+    FILE *arq_empresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Mostrar Empresa                                          |\n");
@@ -95,9 +110,20 @@ void mostraEmpresa(void){
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o CNPJ da empresa: ");
-    fgets(cnpj, sizeof(cnpj), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Nome: Empresa Legal                                                                  |\n");
+    fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
+    tam = strlen(pesquisar_cnpj);
+    pesquisar_cnpj[tam-1] = '\0';
+    arq_empresa = fopen("empresa.csv", "rt");
+    while (!feof(arq_empresa)){
+        fscanf(arq_empresa, "%[^;]", cnpj);
+        fgetc(arq_empresa);
+        fscanf(arq_empresa, "%[^\n]", nome);
+        fgetc(arq_empresa);
+        if (strcmp(cnpj, pesquisar_cnpj) == 0){
+            printf("|\t\tCPF: %s\n", cnpj);
+            printf("|\t\tNome: %s\n", nome);
+        }
+    }
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
