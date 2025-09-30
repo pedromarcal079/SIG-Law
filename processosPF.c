@@ -80,11 +80,11 @@ void cadastraProcessoPF(void) {
     printf("|   ===> Tipo de processo: ");
     fgets(tipo, sizeof(tipo), stdin);
     tam = strlen(tipo);
-    cnpj[tam-1] = '\0';
+    tipo[tam-1] = '\0';
     printf("|   ===> Data de abertura: ");
     fgets(data, sizeof(data), stdin);
     tam = strlen(data);
-    cnpj[tam-1] = '\0';
+    data[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O número desse processo é: 00000                                                     |\n");
