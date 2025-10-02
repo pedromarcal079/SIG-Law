@@ -4,6 +4,12 @@
 #include "advogado.h"
 
 
+typedef struct advogado{
+    char cpf[15];
+    char nome[50];
+} Advogado;
+
+
 void moduloAdvogado(void) {
     int advOpcao;
     do {
@@ -67,8 +73,7 @@ int menuAdvogado(void) {
 
 void cadastraAdvogado(void) {
     system("clear");
-    char cpf[15];
-    char nome[50];
+    Advogado advogado;
     int tam;
     FILE *arq_advogado;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -79,29 +84,28 @@ void cadastraAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do advogado:                                                        |\n");
     printf("|   ===> CPF: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    tam = strlen(cpf);
-    cpf[tam-1] = '\0';
+    fgets(advogado.cpf, sizeof(advogado.cpf), stdin);
+    tam = strlen(advogado.cpf);
+    advogado.cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
-    fgets(nome, sizeof(nome), stdin);
-    tam = strlen(nome);
-    nome[tam-1] = '\0';
+    fgets(advogado.nome, sizeof(advogado.nome), stdin);
+    tam = strlen(advogado.nome);
+    advogado.nome[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Advogado cadastrado com sucesso!                                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_advogado = fopen("advogado.csv","at");
-    fprintf(arq_advogado, "%s;", cpf);
-    fprintf(arq_advogado, "%s\n", nome);
+    fprintf(arq_advogado, "%s;", advogado.cpf);
+    fprintf(arq_advogado, "%s\n", advogado.nome);
     fclose(arq_advogado);
 }
 
 
 void mostraAdvogado(void){
     system("clear");
+    Advogado advogado;
     char pesquisar_cpf[15];
-    char cpf[15];
-    char nome[50];
     int tam;
     FILE *arq_advogado;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -110,30 +114,31 @@ void mostraAdvogado(void){
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do advogado: ");
+    printf("|   ===> Digite o cpf do advogado:                                                            |\n");
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_advogado = fopen("advogado.csv", "rt");
-    while (!feof(arq_advogado)){
-        fscanf(arq_advogado, "%[^;]", cpf);
-        fgetc(arq_advogado);
-        fscanf(arq_advogado, "%[^\n]", nome);
-        fgetc(arq_advogado);
-        if (strcmp(cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", cpf);
-            printf("|\t\tNOME: %s\n", nome);
+    while (fscanf(arq_advogado,"%[^;]; %[^;]", advogado.cpf,advogado.nome)){
+        if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", advogado.cpf);
+            printf("|\t\tNOME: %s\n", advogado.nome);
+            getchar();
+            return;
         }
     }
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
+    
 }
 
 
 void editaAdvogado(void) {
     system("clear");
-    char cpf[15];
-    char nome[50];
+    char pesquisar_cpf[15];
+    int tam;
+    int dado;
+    char edicao[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                     Editar Advogado                                         |\n");
@@ -141,11 +146,16 @@ void editaAdvogado(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do advogado: ");
-    fgets(cpf, sizeof(cpf), stdin);
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+    printf("|   ===> Qual dado Você deseja editar?                                                        |\n"); //0=cpf,1=nome//         
+    scanf("%d", &dado);                                       
     printf("|                                                                                             |\n");
     printf("|        Digite os novos dados:                                                               |\n");
-    printf("|        Nome: ");
-    fgets(nome, sizeof(nome), stdin);  
+    fgets(edicao, sizeof(edicao), stdin);
+    tam = strlen(edicao);
+    edicao[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
