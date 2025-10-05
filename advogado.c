@@ -96,8 +96,7 @@ void cadastraAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_advogado = fopen("advogado.csv","at");
-    fprintf(arq_advogado, "%s;", advogado.cpf);
-    fprintf(arq_advogado, "%s\n", advogado.nome);
+    fprintf(arq_advogado, "%s;%s\n", advogado.cpf, advogado.nome);
     fclose(arq_advogado);
 }
 
@@ -119,7 +118,7 @@ void mostraAdvogado(void){
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_advogado = fopen("advogado.csv", "rt");
-    while (fscanf(arq_advogado,"%[^;]; %[^;]", advogado.cpf,advogado.nome)){
+    while (fscanf(arq_advogado,"%[^;];%[^\n]\n", advogado.cpf,advogado.nome)){
         if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
             printf("|\t\tCPF: %s\n", advogado.cpf);
             printf("|\t\tNOME: %s\n", advogado.nome);
@@ -153,32 +152,33 @@ void editaAdvogado(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_advogado = fopen("advogado.csv", "rt");
-    while (fscanf(arq_advogado,"%[^;]; %[^;]", advogado.cpf,advogado.nome) == 2){
+    temp_advogado = fopen("temp_advogado.csv", "wt");
+    while (fscanf(arq_advogado,"%[^;];%[^\n]\n", advogado.cpf,advogado.nome) == 2){
         if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
             printf("|\t\tCPF: %s\n", advogado.cpf);
             printf("|\t\tNOME: %s\n", advogado.nome);
-            getchar();
+            printf("|   ===> Qual dado Você deseja editar? (cpf = 1)(nome = 2)                                     |\n");       
+            scanf("%d", &dado);  
+            getchar();                                     
+            printf("|   ===> Digite o novo dado:                                                                  |\n");
+            fgets(edicao, sizeof(edicao), stdin);
+            tam = strlen(edicao);
+            edicao[tam-1] = '\0';
+            if(dado == 1){
+                fprintf(temp_advogado, "%s;%s\n", edicao, advogado.nome);
+            }
+            else if(dado == 2){
+                fprintf(temp_advogado, "%s;%s\n", advogado.cpf, edicao);
+            }
+        }
+        else{
+            fprintf(temp_advogado, "%s;%s\n", advogado.cpf, advogado.nome);
         }
     }
-    printf("|   ===> Qual dado Você deseja editar? (cpf = 1)(nome = 2)                                     |\n");       
-    scanf("%d", &dado);  
-    getchar();                                     
-    printf("|   ===> Digite o novo dado:                                                                  |\n");
-    fgets(edicao, sizeof(edicao), stdin);
-    tam = strlen(edicao);
-    edicao[tam-1] = '\0';
-    temp_advogado = fopen("temp_advogado.csv", "wt");
-    if(dado == 1){
-        fprintf(temp_advogado, "%s;", edicao);
-        fprintf(temp_advogado, "%s\n", advogado.nome);
-        fclose(temp_advogado);
-    }
-    else if(dado == 2){
-        fprintf(temp_advogado, "%s;", advogado.cpf);
-        fprintf(temp_advogado, "%s\n", edicao);
-        fclose(temp_advogado);
-    }
     fclose(arq_advogado);
+    fclose(temp_advogado);
+    remove("advogado.csv");
+    rename("temp_advogado.csv", "advogado.csv");
     printf("|                                                                                             |\n");
     printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
