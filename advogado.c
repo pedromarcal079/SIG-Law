@@ -135,6 +135,9 @@ void mostraAdvogado(void){
 
 void editaAdvogado(void) {
     system("clear");
+    FILE *arq_advogado;
+    FILE *temp_advogado;
+    Advogado advogado;
     char pesquisar_cpf[15];
     int tam;
     int dado;
@@ -149,13 +152,33 @@ void editaAdvogado(void) {
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
-    printf("|   ===> Qual dado Você deseja editar?                                                        |\n"); //0=cpf,1=nome//         
-    scanf("%d", &dado);                                       
-    printf("|                                                                                             |\n");
-    printf("|        Digite os novos dados:                                                               |\n");
+    arq_advogado = fopen("advogado.csv", "rt");
+    while (fscanf(arq_advogado,"%[^;]; %[^;]", advogado.cpf,advogado.nome) == 2){
+        if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", advogado.cpf);
+            printf("|\t\tNOME: %s\n", advogado.nome);
+            getchar();
+        }
+    }
+    printf("|   ===> Qual dado Você deseja editar? (cpf = 1)(nome = 2)                                     |\n");       
+    scanf("%d", &dado);  
+    getchar();                                     
+    printf("|   ===> Digite o novo dado:                                                                  |\n");
     fgets(edicao, sizeof(edicao), stdin);
     tam = strlen(edicao);
     edicao[tam-1] = '\0';
+    temp_advogado = fopen("temp_advogado.csv", "wt");
+    if(dado == 1){
+        fprintf(temp_advogado, "%s;", edicao);
+        fprintf(temp_advogado, "%s\n", advogado.nome);
+        fclose(temp_advogado);
+    }
+    else if(dado == 2){
+        fprintf(temp_advogado, "%s;", advogado.cpf);
+        fprintf(temp_advogado, "%s\n", edicao);
+        fclose(temp_advogado);
+    }
+    fclose(arq_advogado);
     printf("|                                                                                             |\n");
     printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
