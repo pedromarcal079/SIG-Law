@@ -3,6 +3,15 @@
 #include <string.h>
 #include "clientePF.h"
 
+typedef struct clientePF{
+    char cpf[15];
+    char nome[50];
+    char dataNasc[13];
+    char endereco[100];
+    char email[100];
+    char telefone[20];
+} ClientePF;
+
 void moduloClientePF(void){
     int cliPfOpcao;
     do {
@@ -65,13 +74,8 @@ int menuClientePF(void) {
 
 
 void cadastraClientePF(void) {
+    ClientePF clientePF;
     system("clear");
-    char cpf[15];
-    char nome[50];
-    char dataNasc[13];
-    char endereco[100];
-    char email[100];
-    char telefone[20];
     int tam;    
     FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -83,54 +87,49 @@ void cadastraClientePF(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
 
     printf("|   ===> CPF: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    tam = strlen(cpf);
-    cpf[tam-1] = '\0';
+    fgets(clientePF.cpf, sizeof(clientePF.cpf), stdin);
+    tam = strlen(clientePF.cpf);
+    clientePF.cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
-    fgets(nome, sizeof(nome), stdin);
-    tam = strlen(nome);
-    nome[tam-1] = '\0';
+    fgets(clientePF.nome, sizeof(clientePF.nome), stdin);
+    tam = strlen(clientePF.nome);
+    clientePF.nome[tam-1] = '\0';
     printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(dataNasc, sizeof(dataNasc), stdin);
-    tam = strlen(dataNasc);
-    dataNasc[tam-1] = '\0';
+    fgets(clientePF.dataNasc, sizeof(clientePF.dataNasc), stdin);
+    tam = strlen(clientePF.dataNasc);
+    clientePF.dataNasc[tam-1] = '\0';
     printf("|   ===> Endereço: ");
-    fgets(endereco, sizeof(endereco), stdin);
-    tam = strlen(endereco);
-    endereco[tam-1] = '\0';
+    fgets(clientePF.endereco, sizeof(clientePF.endereco), stdin);
+    tam = strlen(clientePF.endereco);
+    clientePF.endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
-    fgets(email, sizeof(email), stdin);
-    tam = strlen(email);
-    email[tam-1] = '\0';
+    fgets(clientePF.email, sizeof(clientePF.email), stdin);
+    tam = strlen(clientePF.email);
+    clientePF.email[tam-1] = '\0';
     printf("|   ===> Telefone: ");
-    fgets(telefone, sizeof(telefone), stdin);
-    tam = strlen(telefone);
-    telefone[tam-1] = '\0';
+    fgets(clientePF.telefone, sizeof(clientePF.telefone), stdin);
+    tam = strlen(clientePF.telefone);
+    clientePF.telefone[tam-1] = '\0';
 
     printf("|                                                                                             |\n");
     printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_cliente = fopen("clientePF.csv","at");
-    fprintf(arq_cliente, "%s;", cpf);
-    fprintf(arq_cliente, "%s;", nome);
-    fprintf(arq_cliente, "%s;", dataNasc);
-    fprintf(arq_cliente, "%s;", endereco);
-    fprintf(arq_cliente, "%s;", email);
-    fprintf(arq_cliente, "%s\n", telefone);
+    fprintf(arq_cliente, "%s;", clientePF.cpf);
+    fprintf(arq_cliente, "%s;", clientePF.nome);
+    fprintf(arq_cliente, "%s;", clientePF.dataNasc);
+    fprintf(arq_cliente, "%s;", clientePF.endereco);
+    fprintf(arq_cliente, "%s;", clientePF.email);
+    fprintf(arq_cliente, "%s\n", clientePF.telefone);
     fclose(arq_cliente);
 }
 
 
 void mostraClientePF(void) {
     system("clear");
+    ClientePF clientePF;
     char pesquisar_cpf[15];
-    char cpf[15];
-    char nome[50];
-    char dataNasc[13];
-    char endereco[100];
-    char email[100];
-    char telefone[20];
     int tam;
     FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -144,30 +143,26 @@ void mostraClientePF(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_cliente = fopen("clientePF.csv", "rt");
-    while (!feof(arq_cliente)){
-        fscanf(arq_cliente, "%[^;]", cpf);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", nome);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", dataNasc);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", endereco);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", email);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^\n]", telefone);
-        fgetc(arq_cliente);
-        if (strcmp(cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", cpf);
-            printf("|\t\tNome: %s\n", nome);
-            printf("|\t\tData de Nascimento: %s\n", dataNasc);
-            printf("|\t\tEndereço: %s\n", endereco);
-            printf("|\t\tEmail: %s\n", email);
-            printf("|\t\tTelefone: %s\n", telefone);
+    while (fscanf(arq_cliente,"%[^;]; %[^;]; %[^;]; %[^;]; %[^;]; %[^;]", 
+        clientePF.cpf,
+        clientePF.nome,
+        clientePF.dataNasc,
+        clientePF.endereco,
+        clientePF.email,
+        clientePF.telefone
+    )){
+        if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", clientePF.cpf);
+            printf("|\t\tNome: %s\n", clientePF.nome);
+            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
+            printf("|\t\tEndereço: %s\n", clientePF.endereco);
+            printf("|\t\tEmail: %s\n", clientePF.email);
+            printf("|\t\tTelefone: %s", clientePF.telefone);
+            printf("|                                                                                             |\n");
+            printf("+---------------------------------------------------------------------------------------------+\n");
+            return;
         }
     }
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
