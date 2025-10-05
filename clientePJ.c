@@ -1,34 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "clientePF.h"
+#include "clientePJ.h"
 
-void moduloClientePF(void){
-    int cliPfOpcao;
+void moduloClientePJ(void) {
+    int cliPjOpcao;
     do {
-        cliPfOpcao = menuClientePF();
-        switch (cliPfOpcao){
+        cliPjOpcao = menuClientePJ();
+        switch (cliPjOpcao){
         case 0:
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 1:
-            cadastraClientePF();
+            cadastraClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 2:
-            mostraClientePF();
+            mostraClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 3:
-            editaClientePF();
+            editaClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
         case 4:
-            excluiClientePF();
+            excluiClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
@@ -38,122 +38,90 @@ void moduloClientePF(void){
             getchar();
             break;
         }
-    } while (cliPfOpcao != 0);
+    } while (cliPjOpcao != 0);
 }
 
-int menuClientePF(void) {
+int menuClientePJ(void) {
     system("clear");
-    int cliPfOpcao;
+    int opcaoEmpresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Menu do Cliente                                       |\n");
+    printf("|                                      Modulo de Empresa                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          1 - Cadastra cliente                                               |\n");
-    printf("|                          2 - Mostra cliente                                                 |\n");
-    printf("|                          3 - Edita cliente                                                  |\n");
-    printf("|                          4 - Exclui cliente                                                 |\n");
+    printf("|                          1 - Cadastra empresa                                               |\n");
+    printf("|                          2 - Mostra empresa                                                 |\n");
+    printf("|                          3 - Edita empresa                                                  |\n");
+    printf("|                          4 - Exclui empresa                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&cliPfOpcao);
+    scanf("%d",&opcaoEmpresa);
     getchar();
-    return cliPfOpcao;
+    return opcaoEmpresa;
 }
 
 
-void cadastraClientePF(void) {
+void cadastraClientePJ(void) {
     system("clear");
-    char cpf[15];
+    char cnpj[15];
     char nome[50];
-    char dataNasc[15];
-    char email[100];
-    char telefone[20];
-    int tam;    
-    FILE *arq_cliente;
+    int tam;
+    FILE *arq_empresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Cadastrar Cliente                                     |\n");
+    printf("|                                       Cadastrar Empresa                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|        Informe os dados do cliente:                                                         |\n");
-
-    printf("|   ===> CPF: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    tam = strlen(cpf);
-    cpf[tam-1] = '\0';
+    printf("|        Informe os dados da empresa:                                                         |\n");
+    printf("|   ===> CNPJ: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
+    tam = strlen(cnpj);
+    cnpj[tam-1] = '\0';
     printf("|   ===> Nome: ");
     fgets(nome, sizeof(nome), stdin);
     tam = strlen(nome);
     nome[tam-1] = '\0';
-    printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(dataNasc, sizeof(dataNasc), stdin);
-    tam = strlen(dataNasc);
-    dataNasc[tam-1] = '\0';
-    printf("|   ===> Email: ");
-    fgets(email, sizeof(email), stdin);
-    tam = strlen(email);
-    email[tam-1] = '\0';
-    printf("|   ===> Telefone: ");
-    fgets(telefone, sizeof(telefone), stdin);
-    tam = strlen(telefone);
-    telefone[tam-1] = '\0';
-
     printf("|                                                                                             |\n");
-    printf("|        Cliente cadastrado com sucesso!                                                      |\n");
+    printf("|        Empresa cadastrada com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_cliente = fopen("cliente.csv","at");
-    fprintf(arq_cliente, "%s;", cpf);
-    fprintf(arq_cliente, "%s;", nome);
-    fprintf(arq_cliente, "%s;", dataNasc);
-    fprintf(arq_cliente, "%s;", email);
-    fprintf(arq_cliente, "%s\n", telefone);
-    fclose(arq_cliente);
+    arq_empresa = fopen("empresa.csv","at");
+    fprintf(arq_empresa, "%s;", cnpj);
+    fprintf(arq_empresa, "%s\n", nome);
+    fclose(arq_empresa);
 }
 
 
-void mostraClientePF(void) {
+void mostraClientePJ(void){
     system("clear");
-    char pesquisar_cpf[15];
-    char cpf[15];
+    char cnpj[15];
+    char pesquisar_cnpj[15];
     char nome[50];
-    char dataNasc[15];
-    char email[100];
-    char telefone[20];
     int tam;
-    FILE *arq_cliente;
+    FILE *arq_empresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Mostrar Cliente                                       |\n");
+    printf("|                                    Mostrar Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
-    arq_cliente = fopen("cliente.csv", "rt");
-    while (!feof(arq_cliente)){
-        fscanf(arq_cliente, "%[^;]", cpf);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", nome);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", dataNasc);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^;]", email);
-        fgetc(arq_cliente);
-        fscanf(arq_cliente, "%[^\n]", telefone);
-        fgetc(arq_cliente);
-        if (strcmp(cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", cpf);
+    printf("|   ===> Digite o CNPJ da empresa: ");
+    fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
+    tam = strlen(pesquisar_cnpj);
+    pesquisar_cnpj[tam-1] = '\0';
+    arq_empresa = fopen("empresa.csv", "rt");
+    while (!feof(arq_empresa)){
+        fscanf(arq_empresa, "%[^;]", cnpj);
+        fgetc(arq_empresa);
+        fscanf(arq_empresa, "%[^\n]", nome);
+        fgetc(arq_empresa);
+        if (strcmp(cnpj, pesquisar_cnpj) == 0){
+            printf("|\t\tCPF: %s\n", cnpj);
             printf("|\t\tNome: %s\n", nome);
-            printf("|\t\tData de Nascimento: %s\n", dataNasc);
-            printf("|\t\tEmail: %s\n", email);
-            printf("|\t\tTelefone: %s\n", telefone);
         }
     }
     printf("|                                                                                             |\n");
@@ -161,18 +129,18 @@ void mostraClientePF(void) {
 }
 
 
-void editaClientePF(void) {
+void editaClientePJ(void) {
     system("clear");
-    char cpf[15];
+    char cnpj[15];
     char nome[50];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Editar Cliente                                        |\n");
+    printf("|                                     Editar Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
-    fgets(cpf, sizeof(cpf), stdin);
+    printf("|   ===> Digite o CNPJ da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
     printf("|                                                                                             |\n");
     printf("|        Digite os novos dados:                                                               |\n");
     printf("|        Nome: ");
@@ -184,19 +152,19 @@ void editaClientePF(void) {
 }
 
 
-void excluiClientePF(void) {
+void excluiClientePJ(void) {
     system("clear");
-    char cpf[15];
+    char cnpj[15];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                        Excluir Cliente                                      |\n");
+    printf("|                                    Excluir Empresa                                          |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
-    fgets(cpf, sizeof(cpf), stdin);
+    printf("|   ===> Digite o CNPJ da empresa: ");
+    fgets(cnpj, sizeof(cnpj), stdin);
     printf("|                                                                                             |\n");
-    printf("|        Cliente excluido com sucesso!                                                        |\n");
+    printf("|        Empresa excluida com sucesso!                                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }

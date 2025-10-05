@@ -4,7 +4,7 @@
 #include "advogado.h"
 #include "clientePF.h"
 #include "processosPF.h"
-#include "empresa.h"
+#include "clientePJ.h"
 #include "processosPJ.h"
 #include "historico.h"
 #include "sobre.h"
@@ -36,7 +36,7 @@ int main(void) {
             moduloProcPF();
             break;
         case 4:
-            moduloEmpresa();
+            moduloClientePJ();
             break;
         case 5:
             moduloProcPJ();
@@ -94,7 +94,7 @@ int menu(void) {
     printf("|                          1 - Módulo de Advogados                                                    |\n");
     printf("|                          2 - Módulo de Cliente PF                                                   |\n");
     printf("|                          3 - Módulo de Processos PF                                                 |\n");
-    printf("|                          4 - Módulo de Empresas                                                     |\n");
+    printf("|                          4 - Módulo de Cliente PJ                                                   |\n");
     printf("|                          5 - Módulo de Processos PJ                                                 |\n");
     printf("|                          6 - Módulo de Historico                                                    |\n");
     printf("|                          7 - Relatorios                                                             |\n");
