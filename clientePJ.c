@@ -46,7 +46,7 @@ int menuClientePJ(void) {
     int opcaoEmpresa;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                      Modulo de Empresa                                      |\n");
+    printf("|                             Menu do Cliente - Pessoa Jurídica                               |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");

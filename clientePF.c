@@ -46,7 +46,7 @@ int menuClientePF(void) {
     int cliPfOpcao;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                       Menu do Cliente                                       |\n");
+    printf("|                               Menu do Cliente - Pessoa Física                               |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
