@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "advogado.h"
-#include "cliente.h"
+#include "clientePF.h"
 #include "processosPF.h"
 #include "empresa.h"
 #include "processosPJ.h"
@@ -30,7 +30,7 @@ int main(void) {
             moduloAdvogado();
             break;
         case 2:
-            moduloCliente();
+            moduloClientePF();
             break;
         case 3:
             moduloProcPF();
@@ -92,7 +92,7 @@ int menu(void) {
     printf("+-----------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                     |\n");
     printf("|                          1 - Módulo de Advogados                                                    |\n");
-    printf("|                          2 - Módulo de Clientes                                                     |\n");
+    printf("|                          2 - Módulo de Cliente PF                                                   |\n");
     printf("|                          3 - Módulo de Processos PF                                                 |\n");
     printf("|                          4 - Módulo de Empresas                                                     |\n");
     printf("|                          5 - Módulo de Processos PJ                                                 |\n");
