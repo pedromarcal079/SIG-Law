@@ -68,7 +68,8 @@ void cadastraClientePF(void) {
     system("clear");
     char cpf[15];
     char nome[50];
-    char dataNasc[15];
+    char dataNasc[13];
+    char endereco[100];
     char email[100];
     char telefone[20];
     int tam;    
@@ -93,6 +94,10 @@ void cadastraClientePF(void) {
     fgets(dataNasc, sizeof(dataNasc), stdin);
     tam = strlen(dataNasc);
     dataNasc[tam-1] = '\0';
+    printf("|   ===> Endereço: ");
+    fgets(endereco, sizeof(endereco), stdin);
+    tam = strlen(endereco);
+    endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
     fgets(email, sizeof(email), stdin);
     tam = strlen(email);
@@ -106,10 +111,11 @@ void cadastraClientePF(void) {
     printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_cliente = fopen("cliente.csv","at");
+    arq_cliente = fopen("clientePF.csv","at");
     fprintf(arq_cliente, "%s;", cpf);
     fprintf(arq_cliente, "%s;", nome);
     fprintf(arq_cliente, "%s;", dataNasc);
+    fprintf(arq_cliente, "%s;", endereco);
     fprintf(arq_cliente, "%s;", email);
     fprintf(arq_cliente, "%s\n", telefone);
     fclose(arq_cliente);
@@ -121,7 +127,8 @@ void mostraClientePF(void) {
     char pesquisar_cpf[15];
     char cpf[15];
     char nome[50];
-    char dataNasc[15];
+    char dataNasc[13];
+    char endereco[100];
     char email[100];
     char telefone[20];
     int tam;
@@ -136,13 +143,15 @@ void mostraClientePF(void) {
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
-    arq_cliente = fopen("cliente.csv", "rt");
+    arq_cliente = fopen("clientePF.csv", "rt");
     while (!feof(arq_cliente)){
         fscanf(arq_cliente, "%[^;]", cpf);
         fgetc(arq_cliente);
         fscanf(arq_cliente, "%[^;]", nome);
         fgetc(arq_cliente);
         fscanf(arq_cliente, "%[^;]", dataNasc);
+        fgetc(arq_cliente);
+        fscanf(arq_cliente, "%[^;]", endereco);
         fgetc(arq_cliente);
         fscanf(arq_cliente, "%[^;]", email);
         fgetc(arq_cliente);
@@ -152,6 +161,7 @@ void mostraClientePF(void) {
             printf("|\t\tCPF: %s\n", cpf);
             printf("|\t\tNome: %s\n", nome);
             printf("|\t\tData de Nascimento: %s\n", dataNasc);
+            printf("|\t\tEndereço: %s\n", endereco);
             printf("|\t\tEmail: %s\n", email);
             printf("|\t\tTelefone: %s\n", telefone);
         }
