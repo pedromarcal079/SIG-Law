@@ -74,8 +74,8 @@ int menuClientePF(void) {
 
 
 void cadastraClientePF(void) {
-    ClientePF clientePF;
     system("clear");
+    ClientePF clientePF;
     int tam;    
     FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
