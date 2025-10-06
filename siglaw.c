@@ -2,10 +2,8 @@
 #include <stdlib.h>
 
 #include "advogado.h"
-#include "cliente.h"
-#include "processosPF.h"
-#include "empresa.h"
-#include "processosPJ.h"
+#include "clienteMenu.h"
+#include "agendamento.h"
 #include "historico.h"
 #include "sobre.h"
 #include "equipe.h"
@@ -30,31 +28,25 @@ int main(void) {
             moduloAdvogado();
             break;
         case 2:
-            moduloCliente();
+            moduloMenuCliente();
             break;
         case 3:
-            moduloProcPF();
+            moduloAgendamento();
             break;
         case 4:
-            moduloEmpresa();
-            break;
-        case 5:
-            moduloProcPJ();
-            break;
-        case 6:
             moduloHistorico();
             break;
-        case 7:
+        case 5:
             printf("Relatorios\n");
             printf("Pressione ENTER ... \n");
             getchar();
             break;
-        case 8:
+        case 6:
             telaSobre();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
-        case 9:
+        case 7:
             telaEquipe();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -93,13 +85,11 @@ int menu(void) {
     printf("|                                                                                                     |\n");
     printf("|                          1 - Módulo de Advogados                                                    |\n");
     printf("|                          2 - Módulo de Clientes                                                     |\n");
-    printf("|                          3 - Módulo de Processos PF                                                 |\n");
-    printf("|                          4 - Módulo de Empresas                                                     |\n");
-    printf("|                          5 - Módulo de Processos PJ                                                 |\n");
-    printf("|                          6 - Módulo de Historico                                                    |\n");
-    printf("|                          7 - Relatorios                                                             |\n");
-    printf("|                          8 - Sobre                                                                  |\n");
-    printf("|                          9 - Equipe                                                                 |\n");
+    printf("|                          3 - Módulo de Agendamento                                                  |\n");
+    printf("|                          5 - Módulo de Historico                                                    |\n");
+    printf("|                          6 - Relatorios                                                             |\n");
+    printf("|                          7 - Sobre                                                                  |\n");
+    printf("|                          8 - Equipe                                                                 |\n");
     printf("|                          0 - Sair                                                                   |\n");
     printf("|                                                                                                     |\n");
     printf("+-----------------------------------------------------------------------------------------------------+\n");
