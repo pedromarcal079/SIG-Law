@@ -40,7 +40,11 @@ void moduloAdvogado(void) {
                 getchar();
                 break;
             default:
-                printf("Voce digitou uma opcao invalida\n");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
