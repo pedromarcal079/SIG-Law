@@ -276,7 +276,7 @@ void excluiClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
+    printf("|   ===> Digite o CPF do cliente: ");
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
@@ -309,7 +309,7 @@ void excluiClientePF(void) {
             printf("|\t\tEmail: %s\n", clientePF.email);
             printf("|\t\tTelefone: %s\n", clientePF.telefone);
             printf("|                                                                                             |\n");
-            printf("|   ===> Essa é a conta que deseja excluir? 1 = Sim, 2 = Não: ");
+            printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
@@ -320,13 +320,13 @@ void excluiClientePF(void) {
                     clientePF.dataNasc,
                     clientePF.endereco,
                     clientePF.email,
-                    clientePF.telefone);
+                    clientePF.telefone
+                );
             }
         }
     }
     fclose(arq_cliente);
     fclose(temp_cliente);
-
     remove("clientePF.csv");
     rename("temp_clientePF.csv", "clientePF.csv");
 
