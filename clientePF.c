@@ -149,14 +149,14 @@ void mostraClientePF(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_cliente = fopen("clientePF.csv", "rt");
-    while (fscanf(arq_cliente,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", 
+    while (fscanf(arq_cliente, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
         clientePF.cpf,
         clientePF.nome,
         clientePF.dataNasc,
         clientePF.endereco,
         clientePF.email,
         clientePF.telefone
-    )){
+    ) == 6) {
         if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
             printf("|\t\tCPF: %s\n", clientePF.cpf);
             printf("|\t\tNome: %s\n", clientePF.nome);
