@@ -120,12 +120,14 @@ void cadastraClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_cliente = fopen("clientePF.csv","at");
-    fprintf(arq_cliente, "%s;", clientePF.cpf);
-    fprintf(arq_cliente, "%s;", clientePF.nome);
-    fprintf(arq_cliente, "%s;", clientePF.dataNasc);
-    fprintf(arq_cliente, "%s;", clientePF.endereco);
-    fprintf(arq_cliente, "%s;", clientePF.email);
-    fprintf(arq_cliente, "%s\n", clientePF.telefone);
+    fprintf(arq_cliente, "%s;%s;%s;%s;%s;%s\n",
+        clientePF.cpf,
+        clientePF.nome,
+        clientePF.dataNasc,
+        clientePF.endereco,
+        clientePF.email,
+        clientePF.telefone
+    );
     fclose(arq_cliente);
 }
 
@@ -142,26 +144,26 @@ void mostraClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
+    printf("|   ===> Digite o CPF do cliente: ");
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
     arq_cliente = fopen("clientePF.csv", "rt");
-    while (fscanf(arq_cliente,"%[^;]; %[^;]; %[^;]; %[^;]; %[^;]; %[^;]", 
+    while (fscanf(arq_cliente, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
         clientePF.cpf,
         clientePF.nome,
         clientePF.dataNasc,
         clientePF.endereco,
         clientePF.email,
         clientePF.telefone
-    )){
+    ) == 6) {
         if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
             printf("|\t\tCPF: %s\n", clientePF.cpf);
             printf("|\t\tNome: %s\n", clientePF.nome);
             printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
             printf("|\t\tEndereço: %s\n", clientePF.endereco);
             printf("|\t\tEmail: %s\n", clientePF.email);
-            printf("|\t\tTelefone: %s", clientePF.telefone);
+            printf("|\t\tTelefone: %s\n", clientePF.telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
@@ -172,20 +174,87 @@ void mostraClientePF(void) {
 
 void editaClientePF(void) {
     system("clear");
-    char cpf[15];
-    char nome[50];
+    FILE *arq_cliente;
+    FILE *temp_cliente;
+    ClientePF clientePF;
+    char pesquisar_cpf[15];
+    int tam;
+    int dado;
+    char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Editar Cliente                                        |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do cliente: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Digite os novos dados:                                                               |\n");
-    printf("|        Nome: ");
-    fgets(nome, sizeof(nome), stdin);  
+    printf("|   ===> Digite o CPF do cliente: ");
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+
+    arq_cliente = fopen("clientePF.csv", "rt");
+    temp_cliente = fopen("temp_clientePF.csv","wt");
+
+    while (fscanf(arq_cliente,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
+        clientePF.cpf,
+        clientePF.nome,
+        clientePF.dataNasc,
+        clientePF.endereco,
+        clientePF.email,
+        clientePF.telefone) == 6){
+        
+        if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", clientePF.cpf);
+            printf("|\t\tNome: %s\n", clientePF.nome);
+            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
+            printf("|\t\tEndereço: %s\n", clientePF.endereco);
+            printf("|\t\tEmail: %s\n", clientePF.email);
+            printf("|\t\tTelefone: %s\n", clientePF.telefone);
+            printf("|                                                                                             |\n");
+            
+            printf("+---------------------------------------------------------------------------------------------+\n");
+            printf("|                                                                                             |\n");
+            printf("|   ===> Qual dado você deseja editar?                                                        |\n");
+            printf("|        1 - CPF                                                                              |\n");
+            printf("|        2 - Nome                                                                             |\n");
+            printf("|        3 - Data de Nascimento                                                               |\n");
+            printf("|        4 - Endereço                                                                         |\n");
+            printf("|        5 - Email                                                                            |\n");
+            printf("|        6 - Telefone                                                                         |\n");
+            printf("|                                                                                             |\n");
+            printf("+---------------------------------------------------------------------------------------------+\n");
+            printf("===> Digite sua opcao: ");
+            scanf("%d", &dado);  
+            getchar();                                     
+            printf("|                                                                                             |\n");
+            printf("|   ===> Digite o novo dado: ");
+            fgets(edicao, sizeof(edicao), stdin);
+            tam = strlen(edicao);
+            edicao[tam-1] = '\0';
+
+            switch (dado) {
+                case 1: strcpy(clientePF.cpf, edicao); break;
+                case 2: strcpy(clientePF.nome, edicao); break;
+                case 3: strcpy(clientePF.dataNasc, edicao); break;
+                case 4: strcpy(clientePF.endereco, edicao); break;
+                case 5: strcpy(clientePF.email, edicao); break;
+                case 6: strcpy(clientePF.telefone, edicao); break;
+            }
+        }
+        fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
+            clientePF.cpf,
+            clientePF.nome,
+            clientePF.dataNasc,
+            clientePF.endereco,
+            clientePF.email,
+            clientePF.telefone
+        );
+    }
+    
+    fclose(arq_cliente);
+    fclose(temp_cliente);
+    remove("clientePF.csv");
+    rename("temp_clientePF.csv", "clientePF.csv");
     printf("|                                                                                             |\n");
     printf("|        Dados atualizados com sucesso!                                                       |\n");
     printf("|                                                                                             |\n");
