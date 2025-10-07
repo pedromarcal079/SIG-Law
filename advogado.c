@@ -232,6 +232,7 @@ void editaAdvogado(void) {
             printf("|\t\tEndereço: %s\n", advogado.endereco);
             printf("|\t\tEmail: %s\n", advogado.email);
             printf("|\t\tTelefone: %s\n", advogado.telefone);
+            printf("|                                                                                             |\n");
             
             printf("+---------------------------------------------------------------------------------------------+\n");
             printf("|                                                                                             |\n");
@@ -267,14 +268,15 @@ void editaAdvogado(void) {
             }
         }
         fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s;%s\n",
-        advogado.cpf,
-        advogado.nome,
-        advogado.carteiraOAB,
-        advogado.especialidade,
-        advogado.dataNasc,
-        advogado.endereco,
-        advogado.email,
-        advogado.telefone);
+            advogado.cpf,
+            advogado.nome,
+            advogado.carteiraOAB,
+            advogado.especialidade,
+            advogado.dataNasc,
+            advogado.endereco,
+            advogado.email,
+            advogado.telefone
+        );
     }
 
     fclose(arq_advogado);
