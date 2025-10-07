@@ -302,7 +302,12 @@ void editaClientePJ(void) {
 
 void excluiClientePJ(void) {
     system("clear");
-    char cnpj[15];
+    FILE *arq_empresa;
+    FILE *temp_empresa;
+    ClientePJ clientePJ;
+    char pesquisar_cnpj[15];
+    int tam;
+    int confi;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Empresa                                          |\n");
@@ -310,9 +315,81 @@ void excluiClientePJ(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o CNPJ da empresa: ");
-    fgets(cnpj, sizeof(cnpj), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Empresa excluida com sucesso!                                                        |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
+    tam = strlen(pesquisar_cnpj);
+    pesquisar_cnpj[tam-1] = '\0';
+
+    arq_empresa = fopen("clientePJ.csv", "rt");
+    temp_empresa = fopen("temp_clientePJ.csv", "wt");
+
+    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
+        clientePJ.cnpj,
+        clientePJ.razaoSocial,
+        clientePJ.nomeFantasia,
+        clientePJ.repres,
+        clientePJ.cpfRepres,
+        clientePJ.areaAtuacao,
+        clientePJ.endereco,
+        clientePJ.email,
+        clientePJ.telefone) == 9){
+        
+        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) != 0){
+            fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                clientePJ.cnpj,
+                clientePJ.razaoSocial,
+                clientePJ.nomeFantasia,
+                clientePJ.repres,
+                clientePJ.cpfRepres,
+                clientePJ.areaAtuacao,
+                clientePJ.endereco,
+                clientePJ.email,
+                clientePJ.telefone
+            );
+        } else {
+            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
+            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
+            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
+            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
+            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
+            printf("|\t\tEmail: %s\n", clientePJ.email);
+            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+            printf("|                                                                                             |\n");
+            printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
+            scanf("%d", &confi);
+            getchar();
+
+            if (confi == 2) {
+                fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                    clientePJ.cnpj,
+                    clientePJ.razaoSocial,
+                    clientePJ.nomeFantasia,
+                    clientePJ.repres,
+                    clientePJ.cpfRepres,
+                    clientePJ.areaAtuacao,
+                    clientePJ.endereco,
+                    clientePJ.email,
+                    clientePJ.telefone
+                );
+            }  
+        }
+    }
+    fclose(arq_empresa);
+    fclose(temp_empresa);
+    remove("clientePJ.csv");
+    rename("temp_clientePJ.csv", "clientePJ.csv");
+    
+    if (confi == 1){
+        printf("|                                                                                             |\n");
+        printf("|        Cliente excluido com sucesso!                                                        |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        printf("|                                                                                             |\n");
+        printf("|        Exclusão cancelada!                                                                  |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    }
+    
 }
