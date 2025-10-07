@@ -264,7 +264,12 @@ void editaClientePF(void) {
 
 void excluiClientePF(void) {
     system("clear");
-    char cpf[15];
+    FILE *arq_cliente;
+    FILE *temp_cliente;
+    ClientePF clientePF;
+    char pesquisar_cpf[15];
+    int tam;
+    int confi;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Excluir Cliente                                      |\n");
@@ -272,9 +277,69 @@ void excluiClientePF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do cliente: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Cliente excluido com sucesso!                                                        |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+
+    arq_cliente = fopen("clientePF.csv", "rt");
+    temp_cliente = fopen("temp_clientePF.csv","wt");
+
+    while (fscanf(arq_cliente,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
+        clientePF.cpf,
+        clientePF.nome,
+        clientePF.dataNasc,
+        clientePF.endereco,
+        clientePF.email,
+        clientePF.telefone) == 6){
+            
+        if (strcmp(clientePF.cpf, pesquisar_cpf) != 0){
+            fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
+                clientePF.cpf,
+                clientePF.nome,
+                clientePF.dataNasc,
+                clientePF.endereco,
+                clientePF.email,
+                clientePF.telefone
+            );
+        } else {
+            printf("|\t\tCPF: %s\n", clientePF.cpf);
+            printf("|\t\tNome: %s\n", clientePF.nome);
+            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
+            printf("|\t\tEndereço: %s\n", clientePF.endereco);
+            printf("|\t\tEmail: %s\n", clientePF.email);
+            printf("|\t\tTelefone: %s\n", clientePF.telefone);
+            printf("|                                                                                             |\n");
+            printf("|   ===> Essa é a conta que deseja excluir? 1 = Sim, 2 = Não: ");
+            scanf("%d", &confi);
+            getchar();
+
+            if (confi == 2) {
+                fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
+                    clientePF.cpf,
+                    clientePF.nome,
+                    clientePF.dataNasc,
+                    clientePF.endereco,
+                    clientePF.email,
+                    clientePF.telefone);
+            }
+        }
+    }
+    fclose(arq_cliente);
+    fclose(temp_cliente);
+
+    remove("clientePF.csv");
+    rename("temp_clientePF.csv", "clientePF.csv");
+
+    if (confi == 1){
+        printf("|                                                                                             |\n");
+        printf("|        Cliente excluido com sucesso!                                                        |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        printf("|                                                                                             |\n");
+        printf("|        Exclusão cancelada!                                                                  |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    }
+    
 }
