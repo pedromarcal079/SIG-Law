@@ -292,7 +292,13 @@ void editaAdvogado(void) {
 
 void excluiAdvogado(void) {
     system("clear");
-    char cpf[15];
+    FILE *arq_advogado;
+    FILE *temp_advogado;
+    Advogado advogado;
+    char pesquisar_cpf[15];
+    int tam;
+    int confi;
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Advogado                                         |\n");
@@ -300,9 +306,74 @@ void excluiAdvogado(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o cpf do advogado: ");
-    fgets(cpf, sizeof(cpf), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Advogado excluido com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+    tam = strlen(pesquisar_cpf);
+    pesquisar_cpf[tam-1] = '\0';
+
+    arq_advogado = fopen("advogado.csv", "rt");
+    temp_advogado = fopen("temp_advogado.csv","wt");
+
+    while (fscanf(arq_advogado,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
+        advogado.cpf,
+        advogado.nome,
+        advogado.carteiraOAB,
+        advogado.especialidade,
+        advogado.dataNasc,
+        advogado.endereco,
+        advogado.email,
+        advogado.telefone) == 8){
+
+        if (strcmp(advogado.cpf, pesquisar_cpf) != 0){
+            fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s:%s\n",
+            advogado.cpf,
+            advogado.nome,
+            advogado.carteiraOAB,
+            advogado.especialidade,
+            advogado.dataNasc,
+            advogado.endereco,
+            advogado.email,
+            advogado.telefone);
+        } else {
+            printf("|\t\tCPF: %s\n", advogado.cpf);
+            printf("|\t\tNome: %s\n", advogado.nome);
+            printf("|\t\tCarteira OAB: %s\n", advogado.carteiraOAB);
+            printf("|\t\tEspecialidade: %s\n", advogado.especialidade);
+            printf("|\t\tData de Nascimento: %s\n", advogado.dataNasc);
+            printf("|\t\tEndereço: %s\n", advogado.endereco);
+            printf("|\t\tEmail: %s\n", advogado.email);
+            printf("|\t\tTelefone: %s\n", advogado.telefone);
+            printf("|                                                                                             |\n");
+            printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
+            scanf("%d", &confi);
+            getchar();
+
+            if (confi == 2) {
+                fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s;%s\n",
+                    advogado.cpf,
+                    advogado.nome,
+                    advogado.carteiraOAB,
+                    advogado.especialidade,
+                    advogado.dataNasc,
+                    advogado.endereco,
+                    advogado.email,
+                    advogado.telefone);
+            }
+        }
+    }
+    fclose(arq_advogado);
+    fclose(temp_advogado);
+    remove("advogado.csv");
+    rename("temp_advogado.csv", "advogado.csv");
+
+    if (confi == 1){
+        printf("|                                                                                             |\n");
+        printf("|        Cliente excluido com sucesso!                                                        |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        printf("|                                                                                             |\n");
+        printf("|        Exclusão cancelada!                                                                  |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    }
 }
