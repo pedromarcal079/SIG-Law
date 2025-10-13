@@ -142,7 +142,10 @@ void cadastraClientePF(void) {
 
 void mostraClientePF(void) {
     system("clear");
-    ClientePF clientePF;
+
+    ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+
     char pesquisar_cpf[15];
     int tam;
     FILE *arq_cliente;
@@ -156,27 +159,37 @@ void mostraClientePF(void) {
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
-    arq_cliente = fopen("clientePF.csv", "rt");
-    while (fscanf(arq_cliente, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePF.cpf,
-        clientePF.nome,
-        clientePF.dataNasc,
-        clientePF.endereco,
-        clientePF.email,
-        clientePF.telefone
-    ) == 6) {
-        if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", clientePF.cpf);
-            printf("|\t\tNome: %s\n", clientePF.nome);
-            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
-            printf("|\t\tEndereço: %s\n", clientePF.endereco);
-            printf("|\t\tEmail: %s\n", clientePF.email);
-            printf("|\t\tTelefone: %s\n", clientePF.telefone);
+
+    arq_cliente = fopen("clientePF.dat", "rb");
+    if (arq_cliente == NULL) {
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
+        if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
+            printf("|\t\tCPF: %s\n", clientePF->cpf);
+            printf("|\t\tNome: %s\n", clientePF->nome);
+            printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
+            printf("|\t\tEndereço: %s\n", clientePF->endereco);
+            printf("|\t\tEmail: %s\n", clientePF->email);
+            printf("|\t\tTelefone: %s\n", clientePF->telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
+        } else {
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Cliente não encontrado!            |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
         }
     }
+    fclose(arq_cliente);
 }
 
 
