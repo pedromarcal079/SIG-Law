@@ -79,7 +79,10 @@ int menuClientePF(void) {
 
 void cadastraClientePF(void) {
     system("clear");
-    ClientePF clientePF;
+
+    ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+
     int tam;    
     FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -91,44 +94,49 @@ void cadastraClientePF(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
 
     printf("|   ===> CPF: ");
-    fgets(clientePF.cpf, sizeof(clientePF.cpf), stdin);
-    tam = strlen(clientePF.cpf);
-    clientePF.cpf[tam-1] = '\0';
+    fgets(clientePF->cpf, sizeof(clientePF->cpf), stdin);
+    tam = strlen(clientePF->cpf);
+    clientePF->cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
-    fgets(clientePF.nome, sizeof(clientePF.nome), stdin);
-    tam = strlen(clientePF.nome);
-    clientePF.nome[tam-1] = '\0';
+    fgets(clientePF->nome, sizeof(clientePF->nome), stdin);
+    tam = strlen(clientePF->nome);
+    clientePF->nome[tam-1] = '\0';
     printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(clientePF.dataNasc, sizeof(clientePF.dataNasc), stdin);
-    tam = strlen(clientePF.dataNasc);
-    clientePF.dataNasc[tam-1] = '\0';
+    fgets(clientePF->dataNasc, sizeof(clientePF->dataNasc), stdin);
+    tam = strlen(clientePF->dataNasc);
+    clientePF->dataNasc[tam-1] = '\0';
     printf("|   ===> Endereço: ");
-    fgets(clientePF.endereco, sizeof(clientePF.endereco), stdin);
-    tam = strlen(clientePF.endereco);
-    clientePF.endereco[tam-1] = '\0';
+    fgets(clientePF->endereco, sizeof(clientePF->endereco), stdin);
+    tam = strlen(clientePF->endereco);
+    clientePF->endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
-    fgets(clientePF.email, sizeof(clientePF.email), stdin);
-    tam = strlen(clientePF.email);
-    clientePF.email[tam-1] = '\0';
+    fgets(clientePF->email, sizeof(clientePF->email), stdin);
+    tam = strlen(clientePF->email);
+    clientePF->email[tam-1] = '\0';
     printf("|   ===> Telefone: ");
-    fgets(clientePF.telefone, sizeof(clientePF.telefone), stdin);
-    tam = strlen(clientePF.telefone);
-    clientePF.telefone[tam-1] = '\0';
+    fgets(clientePF->telefone, sizeof(clientePF->telefone), stdin);
+    tam = strlen(clientePF->telefone);
+    clientePF->telefone[tam-1] = '\0';
+
+    arq_cliente = fopen("clientePF.dat","ab");
+    if (arq_cliente == NULL) {
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(clientePF);
+        return;
+    }
+    fwrite(clientePF, sizeof(ClientePF), 1, arq_cliente);
+    fclose(arq_cliente);
+    free(clientePF);
 
     printf("|                                                                                             |\n");
     printf("|        Cliente cadastrado com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_cliente = fopen("clientePF.csv","at");
-    fprintf(arq_cliente, "%s;%s;%s;%s;%s;%s\n",
-        clientePF.cpf,
-        clientePF.nome,
-        clientePF.dataNasc,
-        clientePF.endereco,
-        clientePF.email,
-        clientePF.telefone
-    );
-    fclose(arq_cliente);
+
 }
 
 
