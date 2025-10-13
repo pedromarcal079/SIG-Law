@@ -283,23 +283,34 @@ void editaClientePJ(void) {
             printf("+---------------------------------------------------------------------------------------------+\n");
             printf("===> Digite sua opcao: ");
             scanf("%d", &dado);  
-            getchar();                                     
-            printf("|                                                                                             |\n");
-            printf("|   ===> Digite o novo dado: ");
-            fgets(edicao, sizeof(edicao), stdin);
-            tam = strlen(edicao);
-            edicao[tam-1] = '\0';
+            getchar();   
+            
+            if (dado < 1 || dado > 9) {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            } else {
+                printf("|                                                                                             |\n");
+                printf("|   ===> Digite o novo dado: ");
+                fgets(edicao, sizeof(edicao), stdin);
+                tam = strlen(edicao);
+                edicao[tam-1] = '\0';
 
-            switch (dado) {
-                case 1: strcpy(clientePJ->cnpj, edicao); break;
-                case 2: strcpy(clientePJ->razaoSocial, edicao); break;
-                case 3: strcpy(clientePJ->nomeFantasia, edicao); break;
-                case 4: strcpy(clientePJ->repres, edicao); break;
-                case 5: strcpy(clientePJ->cpfRepres, edicao); break;
-                case 6: strcpy(clientePJ->areaAtuacao, edicao); break;
-                case 7: strcpy(clientePJ->endereco, edicao); break;
-                case 8: strcpy(clientePJ->email, edicao); break;
-                case 9: strcpy(clientePJ->telefone, edicao); break;
+                switch (dado) {
+                    case 1: strcpy(clientePJ->cnpj, edicao); break;
+                    case 2: strcpy(clientePJ->razaoSocial, edicao); break;
+                    case 3: strcpy(clientePJ->nomeFantasia, edicao); break;
+                    case 4: strcpy(clientePJ->repres, edicao); break;
+                    case 5: strcpy(clientePJ->cpfRepres, edicao); break;
+                    case 6: strcpy(clientePJ->areaAtuacao, edicao); break;
+                    case 7: strcpy(clientePJ->endereco, edicao); break;
+                    case 8: strcpy(clientePJ->email, edicao); break;
+                    case 9: strcpy(clientePJ->telefone, edicao); break;
+                }
             }
         }
         fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
