@@ -226,7 +226,6 @@ void editaClientePF(void) {
 
     arq_cliente = fopen("clientePF.dat", "rb");
     temp_cliente = fopen("temp_clientePF.dat","wb");
-
     if (arq_cliente == NULL || temp_cliente == NULL){
         printf("\n");
         printf("+----------------------------------------------+\n");
