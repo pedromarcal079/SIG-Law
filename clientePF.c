@@ -261,19 +261,30 @@ void editaClientePF(void) {
             printf("===> Digite sua opcao: ");
             scanf("%d", &dado);  
             getchar();                                     
-            printf("|                                                                                             |\n");
-            printf("|   ===> Digite o novo dado: ");
-            fgets(edicao, sizeof(edicao), stdin);
-            tam = strlen(edicao);
-            edicao[tam-1] = '\0';
 
-            switch (dado) {
-                case 1: strcpy(clientePF->cpf, edicao); break;
-                case 2: strcpy(clientePF->nome, edicao); break;
-                case 3: strcpy(clientePF->dataNasc, edicao); break;
-                case 4: strcpy(clientePF->endereco, edicao); break;
-                case 5: strcpy(clientePF->email, edicao); break;
-                case 6: strcpy(clientePF->telefone, edicao); break;
+            if (dado < 1 || dado > 6) {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            } else {
+                printf("|                                                                                             |\n");
+                printf("|   ===> Digite o novo dado: ");
+                fgets(edicao, sizeof(edicao), stdin);
+                tam = strlen(edicao);
+                edicao[tam - 1] = '\0';
+
+                switch (dado) {
+                    case 1: strcpy(clientePF->cpf, edicao); break;
+                    case 2: strcpy(clientePF->nome, edicao); break;
+                    case 3: strcpy(clientePF->dataNasc, edicao); break;
+                    case 4: strcpy(clientePF->endereco, edicao); break;
+                    case 5: strcpy(clientePF->email, edicao); break;
+                    case 6: strcpy(clientePF->telefone, edicao); break;
+                }
             }
         }
         fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
