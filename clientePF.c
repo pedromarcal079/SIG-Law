@@ -79,12 +79,12 @@ int menuClientePF(void) {
 
 void cadastraClientePF(void) {
     system("clear");
+    FILE *arq_cliente;
 
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
     int tam;    
-    FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -142,13 +142,13 @@ void cadastraClientePF(void) {
 
 void mostraClientePF(void) {
     system("clear");
+    FILE *arq_cliente;
 
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
     char pesquisar_cpf[15];
     int tam;
-    FILE *arq_cliente;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Mostrar Cliente                                       |\n");
@@ -182,11 +182,14 @@ void mostraClientePF(void) {
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
         } else {
+            printf("\n");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|           Cliente não encontrado!            |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
+            return;
+
         }
     }
     fclose(arq_cliente);
@@ -197,10 +200,13 @@ void editaClientePF(void) {
     system("clear");
     FILE *arq_cliente;
     FILE *temp_cliente;
-    ClientePF clientePF;
+
+    ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+
     char pesquisar_cpf[15];
-    int tam;
-    int dado;
+    int tam, dado;
+    int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -213,24 +219,27 @@ void editaClientePF(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
 
-    arq_cliente = fopen("clientePF.csv", "rt");
-    temp_cliente = fopen("temp_clientePF.csv","wt");
+    arq_cliente = fopen("clientePF.dat", "rb");
+    temp_cliente = fopen("temp_clientePF.dat","wb");
 
-    while (fscanf(arq_cliente,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePF.cpf,
-        clientePF.nome,
-        clientePF.dataNasc,
-        clientePF.endereco,
-        clientePF.email,
-        clientePF.telefone) == 6){
-        
-        if (strcmp(clientePF.cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", clientePF.cpf);
-            printf("|\t\tNome: %s\n", clientePF.nome);
-            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
-            printf("|\t\tEndereço: %s\n", clientePF.endereco);
-            printf("|\t\tEmail: %s\n", clientePF.email);
-            printf("|\t\tTelefone: %s\n", clientePF.telefone);
+    if (arq_cliente == NULL || temp_cliente == NULL){
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
+        if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
+            encontrado = 1;
+            printf("|\t\tCPF: %s\n", clientePF->cpf);
+            printf("|\t\tNome: %s\n", clientePF->nome);
+            printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
+            printf("|\t\tEndereço: %s\n", clientePF->endereco);
+            printf("|\t\tEmail: %s\n", clientePF->email);
+            printf("|\t\tTelefone: %s\n", clientePF->telefone);
             printf("|                                                                                             |\n");
             
             printf("+---------------------------------------------------------------------------------------------+\n");
@@ -254,32 +263,36 @@ void editaClientePF(void) {
             edicao[tam-1] = '\0';
 
             switch (dado) {
-                case 1: strcpy(clientePF.cpf, edicao); break;
-                case 2: strcpy(clientePF.nome, edicao); break;
-                case 3: strcpy(clientePF.dataNasc, edicao); break;
-                case 4: strcpy(clientePF.endereco, edicao); break;
-                case 5: strcpy(clientePF.email, edicao); break;
-                case 6: strcpy(clientePF.telefone, edicao); break;
+                case 1: strcpy(clientePF->cpf, edicao); break;
+                case 2: strcpy(clientePF->nome, edicao); break;
+                case 3: strcpy(clientePF->dataNasc, edicao); break;
+                case 4: strcpy(clientePF->endereco, edicao); break;
+                case 5: strcpy(clientePF->email, edicao); break;
+                case 6: strcpy(clientePF->telefone, edicao); break;
             }
         }
-        fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
-            clientePF.cpf,
-            clientePF.nome,
-            clientePF.dataNasc,
-            clientePF.endereco,
-            clientePF.email,
-            clientePF.telefone
-        );
+        fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
     }
-    
     fclose(arq_cliente);
     fclose(temp_cliente);
-    remove("clientePF.csv");
-    rename("temp_clientePF.csv", "clientePF.csv");
-    printf("|                                                                                             |\n");
-    printf("|        Dados atualizados com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+
+    if(encontrado) {
+        remove("clientePF.dat");
+        rename("temp_clientePF.dat", "clientePF.dat");
+
+        printf("|                                                                                             |\n");
+        printf("|        Dados atualizados com sucesso!                                                       |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        remove("temp_clientePF.dat");
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    }
 }
 
 
