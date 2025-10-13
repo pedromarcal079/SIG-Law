@@ -185,7 +185,8 @@ void mostraClientePF(void) {
             return;
         }
     }
-    if(encontrado == 0){
+    fclose(arq_cliente);
+    if(!encontrado){
         printf("\n");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
@@ -194,7 +195,6 @@ void mostraClientePF(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
-    fclose(arq_cliente);
 }
 
 

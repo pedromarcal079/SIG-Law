@@ -4,11 +4,11 @@
 #include "clientePJ.h"
 
 typedef struct clientePJ{
-    char cnpj[20];      
+    char cnpj[21];      
     char razaoSocial[100];      // Nome legal da empresa (Ex.: The Coca-Cola Company)
     char nomeFantasia[100];     // Nome comercial da empresa (Ex.: Coca-Cola)
     char repres[50];     // Nome do representante da empresa
-    char cpfRepres[15];  // CPF do Representante
+    char cpfRepres[16];  // CPF do Representante
     char areaAtuacao[50];     // Área de atuação da empresa
     char endereco[100];         
     char email[100];         
@@ -155,10 +155,14 @@ void cadastraClientePJ(void) {
 
 void mostraClientePJ(void){
     system("clear");
-    ClientePJ clientePJ;
+    FILE *arq_empresa;
+
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
     char pesquisar_cnpj[20];
     int tam;
-    FILE *arq_empresa;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Mostrar Empresa                                          |\n");
@@ -169,34 +173,45 @@ void mostraClientePJ(void){
     fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
     tam = strlen(pesquisar_cnpj);
     pesquisar_cnpj[tam-1] = '\0';
-    arq_empresa = fopen("clientePJ.csv", "rt");
-    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone) == 9){
-        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) == 0){
-            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
-            printf("|\t\tEmail: %s\n", clientePJ.email);
-            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+
+    arq_empresa = fopen("clientePJ.dat", "rb");
+    if (arq_empresa == NULL) {
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(clientePJ);
+        return;
+    }
+
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+        if (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0){
+            encontrado = 1;
+            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
+            printf("|\t\tRepresentante: %s\n", clientePJ->repres);
+            printf("|\t\tCPF do Representante: %s\n", clientePJ->cpfRepres);
+            printf("|\t\tÁrea de Atuação: %s\n", clientePJ->areaAtuacao);
+            printf("|\t\tEndereço: %s\n", clientePJ->endereco);
+            printf("|\t\tEmail: %s\n", clientePJ->email);
+            printf("|\t\tTelefone: %s\n", clientePJ->telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
         }
     }
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    fclose(arq_empresa);
+    if (!encontrado) {
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n"); 
+        return;
+    }
 }
 
 
