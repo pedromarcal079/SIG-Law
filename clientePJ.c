@@ -45,7 +45,7 @@ void moduloClientePJ(void) {
             getchar();
             break;
         default:
-            printf("\n");
+            system("clear");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|       Você digitou uma opção inválida!       |\n");
@@ -135,7 +135,7 @@ void cadastraClientePJ(void) {
 
     arq_empresa = fopen("clientePJ.dat","ab");
     if (arq_empresa == NULL) {
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
@@ -178,7 +178,7 @@ void mostraClientePJ(void){
 
     arq_empresa = fopen("clientePJ.dat", "rb");
     if (arq_empresa == NULL) {
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
@@ -207,7 +207,7 @@ void mostraClientePJ(void){
     }
     fclose(arq_empresa);
     if (!encontrado) {
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Cliente não encontrado!            |\n");
@@ -244,7 +244,7 @@ void editaClientePJ(void) {
     arq_empresa = fopen("clientePJ.dat", "rb");
     temp_empresa = fopen("temp_clientePJ.dat", "wb");
     if (arq_empresa == NULL || temp_empresa == NULL) {
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
@@ -300,16 +300,6 @@ void editaClientePJ(void) {
                 case 7: strcpy(clientePJ->endereco, edicao); break;
                 case 8: strcpy(clientePJ->email, edicao); break;
                 case 9: strcpy(clientePJ->telefone, edicao); break;
-                default:
-                    printf("\n");
-                    printf("+----------------------------------------------+\n");
-                    printf("|                                              |\n");
-                    printf("|       Você digitou uma opção inválida!       |\n");
-                    printf("|                                              |\n");
-                    printf("+----------------------------------------------+\n");
-                    printf("Pressione ENTER ... \n");
-                    getchar();
-                    break;
             }
         }
         fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
@@ -327,7 +317,7 @@ void editaClientePJ(void) {
         printf("+---------------------------------------------------------------------------------------------+\n");
     } else {
         remove("temp_clientePJ.dat");
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Cliente não encontrado!            |\n");
@@ -376,8 +366,16 @@ void excluiClientePJ(void) {
 
             if (confi == 1) {
                 excluir = 1;
-            } else {
+            } else if (confi == 2) {
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
             }
         }
     }
@@ -386,7 +384,7 @@ void excluiClientePJ(void) {
 
     if (!encontrado) {
         remove("temp_clientePJ.dat");
-        printf("\n");
+        system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Cliente não encontrado!            |\n");
