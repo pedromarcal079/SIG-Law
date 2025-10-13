@@ -4,11 +4,11 @@
 #include "clientePJ.h"
 
 typedef struct clientePJ{
-    char cnpj[20];      
+    char cnpj[21];      
     char razaoSocial[100];      // Nome legal da empresa (Ex.: The Coca-Cola Company)
     char nomeFantasia[100];     // Nome comercial da empresa (Ex.: Coca-Cola)
     char repres[50];     // Nome do representante da empresa
-    char cpfRepres[15];  // CPF do Representante
+    char cpfRepres[16];  // CPF do Representante
     char areaAtuacao[50];     // Área de atuação da empresa
     char endereco[100];         
     char email[100];         
@@ -45,6 +45,7 @@ void moduloClientePJ(void) {
             getchar();
             break;
         default:
+            printf("\n");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|       Você digitou uma opção inválida!       |\n");
@@ -82,9 +83,12 @@ int menuClientePJ(void) {
 
 void cadastraClientePJ(void) {
     system("clear");
-    ClientePJ clientePJ;
-    int tam;
     FILE *arq_empresa;
+
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Empresa                                     |\n");
@@ -93,67 +97,74 @@ void cadastraClientePJ(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados da empresa:                                                         |\n");
     printf("|   ===> CNPJ: ");
-    fgets(clientePJ.cnpj, sizeof(clientePJ.cnpj), stdin);
-    tam = strlen(clientePJ.cnpj);
-    clientePJ.cnpj[tam-1] = '\0';
+    fgets(clientePJ->cnpj, sizeof(clientePJ->cnpj), stdin);
+    tam = strlen(clientePJ->cnpj);
+    clientePJ->cnpj[tam-1] = '\0';
     printf("|   ===> Razão Social: ");
-    fgets(clientePJ.razaoSocial, sizeof(clientePJ.razaoSocial), stdin);
-    tam = strlen(clientePJ.razaoSocial);
-    clientePJ.razaoSocial[tam-1] = '\0';
+    fgets(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), stdin);
+    tam = strlen(clientePJ->razaoSocial);
+    clientePJ->razaoSocial[tam-1] = '\0';
     printf("|   ===> Nome Fantasia: ");
-    fgets(clientePJ.nomeFantasia, sizeof(clientePJ.nomeFantasia), stdin);
-    tam = strlen(clientePJ.nomeFantasia);
-    clientePJ.nomeFantasia[tam-1] = '\0';
+    fgets(clientePJ->nomeFantasia, sizeof(clientePJ->nomeFantasia), stdin);
+    tam = strlen(clientePJ->nomeFantasia);
+    clientePJ->nomeFantasia[tam-1] = '\0';
     printf("|   ===> Nome do Representante: ");
-    fgets(clientePJ.repres, sizeof(clientePJ.repres), stdin);
-    tam = strlen(clientePJ.repres);
-    clientePJ.repres[tam-1] = '\0';
+    fgets(clientePJ->repres, sizeof(clientePJ->repres), stdin);
+    tam = strlen(clientePJ->repres);
+    clientePJ->repres[tam-1] = '\0';
     printf("|   ===> CPF do Representante: ");
-    fgets(clientePJ.cpfRepres, sizeof(clientePJ.cpfRepres), stdin);
-    tam = strlen(clientePJ.cpfRepres);
-    clientePJ.cpfRepres[tam-1] = '\0';
+    fgets(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), stdin);
+    tam = strlen(clientePJ->cpfRepres);
+    clientePJ->cpfRepres[tam-1] = '\0';
     printf("|   ===> Área de Atuação: ");
-    fgets(clientePJ.areaAtuacao, sizeof(clientePJ.areaAtuacao), stdin);
-    tam = strlen(clientePJ.areaAtuacao);
-    clientePJ.areaAtuacao[tam-1] = '\0';
+    fgets(clientePJ->areaAtuacao, sizeof(clientePJ->areaAtuacao), stdin);
+    tam = strlen(clientePJ->areaAtuacao);
+    clientePJ->areaAtuacao[tam-1] = '\0';
     printf("|   ===> Endereço: ");
-    fgets(clientePJ.endereco, sizeof(clientePJ.endereco), stdin);
-    tam = strlen(clientePJ.endereco);
-    clientePJ.endereco[tam-1] = '\0';
+    fgets(clientePJ->endereco, sizeof(clientePJ->endereco), stdin);
+    tam = strlen(clientePJ->endereco);
+    clientePJ->endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
-    fgets(clientePJ.email, sizeof(clientePJ.email), stdin);
-    tam = strlen(clientePJ.email);
-    clientePJ.email[tam-1] = '\0';
+    fgets(clientePJ->email, sizeof(clientePJ->email), stdin);
+    tam = strlen(clientePJ->email);
+    clientePJ->email[tam-1] = '\0';
     printf("|   ===> Telefone: ");
-    fgets(clientePJ.telefone, sizeof(clientePJ.telefone), stdin);
-    tam = strlen(clientePJ.telefone);
-    clientePJ.telefone[tam-1] = '\0';
+    fgets(clientePJ->telefone, sizeof(clientePJ->telefone), stdin);
+    tam = strlen(clientePJ->telefone);
+    clientePJ->telefone[tam-1] = '\0';
+
+    arq_empresa = fopen("clientePJ.dat","ab");
+    if (arq_empresa == NULL) {
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(clientePJ);
+        return;
+    }
+    fwrite(clientePJ, sizeof(ClientePJ), 1, arq_empresa);
+    fclose(arq_empresa);
+    free(clientePJ);
+
     printf("|                                                                                             |\n");
     printf("|        Empresa cadastrada com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_empresa = fopen("clientePJ.csv","at");
-    fprintf(arq_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone
-    );
-    fclose(arq_empresa);
 }
 
 
 void mostraClientePJ(void){
     system("clear");
-    ClientePJ clientePJ;
-    char pesquisar_cnpj[20];
-    int tam;
     FILE *arq_empresa;
+
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    char pesquisar_cnpj[21];
+    int tam;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Mostrar Empresa                                          |\n");
@@ -164,34 +175,46 @@ void mostraClientePJ(void){
     fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
     tam = strlen(pesquisar_cnpj);
     pesquisar_cnpj[tam-1] = '\0';
-    arq_empresa = fopen("clientePJ.csv", "rt");
-    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone) == 9){
-        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) == 0){
-            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
-            printf("|\t\tEmail: %s\n", clientePJ.email);
-            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+
+    arq_empresa = fopen("clientePJ.dat", "rb");
+    if (arq_empresa == NULL) {
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(clientePJ);
+        return;
+    }
+
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+        if (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0){
+            encontrado = 1;
+            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
+            printf("|\t\tRepresentante: %s\n", clientePJ->repres);
+            printf("|\t\tCPF do Representante: %s\n", clientePJ->cpfRepres);
+            printf("|\t\tÁrea de Atuação: %s\n", clientePJ->areaAtuacao);
+            printf("|\t\tEndereço: %s\n", clientePJ->endereco);
+            printf("|\t\tEmail: %s\n", clientePJ->email);
+            printf("|\t\tTelefone: %s\n", clientePJ->telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
         }
     }
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    fclose(arq_empresa);
+    if (!encontrado) {
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n"); 
+        return;
+    }
 }
 
 
@@ -199,10 +222,13 @@ void editaClientePJ(void) {
     system("clear");
     FILE *arq_empresa;
     FILE *temp_empresa;
-    ClientePJ clientePJ;
-    char pesquisar_cnpj[15];
-    int tam;
-    int dado;
+
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    char pesquisar_cnpj[21];
+    int tam, dado;
+    int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -215,30 +241,30 @@ void editaClientePJ(void) {
     tam = strlen(pesquisar_cnpj);
     pesquisar_cnpj[tam-1] = '\0';
 
-    arq_empresa = fopen("clientePJ.csv", "rt");
-    temp_empresa = fopen("temp_clientePJ.csv", "wt");
+    arq_empresa = fopen("clientePJ.dat", "rb");
+    temp_empresa = fopen("temp_clientePJ.dat", "wb");
+    if (arq_empresa == NULL || temp_empresa == NULL) {
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
 
-    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone) == 9){
-        
-        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) == 0){
-            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
-            printf("|\t\tEmail: %s\n", clientePJ.email);
-            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+        if (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0){
+            encontrado = 1;
+            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
+            printf("|\t\tRepresentante: %s\n", clientePJ->repres);
+            printf("|\t\tCPF do Representante: %s\n", clientePJ->cpfRepres);
+            printf("|\t\tÁrea de Atuação: %s\n", clientePJ->areaAtuacao);
+            printf("|\t\tEndereço: %s\n", clientePJ->endereco);
+            printf("|\t\tEmail: %s\n", clientePJ->email);
+            printf("|\t\tTelefone: %s\n", clientePJ->telefone);
             printf("|                                                                                             |\n");
 
             printf("+---------------------------------------------------------------------------------------------+\n");
@@ -265,49 +291,62 @@ void editaClientePJ(void) {
             edicao[tam-1] = '\0';
 
             switch (dado) {
-                case 1: strcpy(clientePJ.cnpj, edicao); break;
-                case 2: strcpy(clientePJ.razaoSocial, edicao); break;
-                case 3: strcpy(clientePJ.nomeFantasia, edicao); break;
-                case 4: strcpy(clientePJ.repres, edicao); break;
-                case 5: strcpy(clientePJ.cpfRepres, edicao); break;
-                case 6: strcpy(clientePJ.areaAtuacao, edicao); break;
-                case 7: strcpy(clientePJ.endereco, edicao); break;
-                case 8: strcpy(clientePJ.email, edicao); break;
-                case 9: strcpy(clientePJ.telefone, edicao); break;
+                case 1: strcpy(clientePJ->cnpj, edicao); break;
+                case 2: strcpy(clientePJ->razaoSocial, edicao); break;
+                case 3: strcpy(clientePJ->nomeFantasia, edicao); break;
+                case 4: strcpy(clientePJ->repres, edicao); break;
+                case 5: strcpy(clientePJ->cpfRepres, edicao); break;
+                case 6: strcpy(clientePJ->areaAtuacao, edicao); break;
+                case 7: strcpy(clientePJ->endereco, edicao); break;
+                case 8: strcpy(clientePJ->email, edicao); break;
+                case 9: strcpy(clientePJ->telefone, edicao); break;
+                default:
+                    printf("\n");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|       Você digitou uma opção inválida!       |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    printf("Pressione ENTER ... \n");
+                    getchar();
+                    break;
             }
         }
-        fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-            clientePJ.cnpj,
-            clientePJ.razaoSocial,
-            clientePJ.nomeFantasia,
-            clientePJ.repres,
-            clientePJ.cpfRepres,
-            clientePJ.areaAtuacao,
-            clientePJ.endereco,
-            clientePJ.email,
-            clientePJ.telefone
-        );
+        fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
     }
-    
     fclose(arq_empresa);
     fclose(temp_empresa);
-    remove("clientePJ.csv");
-    rename("temp_clientePJ.csv", "clientePJ.csv");
-    printf("|                                                                                             |\n");
-    printf("|        Dados atualizados com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
-}
 
+    if (encontrado) {
+        remove("clientePJ.dat");
+        rename("temp_clientePJ.dat", "clientePJ.dat");
+
+        printf("|                                                                                             |\n");
+        printf("|        Dados atualizados com sucesso!                                                       |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        remove("temp_clientePJ.dat");
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    }
+}
 
 void excluiClientePJ(void) {
     system("clear");
     FILE *arq_empresa;
     FILE *temp_empresa;
-    ClientePJ clientePJ;
-    char pesquisar_cnpj[15];
-    int tam;
-    int confi;
+    
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    char pesquisar_cnpj[21];
+    int tam, confi;
+    int encontrado = 0, excluir = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Empresa                                          |\n");
@@ -319,77 +358,53 @@ void excluiClientePJ(void) {
     tam = strlen(pesquisar_cnpj);
     pesquisar_cnpj[tam-1] = '\0';
 
-    arq_empresa = fopen("clientePJ.csv", "rt");
-    temp_empresa = fopen("temp_clientePJ.csv", "wt");
+    arq_empresa = fopen("clientePJ.dat", "rb");
+    temp_empresa = fopen("temp_clientePJ.dat", "wb");
 
-    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone) == 9){
-        
-        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) != 0){
-            fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-                clientePJ.cnpj,
-                clientePJ.razaoSocial,
-                clientePJ.nomeFantasia,
-                clientePJ.repres,
-                clientePJ.cpfRepres,
-                clientePJ.areaAtuacao,
-                clientePJ.endereco,
-                clientePJ.email,
-                clientePJ.telefone
-            );
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+        if (strcmp(clientePJ->cnpj, pesquisar_cnpj) != 0){
+            fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
         } else {
-            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
-            printf("|\t\tEmail: %s\n", clientePJ.email);
-            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+            encontrado = 1;
+            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
-            if (confi == 2) {
-                fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-                    clientePJ.cnpj,
-                    clientePJ.razaoSocial,
-                    clientePJ.nomeFantasia,
-                    clientePJ.repres,
-                    clientePJ.cpfRepres,
-                    clientePJ.areaAtuacao,
-                    clientePJ.endereco,
-                    clientePJ.email,
-                    clientePJ.telefone
-                );
-            }  
+            if (confi == 1) {
+                excluir = 1;
+            } else {
+                fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+            }
         }
     }
     fclose(arq_empresa);
     fclose(temp_empresa);
-    remove("clientePJ.csv");
-    rename("temp_clientePJ.csv", "clientePJ.csv");
-    
-    if (confi == 1){
+
+    if (!encontrado) {
+        remove("temp_clientePJ.dat");
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    } else if (excluir){
+        remove("clientePJ.dat");
+        rename("temp_clientePJ.dat", "clientePJ.dat");
+
         printf("|                                                                                             |\n");
         printf("|        Cliente excluido com sucesso!                                                        |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     } else {
+        remove("temp_clientePJ.dat");
         printf("|                                                                                             |\n");
         printf("|        Exclusão cancelada!                                                                  |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     }
-    
 }
