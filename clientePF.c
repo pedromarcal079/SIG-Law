@@ -4,7 +4,7 @@
 #include "clientePF.h"
 
 typedef struct clientePF{
-    char cpf[15];
+    char cpf[16];
     char nome[50];
     char dataNasc[13];
     char endereco[100];
@@ -42,6 +42,7 @@ void moduloClientePF(void){
             getchar();
             break;
         default:
+            printf("\n");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|       Você digitou uma opção inválida!       |\n");
@@ -120,6 +121,7 @@ void cadastraClientePF(void) {
 
     arq_cliente = fopen("clientePF.dat","ab");
     if (arq_cliente == NULL) {
+        printf("\n");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
@@ -163,6 +165,7 @@ void mostraClientePF(void) {
 
     arq_cliente = fopen("clientePF.dat", "rb");
     if (arq_cliente == NULL) {
+        printf("\n");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
@@ -225,6 +228,7 @@ void editaClientePF(void) {
     temp_cliente = fopen("temp_clientePF.dat","wb");
 
     if (arq_cliente == NULL || temp_cliente == NULL){
+        printf("\n");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
