@@ -82,9 +82,12 @@ int menuClientePJ(void) {
 
 void cadastraClientePJ(void) {
     system("clear");
-    ClientePJ clientePJ;
-    int tam;
     FILE *arq_empresa;
+
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Empresa                                     |\n");
@@ -93,58 +96,60 @@ void cadastraClientePJ(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados da empresa:                                                         |\n");
     printf("|   ===> CNPJ: ");
-    fgets(clientePJ.cnpj, sizeof(clientePJ.cnpj), stdin);
-    tam = strlen(clientePJ.cnpj);
-    clientePJ.cnpj[tam-1] = '\0';
+    fgets(clientePJ->cnpj, sizeof(clientePJ->cnpj), stdin);
+    tam = strlen(clientePJ->cnpj);
+    clientePJ->cnpj[tam-1] = '\0';
     printf("|   ===> Razão Social: ");
-    fgets(clientePJ.razaoSocial, sizeof(clientePJ.razaoSocial), stdin);
-    tam = strlen(clientePJ.razaoSocial);
-    clientePJ.razaoSocial[tam-1] = '\0';
+    fgets(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), stdin);
+    tam = strlen(clientePJ->razaoSocial);
+    clientePJ->razaoSocial[tam-1] = '\0';
     printf("|   ===> Nome Fantasia: ");
-    fgets(clientePJ.nomeFantasia, sizeof(clientePJ.nomeFantasia), stdin);
-    tam = strlen(clientePJ.nomeFantasia);
-    clientePJ.nomeFantasia[tam-1] = '\0';
+    fgets(clientePJ->nomeFantasia, sizeof(clientePJ->nomeFantasia), stdin);
+    tam = strlen(clientePJ->nomeFantasia);
+    clientePJ->nomeFantasia[tam-1] = '\0';
     printf("|   ===> Nome do Representante: ");
-    fgets(clientePJ.repres, sizeof(clientePJ.repres), stdin);
-    tam = strlen(clientePJ.repres);
-    clientePJ.repres[tam-1] = '\0';
+    fgets(clientePJ->repres, sizeof(clientePJ->repres), stdin);
+    tam = strlen(clientePJ->repres);
+    clientePJ->repres[tam-1] = '\0';
     printf("|   ===> CPF do Representante: ");
-    fgets(clientePJ.cpfRepres, sizeof(clientePJ.cpfRepres), stdin);
-    tam = strlen(clientePJ.cpfRepres);
-    clientePJ.cpfRepres[tam-1] = '\0';
+    fgets(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), stdin);
+    tam = strlen(clientePJ->cpfRepres);
+    clientePJ->cpfRepres[tam-1] = '\0';
     printf("|   ===> Área de Atuação: ");
-    fgets(clientePJ.areaAtuacao, sizeof(clientePJ.areaAtuacao), stdin);
-    tam = strlen(clientePJ.areaAtuacao);
-    clientePJ.areaAtuacao[tam-1] = '\0';
+    fgets(clientePJ->areaAtuacao, sizeof(clientePJ->areaAtuacao), stdin);
+    tam = strlen(clientePJ->areaAtuacao);
+    clientePJ->areaAtuacao[tam-1] = '\0';
     printf("|   ===> Endereço: ");
-    fgets(clientePJ.endereco, sizeof(clientePJ.endereco), stdin);
-    tam = strlen(clientePJ.endereco);
-    clientePJ.endereco[tam-1] = '\0';
+    fgets(clientePJ->endereco, sizeof(clientePJ->endereco), stdin);
+    tam = strlen(clientePJ->endereco);
+    clientePJ->endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
-    fgets(clientePJ.email, sizeof(clientePJ.email), stdin);
-    tam = strlen(clientePJ.email);
-    clientePJ.email[tam-1] = '\0';
+    fgets(clientePJ->email, sizeof(clientePJ->email), stdin);
+    tam = strlen(clientePJ->email);
+    clientePJ->email[tam-1] = '\0';
     printf("|   ===> Telefone: ");
-    fgets(clientePJ.telefone, sizeof(clientePJ.telefone), stdin);
-    tam = strlen(clientePJ.telefone);
-    clientePJ.telefone[tam-1] = '\0';
+    fgets(clientePJ->telefone, sizeof(clientePJ->telefone), stdin);
+    tam = strlen(clientePJ->telefone);
+    clientePJ->telefone[tam-1] = '\0';
+
+    arq_empresa = fopen("clientePJ.dat","ab");
+    if (arq_empresa == NULL) {
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(clientePJ);
+        return;
+    }
+    fwrite(clientePJ, sizeof(ClientePJ), 1, arq_empresa);
+    fclose(arq_empresa);
+    free(clientePJ);
+
     printf("|                                                                                             |\n");
     printf("|        Empresa cadastrada com sucesso!                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_empresa = fopen("clientePJ.csv","at");
-    fprintf(arq_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone
-    );
-    fclose(arq_empresa);
 }
 
 
