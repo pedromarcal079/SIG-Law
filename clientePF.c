@@ -302,10 +302,13 @@ void excluiClientePF(void) {
     system("clear");
     FILE *arq_cliente;
     FILE *temp_cliente;
-    ClientePF clientePF;
+
+    ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+
     char pesquisar_cpf[15];
-    int tam;
-    int confi;
+    int tam, confi;
+    int encontrado = 0, excluir = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Excluir Cliente                                      |\n");
@@ -317,61 +320,48 @@ void excluiClientePF(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
 
-    arq_cliente = fopen("clientePF.csv", "rt");
-    temp_cliente = fopen("temp_clientePF.csv","wt");
+    arq_cliente = fopen("clientePF.dat","rb");
+    temp_cliente = fopen("temp_clientePF.dat","wb");
 
-    while (fscanf(arq_cliente,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePF.cpf,
-        clientePF.nome,
-        clientePF.dataNasc,
-        clientePF.endereco,
-        clientePF.email,
-        clientePF.telefone) == 6){
-            
-        if (strcmp(clientePF.cpf, pesquisar_cpf) != 0){
-            fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
-                clientePF.cpf,
-                clientePF.nome,
-                clientePF.dataNasc,
-                clientePF.endereco,
-                clientePF.email,
-                clientePF.telefone
-            );
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+        if (strcmp(clientePF->cpf, pesquisar_cpf) != 0){
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
         } else {
-            printf("|\t\tCPF: %s\n", clientePF.cpf);
-            printf("|\t\tNome: %s\n", clientePF.nome);
-            printf("|\t\tData de Nascimento: %s\n", clientePF.dataNasc);
-            printf("|\t\tEndereço: %s\n", clientePF.endereco);
-            printf("|\t\tEmail: %s\n", clientePF.email);
-            printf("|\t\tTelefone: %s\n", clientePF.telefone);
+            encontrado = 1;
+            printf("|\t\tCPF: %s\n", clientePF->cpf);
+            printf("|\t\tNome: %s\n", clientePF->nome);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
-            if (confi == 2) {
-                fprintf(temp_cliente, "%s;%s;%s;%s;%s;%s\n",
-                    clientePF.cpf,
-                    clientePF.nome,
-                    clientePF.dataNasc,
-                    clientePF.endereco,
-                    clientePF.email,
-                    clientePF.telefone
-                );
+            if (confi == 1) {
+                excluir = 1;
+            } else {
+                fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
             }
         }
     }
     fclose(arq_cliente);
     fclose(temp_cliente);
-    remove("clientePF.csv");
-    rename("temp_clientePF.csv", "clientePF.csv");
-
-    if (confi == 1){
+    
+    if (!encontrado){
+        remove("temp_clientePF.dat");
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n"); 
+    } else if (excluir){
+        remove("clientePF.dat");
+        rename("temp_clientePF.dat", "clientePF.dat");
         printf("|                                                                                             |\n");
         printf("|        Cliente excluido com sucesso!                                                        |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     } else {
+        remove("temp_clientePF.dat");
         printf("|                                                                                             |\n");
         printf("|        Exclusão cancelada!                                                                  |\n");
         printf("|                                                                                             |\n");
