@@ -340,10 +340,13 @@ void excluiClientePJ(void) {
     system("clear");
     FILE *arq_empresa;
     FILE *temp_empresa;
-    ClientePJ clientePJ;
-    char pesquisar_cnpj[15];
-    int tam;
-    int confi;
+    
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+
+    char pesquisar_cnpj[21];
+    int tam, confi;
+    int encontrado = 0, excluir = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Empresa                                          |\n");
@@ -355,77 +358,53 @@ void excluiClientePJ(void) {
     tam = strlen(pesquisar_cnpj);
     pesquisar_cnpj[tam-1] = '\0';
 
-    arq_empresa = fopen("clientePJ.csv", "rt");
-    temp_empresa = fopen("temp_clientePJ.csv", "wt");
+    arq_empresa = fopen("clientePJ.dat", "rb");
+    temp_empresa = fopen("temp_clientePJ.dat", "wb");
 
-    while (fscanf(arq_empresa,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        clientePJ.cnpj,
-        clientePJ.razaoSocial,
-        clientePJ.nomeFantasia,
-        clientePJ.repres,
-        clientePJ.cpfRepres,
-        clientePJ.areaAtuacao,
-        clientePJ.endereco,
-        clientePJ.email,
-        clientePJ.telefone) == 9){
-        
-        if (strcmp(clientePJ.cnpj, pesquisar_cnpj) != 0){
-            fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-                clientePJ.cnpj,
-                clientePJ.razaoSocial,
-                clientePJ.nomeFantasia,
-                clientePJ.repres,
-                clientePJ.cpfRepres,
-                clientePJ.areaAtuacao,
-                clientePJ.endereco,
-                clientePJ.email,
-                clientePJ.telefone
-            );
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+        if (strcmp(clientePJ->cnpj, pesquisar_cnpj) != 0){
+            fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
         } else {
-            printf("|\t\tCNPJ: %s\n", clientePJ.cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ.razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ.nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ.repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ.cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ.areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ.endereco);
-            printf("|\t\tEmail: %s\n", clientePJ.email);
-            printf("|\t\tTelefone: %s\n", clientePJ.telefone);
+            encontrado = 1;
+            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
-            if (confi == 2) {
-                fprintf(temp_empresa, "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-                    clientePJ.cnpj,
-                    clientePJ.razaoSocial,
-                    clientePJ.nomeFantasia,
-                    clientePJ.repres,
-                    clientePJ.cpfRepres,
-                    clientePJ.areaAtuacao,
-                    clientePJ.endereco,
-                    clientePJ.email,
-                    clientePJ.telefone
-                );
-            }  
+            if (confi == 1) {
+                excluir = 1;
+            } else {
+                fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+            }
         }
     }
     fclose(arq_empresa);
     fclose(temp_empresa);
-    remove("clientePJ.csv");
-    rename("temp_clientePJ.csv", "clientePJ.csv");
-    
-    if (confi == 1){
+
+    if (!encontrado) {
+        remove("temp_clientePJ.dat");
+        printf("\n");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    } else if (excluir){
+        remove("clientePJ.dat");
+        rename("temp_clientePJ.dat", "clientePJ.dat");
+
         printf("|                                                                                             |\n");
         printf("|        Cliente excluido com sucesso!                                                        |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     } else {
+        remove("temp_clientePJ.dat");
         printf("|                                                                                             |\n");
         printf("|        Exclusão cancelada!                                                                  |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     }
-    
 }
