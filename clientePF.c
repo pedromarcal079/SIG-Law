@@ -149,7 +149,7 @@ void mostraClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[15];
+    char pesquisar_cpf[16];
     int tam;
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -209,7 +209,7 @@ void editaClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[15];
+    char pesquisar_cpf[16];
     int tam, dado;
     int encontrado = 0;
     char edicao[100];
@@ -309,7 +309,7 @@ void excluiClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[15];
+    char pesquisar_cpf[16];
     int tam, confi;
     int encontrado = 0, excluir = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
