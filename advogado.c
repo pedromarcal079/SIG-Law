@@ -195,7 +195,7 @@ void mostraAdvogado(void){
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
-        printf("|           Cliente não encontrado!            |\n");
+        printf("|           Advogado não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
         return;
@@ -209,10 +209,11 @@ void editaAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
     FILE *temp_advogado;
-    Advogado advogado;
+    Advogado *advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
-    int tam;
-    int dado;
+    int tam, dado;
+    int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -225,31 +226,30 @@ void editaAdvogado(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
 
-    arq_advogado = fopen("advogado.csv", "rt");
-    temp_advogado = fopen("temp_advogado.csv", "wt");
+    arq_advogado = fopen("advogado.dat", "rb");
+    temp_advogado = fopen("temp_advogado.dat", "wb");
+    if (arq_advogado == NULL || temp_advogado == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
 
-    while (fscanf(arq_advogado,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", 
-        advogado.cpf,
-        advogado.nome,
-        advogado.carteiraOAB,
-        advogado.especialidade,
-        advogado.dataNasc,
-        advogado.endereco,
-        advogado.email,
-        advogado.telefone) == 8){
-        
-        if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
-
-            printf("|\t\tCPF: %s\n", advogado.cpf);
-            printf("|\t\tNome: %s\n", advogado.nome);
-            printf("|\t\tCarteira OAB: %s\n", advogado.carteiraOAB);
-            printf("|\t\tEspecialidade: %s\n", advogado.especialidade);
-            printf("|\t\tData de Nascimento: %s\n", advogado.dataNasc);
-            printf("|\t\tEndereço: %s\n", advogado.endereco);
-            printf("|\t\tEmail: %s\n", advogado.email);
-            printf("|\t\tTelefone: %s\n", advogado.telefone);
+    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1) {
+        if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
+            encontrado = 1;
+            printf("|\t\tCPF: %s\n", advogado->cpf);
+            printf("|\t\tNome: %s\n", advogado->nome);
+            printf("|\t\tCarteira OAB: %s\n", advogado->carteiraOAB);
+            printf("|\t\tEspecialidade: %s\n", advogado->especialidade);
+            printf("|\t\tData de Nascimento: %s\n", advogado->dataNasc);
+            printf("|\t\tEndereço: %s\n", advogado->endereco);
+            printf("|\t\tEmail: %s\n", advogado->email);
+            printf("|\t\tTelefone: %s\n", advogado->telefone);
             printf("|                                                                                             |\n");
-            
             printf("+---------------------------------------------------------------------------------------------+\n");
             printf("|                                                                                             |\n");
             printf("|   ===> Qual dado você deseja editar?                                                        |\n");
@@ -266,43 +266,56 @@ void editaAdvogado(void) {
             printf("===> Digite sua opcao: ");
             scanf("%d", &dado);  
             getchar();                                     
-            printf("|                                                                                             |\n");
-            printf("|   ===> Digite o novo dado: ");
-            fgets(edicao, sizeof(edicao), stdin);
-            tam = strlen(edicao);
-            edicao[tam-1] = '\0';
 
-            switch(dado) {
-                case 1: strcpy(advogado.cpf, edicao); break; //esse strcpy faz uma cópia do novo valor para o campo correto da struct
-                case 2: strcpy(advogado.nome, edicao); break;
-                case 3: strcpy(advogado.carteiraOAB, edicao); break;
-                case 4: strcpy(advogado.especialidade, edicao); break;
-                case 5: strcpy(advogado.dataNasc, edicao); break;
-                case 6: strcpy(advogado.endereco, edicao); break;
-                case 7: strcpy(advogado.email, edicao); break;
-                case 8: strcpy(advogado.telefone, edicao); break;
+            if (dado < 1 || dado > 6) {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            } else {
+                printf("|                                                                                             |\n");
+                printf("|   ===> Digite o novo dado: ");
+                fgets(edicao, sizeof(edicao), stdin);
+                tam = strlen(edicao);
+                edicao[tam - 1] = '\0';
+
+                switch (dado) {
+                    case 1: strcpy(advogado->cpf, edicao); break;
+                    case 2: strcpy(advogado->nome, edicao); break;
+                    case 3: strcpy(advogado->carteiraOAB, edicao); break;
+                    case 4: strcpy(advogado->especialidade, edicao); break;
+                    case 5: strcpy(advogado->dataNasc, edicao); break;
+                    case 6: strcpy(advogado->endereco, edicao); break;
+                    case 7: strcpy(advogado->email, edicao); break;
+                    case 8: strcpy(advogado->telefone, edicao); break;
+                }
             }
         }
-        fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s;%s\n",
-            advogado.cpf,
-            advogado.nome,
-            advogado.carteiraOAB,
-            advogado.especialidade,
-            advogado.dataNasc,
-            advogado.endereco,
-            advogado.email,
-            advogado.telefone
-        );
+        fwrite(advogado, sizeof(advogado), 1, temp_advogado);
     }
-
     fclose(arq_advogado);
     fclose(temp_advogado);
-    remove("advogado.csv");
-    rename("temp_advogado.csv", "advogado.csv");
-    printf("|                                                                                             |\n");
-    printf("|        Dados atualizados com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+
+    if(encontrado) {
+        remove("advogado.dat");
+        rename("temp_advogado.dat", "advogado.dat");
+
+        printf("|                                                                                             |\n");
+        printf("|        Dados atualizados com sucesso!                                                       |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        remove("temp_advogado.dat");
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Advogado não encontrado!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    }
 }
 
 
