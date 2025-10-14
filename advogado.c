@@ -149,10 +149,12 @@ void cadastraAdvogado(void) {
 
 void mostraAdvogado(void){
     system("clear");
-    Advogado advogado;
+    FILE *arq_advogado;
+    Advogado *advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
     int tam;
-    FILE *arq_advogado;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Mostrar Advogado                                         |\n");
@@ -162,30 +164,41 @@ void mostraAdvogado(void){
     fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
-    arq_advogado = fopen("advogado.csv", "rt");
-    while (fscanf(arq_advogado,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        advogado.cpf,
-        advogado.nome,
-        advogado.carteiraOAB, 
-        advogado.especialidade,
-        advogado.dataNasc,
-        advogado.endereco,
-        advogado.email,
-        advogado.telefone
-    )){
-        if (strcmp(advogado.cpf, pesquisar_cpf) == 0){
-            printf("|\t\tCPF: %s\n", advogado.cpf);
-            printf("|\t\tNome: %s\n", advogado.nome);
-            printf("|\t\tCarteira OAB: %s\n", advogado.carteiraOAB);
-            printf("|\t\tEspecialidade: %s\n", advogado.especialidade);
-            printf("|\t\tData de Nascimento: %s\n", advogado.dataNasc);
-            printf("|\t\tEndereço: %s\n", advogado.endereco);
-            printf("|\t\tEmail: %s\n", advogado.email);
-            printf("|\t\tTelefone: %s\n", advogado.telefone);
+    arq_advogado = fopen("advogado.dat", "rb");
+    if (arq_advogado == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1) {
+        if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
+            encontrado = 1;
+            printf("|\t\tCPF: %s\n", advogado->cpf);
+            printf("|\t\tNome: %s\n", advogado->nome);
+            printf("|\t\tCarteira OAB: %s\n", advogado->carteiraOAB);
+            printf("|\t\tEspecialidade: %s\n", advogado->especialidade);
+            printf("|\t\tData de Nascimento: %s\n", advogado->dataNasc);
+            printf("|\t\tEndereço: %s\n", advogado->endereco);
+            printf("|\t\tEmail: %s\n", advogado->email);
+            printf("|\t\tTelefone: %s\n", advogado->telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
         }
+    }
+    fclose(arq_advogado);
+    if(!encontrado){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
     }
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
