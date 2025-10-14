@@ -77,7 +77,6 @@ void cadastraProcessoPF(void) {
     system("clear");
     ProcessoPF processoPF;
     int tam;
-    int id = 0;
     FILE *arq_processoPF;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -94,13 +93,11 @@ void cadastraProcessoPF(void) {
     fgets(processoPF.data, sizeof(processoPF.data), stdin);
     tam = strlen(processoPF.data);
     processoPF.data[tam-1] = '\0';
-    id++;
     printf("|                                                                                             |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_processoPF = fopen("processoPF.csv","at");
-    fscanf(arq_processoPF, "%d;%s;%s\n", id, processoPF.tipo, processoPF.data);
-    fprintf(arq_processoPF, "%d;", id);
+    fscanf(arq_processoPF, "%s;%s\n", processoPF.tipo, processoPF.data);
     fprintf(arq_processoPF, "%s;", processoPF.tipo);
     fprintf(arq_processoPF, "%s\n", processoPF.data);
     fclose(arq_processoPF);
@@ -124,23 +121,12 @@ void mostraProcessoPF(void) {
     tam = strlen(procNum);
     procNum[tam-1] = '\0';
     arq_processoPF = fopen("processoPF.csv", "rt");
-    while (fscanf(arq_processoPF,"%[^;];%[^\n]\n",
-        processoPF.tipo;
-        processoPf.data;
-    )){
-        if (strcmp(processoPF.id, procNum) == 0){
-            printf("|\t\tCPF: %s\n", advogado.cpf);
-            printf("|\t\tNome: %s\n", advogado.nome);
-            printf("|\t\tCarteira OAB: %s\n", advogado.carteiraOAB);
-            printf("|\t\tEspecialidade: %s\n", advogado.especialidade);
-            printf("|\t\tData de Nascimento: %s\n", advogado.dataNasc);
-            printf("|\t\tEndereço: %s\n", advogado.endereco);
-            printf("|\t\tEmail: %s\n", advogado.email);
-            printf("|\t\tTelefone: %s\n", advogado.telefone);
-            printf("|                                                                                             |\n");
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            return;
-        }
+    while (fscanf(arq_processoPF,"%[^;];%[^\n]\n",processoPF.tipo, processoPF.data)){
+        printf("|\t\tEmail: %s\n", processoPF.tipo);
+        printf("|\t\tTelefone: %s\n", processoPF.data);
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+        return;
     }
     printf("|                                                                                             |\n");
     printf("|        Tipo de processo: Civil                                                              |\n");
