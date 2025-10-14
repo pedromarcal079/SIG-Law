@@ -3,6 +3,11 @@
 #include <string.h>
 #include "processosPF.h"
 
+    typedef struct processoPF{
+        char tipo[50];
+        char data[50];
+    } ProcessoPF;
+
 void moduloProcPF(void) {
     int procPfOpcao;
     do {
@@ -70,8 +75,7 @@ int menuProcessoPF(void) {
 
 void cadastraProcessoPF(void) {
     system("clear");
-    char tipo[50];
-    char data[50];
+    ProcessoPF processoPF;
     int tam;
     FILE *arq_processoPF;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -82,28 +86,30 @@ void cadastraProcessoPF(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do processo:                                                        |\n");
     printf("|   ===> Tipo de processo: ");
-    fgets(tipo, sizeof(tipo), stdin);
-    tam = strlen(tipo);
-    tipo[tam-1] = '\0';
+    fgets(processoPF.tipo, sizeof(processoPF.tipo), stdin);
+    tam = strlen(processoPF.tipo);
+    processoPF.tipo[tam-1] = '\0';
     printf("|   ===> Data de abertura: ");
-    fgets(data, sizeof(data), stdin);
-    tam = strlen(data);
-    data[tam-1] = '\0';
+    fgets(processoPF.data, sizeof(processoPF.data), stdin);
+    tam = strlen(processoPF.data);
+    processoPF.data[tam-1] = '\0';
     printf("|                                                                                             |\n");
-    printf("|        Processo cadastrado com sucesso!                                                     |\n");
-    printf("|        O número desse processo é: 00000                                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     arq_processoPF = fopen("processoPF.csv","at");
-    fprintf(arq_processoPF, "%s;", tipo);
-    fprintf(arq_processoPF, "%s\n", data);
+    fscanf(arq_processoPF, "%s;%s\n", processoPF.tipo, processoPF.data);
+    fprintf(arq_processoPF, "%s;", processoPF.tipo);
+    fprintf(arq_processoPF, "%s\n", processoPF.data);
     fclose(arq_processoPF);
 }
 
 
 void mostraProcessoPF(void) {
     system("clear");
+    FILE* arq_processoPF;
+    ProcessoPF processoPF;
     char procNum[15];
+    int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                  Mostrar Processo PF                                        |\n");
@@ -112,6 +118,16 @@ void mostraProcessoPF(void) {
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o número do processo: ");
     fgets(procNum, sizeof(procNum), stdin);
+    tam = strlen(procNum);
+    procNum[tam-1] = '\0';
+    arq_processoPF = fopen("processoPF.csv", "rt");
+    while (fscanf(arq_processoPF,"%[^;];%[^\n]\n",processoPF.tipo, processoPF.data)){
+        printf("|\t\tEmail: %s\n", processoPF.tipo);
+        printf("|\t\tTelefone: %s\n", processoPF.data);
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+        return;
+    }
     printf("|                                                                                             |\n");
     printf("|        Tipo de processo: Civil                                                              |\n");
     printf("|        Data de abertura: 31/08/2025                                                         |\n");
