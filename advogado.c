@@ -83,9 +83,10 @@ int menuAdvogado(void) {
 
 void cadastraAdvogado(void) {
     system("clear");
-    Advogado advogado;
+    Advogado *advogado;
     int tam;
     FILE *arq_advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Advogado                                       |\n");
@@ -94,53 +95,55 @@ void cadastraAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do advogado:                                                        |\n");
     printf("|   ===> CPF: ");
-    fgets(advogado.cpf, sizeof(advogado.cpf), stdin);
-    tam = strlen(advogado.cpf);
-    advogado.cpf[tam-1] = '\0';
+    fgets(advogado->cpf, sizeof(advogado->cpf), stdin);
+    tam = strlen(advogado->cpf);
+    advogado->cpf[tam-1] = '\0';
     printf("|   ===> Nome: ");
-    fgets(advogado.nome, sizeof(advogado.nome), stdin);
-    tam = strlen(advogado.nome);
-    advogado.nome[tam-1] = '\0';
+    fgets(advogado->nome, sizeof(advogado->nome), stdin);
+    tam = strlen(advogado->nome);
+    advogado->nome[tam-1] = '\0';
     printf("|   ===> Carteira OAB: ");
-    fgets(advogado.carteiraOAB, sizeof(advogado.carteiraOAB), stdin);
-    tam = strlen(advogado.carteiraOAB);
-    advogado.carteiraOAB[tam-1] = '\0';
+    fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
+    tam = strlen(advogado->carteiraOAB);
+    advogado->carteiraOAB[tam-1] = '\0';
     printf("|   ===> Especialidade: ");
-    fgets(advogado.especialidade, sizeof(advogado.especialidade), stdin);
-    tam = strlen(advogado.especialidade);
-    advogado.especialidade[tam-1] = '\0';
+    fgets(advogado->especialidade, sizeof(advogado->especialidade), stdin);
+    tam = strlen(advogado->especialidade);
+    advogado->especialidade[tam-1] = '\0';
     printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(advogado.dataNasc, sizeof(advogado.dataNasc), stdin);
-    tam = strlen(advogado.dataNasc);
-    advogado.dataNasc[tam-1] = '\0';
+    fgets(advogado->dataNasc, sizeof(advogado->dataNasc), stdin);
+    tam = strlen(advogado->dataNasc);
+    advogado->dataNasc[tam-1] = '\0';
     printf("|   ===> Endereço: ");
-    fgets(advogado.endereco, sizeof(advogado.endereco), stdin);
-    tam = strlen(advogado.endereco);
-    advogado.endereco[tam-1] = '\0';
+    fgets(advogado->endereco, sizeof(advogado->endereco), stdin);
+    tam = strlen(advogado->endereco);
+    advogado->endereco[tam-1] = '\0';
     printf("|   ===> Email: ");
-    fgets(advogado.email, sizeof(advogado.email), stdin);
-    tam = strlen(advogado.email);
-    advogado.email[tam-1] = '\0';
+    fgets(advogado->email, sizeof(advogado->email), stdin);
+    tam = strlen(advogado->email);
+    advogado->email[tam-1] = '\0';
     printf("|   ===> Telefone: ");
-    fgets(advogado.telefone, sizeof(advogado.telefone), stdin);
-    tam = strlen(advogado.telefone);
-    advogado.telefone[tam-1] = '\0';
+    fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
+    tam = strlen(advogado->telefone);
+    advogado->telefone[tam-1] = '\0';
     printf("|                                                                                             |\n");
     printf("|        Advogado cadastrado com sucesso!                                                     |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_advogado = fopen("advogado.csv","at");
-    fprintf(arq_advogado, "%s;%s;%s;%s;%s;%s;%s;%s\n",
-        advogado.cpf, 
-        advogado.nome,
-        advogado.carteiraOAB, 
-        advogado.especialidade,
-        advogado.dataNasc,
-        advogado.endereco,
-        advogado.email,
-        advogado.telefone
-    );
+    arq_advogado = fopen("advogado.dat","ab");
+    if (arq_advogado == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(advogado);
+        return;
+    }
+    fwrite(advogado, sizeof(advogado), 1, arq_advogado);
     fclose(arq_advogado);
+    free(advogado);
 }
 
 
