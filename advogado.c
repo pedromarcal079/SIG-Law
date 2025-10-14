@@ -323,11 +323,11 @@ void excluiAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
     FILE *temp_advogado;
-    Advogado advogado;
+    Advogado *advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
-    int tam;
-    int confi;
-
+    int tam, confi;
+    int encontrado = 0, excluir = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Advogado                                         |\n");
@@ -339,70 +339,66 @@ void excluiAdvogado(void) {
     tam = strlen(pesquisar_cpf);
     pesquisar_cpf[tam-1] = '\0';
 
-    arq_advogado = fopen("advogado.csv", "rt");
-    temp_advogado = fopen("temp_advogado.csv","wt");
+    arq_advogado = fopen("advogado.dat", "rb");
+    temp_advogado = fopen("temp_advogado.dat","wb");
 
-    while (fscanf(arq_advogado,"%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n",
-        advogado.cpf,
-        advogado.nome,
-        advogado.carteiraOAB,
-        advogado.especialidade,
-        advogado.dataNasc,
-        advogado.endereco,
-        advogado.email,
-        advogado.telefone) == 8){
-
-        if (strcmp(advogado.cpf, pesquisar_cpf) != 0){
-            fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s:%s\n",
-            advogado.cpf,
-            advogado.nome,
-            advogado.carteiraOAB,
-            advogado.especialidade,
-            advogado.dataNasc,
-            advogado.endereco,
-            advogado.email,
-            advogado.telefone);
+    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1){
+        if (strcmp(advogado->cpf, pesquisar_cpf) != 0){
+            fwrite(advogado, sizeof(advogado), 1, temp_advogado);
         } else {
-            printf("|\t\tCPF: %s\n", advogado.cpf);
-            printf("|\t\tNome: %s\n", advogado.nome);
-            printf("|\t\tCarteira OAB: %s\n", advogado.carteiraOAB);
-            printf("|\t\tEspecialidade: %s\n", advogado.especialidade);
-            printf("|\t\tData de Nascimento: %s\n", advogado.dataNasc);
-            printf("|\t\tEndereço: %s\n", advogado.endereco);
-            printf("|\t\tEmail: %s\n", advogado.email);
-            printf("|\t\tTelefone: %s\n", advogado.telefone);
+            encontrado = 1;
+            printf("|\t\tCPF: %s\n", advogado->cpf);
+            printf("|\t\tNome: %s\n", advogado->nome);
+            printf("|\t\tCarteira OAB: %s\n", advogado->carteiraOAB);
+            printf("|\t\tEspecialidade: %s\n", advogado->especialidade);
+            printf("|\t\tData de Nascimento: %s\n", advogado->dataNasc);
+            printf("|\t\tEndereço: %s\n", advogado->endereco);
+            printf("|\t\tEmail: %s\n", advogado->email);
+            printf("|\t\tTelefone: %s\n", advogado->telefone);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
-            if (confi == 2) {
-                fprintf(temp_advogado, "%s;%s;%s;%s;%s;%s;%s;%s\n",
-                    advogado.cpf,
-                    advogado.nome,
-                    advogado.carteiraOAB,
-                    advogado.especialidade,
-                    advogado.dataNasc,
-                    advogado.endereco,
-                    advogado.email,
-                    advogado.telefone);
+            if (confi == 1) {
+                excluir = 1;
+            } else if (confi == 2) {
+                fwrite(advogado, sizeof(advogado), 1, temp_advogado);
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
             }
         }
     }
     fclose(arq_advogado);
     fclose(temp_advogado);
-    remove("advogado.csv");
-    rename("temp_advogado.csv", "advogado.csv");
-
-    if (confi == 1){
+    
+    if (!encontrado){
+        remove("temp_advogado.dat");
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Cliente não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n"); 
+    } else if (excluir){
+        remove("advogado.dat");
+        rename("temp_advogado.dat", "advogado.dat");
         printf("|                                                                                             |\n");
         printf("|        Cliente excluido com sucesso!                                                        |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     } else {
+        remove("temp_advogado.dat");
         printf("|                                                                                             |\n");
         printf("|        Exclusão cancelada!                                                                  |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
     }
+    
 }
