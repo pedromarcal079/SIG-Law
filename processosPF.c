@@ -4,8 +4,16 @@
 #include "processosPF.h"
 
     typedef struct processoPF{
-        char tipo[50];
-        char data[50];
+        // int id;
+        char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
+        // char autor[16];             // CPF
+        // char reu[21];               // CPF ou CNPJ
+        // char advogadoOAB[20];          // carteira oab do advogado
+        // char descricao[200];
+        // char status[20];
+        char data[13];
+        // char observacoes[200];
+        // char tipoPessoa[3];         // "PF" ou "PJ"
     } ProcessoPF;
 
 void moduloProcPF(void) {

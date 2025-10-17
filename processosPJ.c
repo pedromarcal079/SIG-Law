@@ -3,6 +3,19 @@
 #include <string.h>
 #include "processosPJ.h"
 
+    // typedef struct processoPJ{
+    //     int id;
+    //     char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
+    //     char autor[21];             // CNPJ
+    //     char reu[21];               // CPF ou CNPJ
+    //     char advogadoOAB[20];          // carteira oab do advogado
+    //     char descricao[200];
+    //     char status[20];
+    //     char data[13];
+    //     char observacoes[200];
+    //     char tipoPessoa[3];         // "PF" ou "PJ"
+    // } ProcessoPJ;
+
 void moduloProcPJ(void) {
     int procPjOpcao;
     do {
