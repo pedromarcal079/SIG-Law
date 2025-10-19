@@ -12,8 +12,6 @@
         // char descricao[200];
         // char status[20];
         char data[13];
-        // char observacoes[200];
-        // char tipoPessoa[3];         // "PF" ou "PJ"
     } ProcessoPF;
 
 void moduloProcPF(void) {

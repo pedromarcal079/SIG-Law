@@ -3,18 +3,16 @@
 #include <string.h>
 #include "processosPJ.h"
 
-    // typedef struct processoPJ{
-    //     int id;
-    //     char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
-    //     char autor[21];             // CNPJ
-    //     char reu[21];               // CPF ou CNPJ
-    //     char advogadoOAB[20];          // carteira oab do advogado
-    //     char descricao[200];
-    //     char status[20];
-    //     char data[13];
-    //     char observacoes[200];
-    //     char tipoPessoa[3];         // "PF" ou "PJ"
-    // } ProcessoPJ;
+    typedef struct processoPJ{
+        // int id;
+        char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
+        char autor[21];             // CNPJ
+        char reu[21];               // CPF ou CNPJ
+        char advOAB[20];          // carteira oab do advogado
+        char descricao[200];
+        char status[20];
+        char data[13];
+    } ProcessoPJ;
 
 void moduloProcPJ(void) {
     int procPjOpcao;
@@ -83,10 +81,12 @@ int menuProcessoPJ(void) {
 
 void cadastraProcessoPJ(void) {
     system("clear");
-    char tipo[50];
-    char data[50];
-    int tam;
     FILE *arq_processoPJ;
+
+    ProcessoPJ *processoPJ;
+    processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+
+    int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Processo PJ                                    |\n");
@@ -95,22 +95,51 @@ void cadastraProcessoPJ(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do processo:                                                        |\n");
     printf("|   ===> Tipo de processo: ");
-    fgets(tipo, sizeof(tipo), stdin);
-    tam = strlen(tipo);
-    tipo[tam-1] = '\0';
-    printf("|   ===> Data de abertura: ");
-    fgets(data, sizeof(data), stdin);
-    tam = strlen(tipo);
-    tipo[tam-1] = '\0';
+    fgets(processoPJ->tipo, sizeof(processoPJ->tipo), stdin);
+    tam = strlen(processoPJ->tipo);
+    processoPJ->tipo[tam-1] = '\0';
+    printf("|   ===> Autor (CNPJ): ");
+    fgets(processoPJ->autor, sizeof(processoPJ->autor), stdin);
+    tam = strlen(processoPJ->autor);
+    processoPJ->autor[tam-1] = '\0';
+    printf("|   ===> Réu (CNPJ ou CPF): ");
+    fgets(processoPJ->reu, sizeof(processoPJ->reu), stdin);
+    tam = strlen(processoPJ->reu);
+    processoPJ->reu[tam-1] = '\0';
+    printf("|   ===> Advogado Responsável (OAB): ");
+    fgets(processoPJ->advOAB, sizeof(processoPJ->advOAB), stdin);
+    tam = strlen(processoPJ->advOAB);
+    processoPJ->advOAB[tam-1] = '\0';
+    printf("|   ===> Descrição: ");
+    fgets(processoPJ->descricao, sizeof(processoPJ->descricao), stdin);
+    tam = strlen(processoPJ->descricao);
+    processoPJ->descricao[tam-1] = '\0';
+    printf("|   ===> Data de Cadastro: ");
+    fgets(processoPJ->data, sizeof(processoPJ->data), stdin);
+    tam = strlen(processoPJ->data);
+    processoPJ->data[tam-1] = '\0';
+    strcpy(processoPJ->status, "Em Andamento");
+
+    arq_processoPJ = fopen("processoPJ.dat","ab");
+    if (arq_processoPJ == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(processoPJ);
+        return;
+    }
+    fwrite(processoPJ, sizeof(ProcessoPJ),1,arq_processoPJ);
+    fclose(arq_processoPJ);
+    free(processoPJ);
+
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
-    printf("|        O número desse processo é: 00000                                                     |\n");
+    printf("|        O ID desse processo é: X                                                             |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    arq_processoPJ = fopen("processoPF.csv","at");
-    fprintf(arq_processoPJ, "%s;", tipo);
-    fprintf(arq_processoPJ, "%s\n", data);
-    fclose(arq_processoPJ);
 }
 
 
