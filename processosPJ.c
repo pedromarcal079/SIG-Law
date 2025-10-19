@@ -27,10 +27,10 @@ int gerarID(){
         return 1;
     }
 
-    while (fread(idProcPJ, sizeof(ProcessoPJ), 1, arq_processoPJ)) {
+    while (fread(idProcPJ, sizeof(ProcessoPJ), 1, arq_processoPJ))
+    {
         ultimoID = idProcPJ->id;
     }
-    fclose(arq_processoPJ);
 
     return ultimoID + 1;
     free(idProcPJ);
