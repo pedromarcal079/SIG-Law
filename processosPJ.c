@@ -4,7 +4,7 @@
 #include "processosPJ.h"
 
     typedef struct processoPJ{
-        // int id;
+        int id;
         char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
         char autor[21];             // CNPJ
         char reu[21];               // CPF ou CNPJ
@@ -13,6 +13,28 @@
         char status[20];
         char data[13];
     } ProcessoPJ;
+
+int gerarID(){
+    ProcessoPJ *idProcPJ;
+    idProcPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+
+    FILE *arq_processoPJ;
+
+    int ultimoID = 0;
+
+    arq_processoPJ = fopen("processoPJ.dat","rb");
+    if (arq_processoPJ == NULL){
+        return 1;
+    }
+
+    while (fread(idProcPJ, sizeof(ProcessoPJ), 1, arq_processoPJ)) {
+        ultimoID = idProcPJ->id;
+    }
+    fclose(arq_processoPJ);
+
+    return ultimoID + 1;
+    free(idProcPJ);
+}
 
 void moduloProcPJ(void) {
     int procPjOpcao;
@@ -86,6 +108,8 @@ void cadastraProcessoPJ(void) {
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
 
+    processoPJ->id = gerarID();
+
     int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -133,15 +157,14 @@ void cadastraProcessoPJ(void) {
     }
     fwrite(processoPJ, sizeof(ProcessoPJ),1,arq_processoPJ);
     fclose(arq_processoPJ);
-    free(processoPJ);
 
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
-    printf("|        O ID desse processo é: X                                                             |\n");
+    printf("|        O ID desse processo é: %d\n", processoPJ->id);
+    free(processoPJ);
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
-
 
 void mostraProcessoPJ(void) {
     system("clear");

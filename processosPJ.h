@@ -8,4 +8,6 @@ void mostraProcessoPJ(void);
 void editaProcessoPJ(void);
 void excluiProcessoPJ(void);
 
+int gerarID();
+
 #endif
