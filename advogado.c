@@ -126,10 +126,7 @@ void cadastraAdvogado(void) {
     fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
     tam = strlen(advogado->telefone);
     advogado->telefone[tam-1] = '\0';
-    printf("|                                                                                             |\n");
-    printf("|        Advogado cadastrado com sucesso!                                                     |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    
     arq_advogado = fopen("advogado.dat","ab");
     if (arq_advogado == NULL) {
         system("clear");
@@ -141,9 +138,14 @@ void cadastraAdvogado(void) {
         free(advogado);
         return;
     }
-    fwrite(advogado, sizeof(advogado), 1, arq_advogado);
+    fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
     fclose(arq_advogado);
     free(advogado);
+
+    printf("|                                                                                             |\n");
+    printf("|        Advogado cadastrado com sucesso!                                                     |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -174,7 +176,7 @@ void mostraAdvogado(void){
         printf("+----------------------------------------------+\n");
         return;
     }
-    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1) {
+    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
         if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
             encontrado = 1;
             printf("|\t\tCPF: %s\n", advogado->cpf);
@@ -238,7 +240,7 @@ void editaAdvogado(void) {
         return;
     }
 
-    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1) {
+    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
         if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
             encontrado = 1;
             printf("|\t\tCPF: %s\n", advogado->cpf);
@@ -294,7 +296,7 @@ void editaAdvogado(void) {
                 }
             }
         }
-        fwrite(advogado, sizeof(advogado), 1, temp_advogado);
+        fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
     }
     fclose(arq_advogado);
     fclose(temp_advogado);
@@ -342,9 +344,9 @@ void excluiAdvogado(void) {
     arq_advogado = fopen("advogado.dat", "rb");
     temp_advogado = fopen("temp_advogado.dat","wb");
 
-    while (fread(advogado, sizeof(advogado), 1, arq_advogado) == 1){
+    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
         if (strcmp(advogado->cpf, pesquisar_cpf) != 0){
-            fwrite(advogado, sizeof(advogado), 1, temp_advogado);
+            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
         } else {
             encontrado = 1;
             printf("|\t\tCPF: %s\n", advogado->cpf);
@@ -356,14 +358,14 @@ void excluiAdvogado(void) {
             printf("|\t\tEmail: %s\n", advogado->email);
             printf("|\t\tTelefone: %s\n", advogado->telefone);
             printf("|                                                                                             |\n");
-            printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
+            printf("|   ===> Esse é o advogado que deseja excluir? 1 = Sim, 2 = Não: ");
             scanf("%d", &confi);
             getchar();
 
             if (confi == 1) {
                 excluir = 1;
             } else if (confi == 2) {
-                fwrite(advogado, sizeof(advogado), 1, temp_advogado);
+                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
