@@ -3,6 +3,7 @@
 
 typedef struct processoPJ{
     int id;
+    int atividade;
     char tipo[30];              // cível, trabalhista, penal, tributário, família, etc.
     char autor[21];             // CNPJ
     char reu[21];               // CPF ou CNPJ
