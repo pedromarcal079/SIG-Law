@@ -170,15 +170,25 @@ void mostraClientePF(void) {
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
         if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
             encontrado = 1;
-            printf("|\t\tCPF: %s\n", clientePF->cpf);
-            printf("|\t\tNome: %s\n", clientePF->nome);
-            printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
-            printf("|\t\tEndereço: %s\n", clientePF->endereco);
-            printf("|\t\tEmail: %s\n", clientePF->email);
-            printf("|\t\tTelefone: %s\n", clientePF->telefone);
-            printf("|                                                                                             |\n");
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            return;
+            if (clientePF->atividade == 1){
+                printf("|\t\tCPF: %s\n", clientePF->cpf);
+                printf("|\t\tNome: %s\n", clientePF->nome);
+                printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
+                printf("|\t\tEndereço: %s\n", clientePF->endereco);
+                printf("|\t\tEmail: %s\n", clientePF->email);
+                printf("|\t\tTelefone: %s\n", clientePF->telefone);
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                return;
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|               Cliente Inativo!               |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            }
         }
     }
     fclose(arq_cliente);
