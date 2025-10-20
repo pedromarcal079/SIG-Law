@@ -232,52 +232,62 @@ void editaClientePF(void) {
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
         if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
             encontrado = 1;
-            printf("|\t\tCPF: %s\n", clientePF->cpf);
-            printf("|\t\tNome: %s\n", clientePF->nome);
-            printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
-            printf("|\t\tEndereço: %s\n", clientePF->endereco);
-            printf("|\t\tEmail: %s\n", clientePF->email);
-            printf("|\t\tTelefone: %s\n", clientePF->telefone);
-            printf("|                                                                                             |\n");
-            
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            printf("|                                                                                             |\n");
-            printf("|   ===> Qual dado você deseja editar?                                                        |\n");
-            printf("|        1 - CPF                                                                              |\n");
-            printf("|        2 - Nome                                                                             |\n");
-            printf("|        3 - Data de Nascimento                                                               |\n");
-            printf("|        4 - Endereço                                                                         |\n");
-            printf("|        5 - Email                                                                            |\n");
-            printf("|        6 - Telefone                                                                         |\n");
-            printf("|                                                                                             |\n");
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            printf("===> Digite sua opcao: ");
-            scanf("%d", &dado);  
-            getchar();                                     
+            if (clientePF->atividade == 1){
+                printf("|\t\tCPF: %s\n", clientePF->cpf);
+                printf("|\t\tNome: %s\n", clientePF->nome);
+                printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
+                printf("|\t\tEndereço: %s\n", clientePF->endereco);
+                printf("|\t\tEmail: %s\n", clientePF->email);
+                printf("|\t\tTelefone: %s\n", clientePF->telefone);
+                printf("|                                                                                             |\n");
+                
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("|                                                                                             |\n");
+                printf("|   ===> Qual dado você deseja editar?                                                        |\n");
+                printf("|        1 - CPF                                                                              |\n");
+                printf("|        2 - Nome                                                                             |\n");
+                printf("|        3 - Data de Nascimento                                                               |\n");
+                printf("|        4 - Endereço                                                                         |\n");
+                printf("|        5 - Email                                                                            |\n");
+                printf("|        6 - Telefone                                                                         |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("===> Digite sua opcao: ");
+                scanf("%d", &dado);  
+                getchar();                                     
 
-            if (dado < 1 || dado > 6) {
+                if (dado < 1 || dado > 6) {
+                    system("clear");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|       Você digitou uma opção inválida!       |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    return;
+                } else {
+                    printf("|                                                                                             |\n");
+                    printf("|   ===> Digite o novo dado: ");
+                    fgets(edicao, sizeof(edicao), stdin);
+                    tam = strlen(edicao);
+                    edicao[tam - 1] = '\0';
+
+                    switch (dado) {
+                        case 1: strcpy(clientePF->cpf, edicao); break;
+                        case 2: strcpy(clientePF->nome, edicao); break;
+                        case 3: strcpy(clientePF->dataNasc, edicao); break;
+                        case 4: strcpy(clientePF->endereco, edicao); break;
+                        case 5: strcpy(clientePF->email, edicao); break;
+                        case 6: strcpy(clientePF->telefone, edicao); break;
+                    }
+                }
+            } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
-                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
                 return;
-            } else {
-                printf("|                                                                                             |\n");
-                printf("|   ===> Digite o novo dado: ");
-                fgets(edicao, sizeof(edicao), stdin);
-                tam = strlen(edicao);
-                edicao[tam - 1] = '\0';
-
-                switch (dado) {
-                    case 1: strcpy(clientePF->cpf, edicao); break;
-                    case 2: strcpy(clientePF->nome, edicao); break;
-                    case 3: strcpy(clientePF->dataNasc, edicao); break;
-                    case 4: strcpy(clientePF->endereco, edicao); break;
-                    case 5: strcpy(clientePF->email, edicao); break;
-                    case 6: strcpy(clientePF->telefone, edicao); break;
-                }
             }
         }
         fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
