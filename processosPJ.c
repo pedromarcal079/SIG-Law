@@ -224,33 +224,42 @@ void mostraProcessoPJ(void) {
         int pesqID = atoi(pesquisar_id);
         if (processoPJ->id == pesqID) {
             encontrado = 1;
-
-            if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
+            if (processoPJ->atividade == 1){
+                if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
                 printf("|\t\tAutor: %s\n", clientePJ->razaoSocial);
-            } else {
-                printf("|\t\tAutor: Não encontrado!\n");
-            }
-
-            if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
-                printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
-            } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
-                printf("|\t\tRéu (PF): %s\n", clientePF->nome);
-            } else {
-                printf("|\t\tRéu: Não encontrado!\n");
-            }
-
-            while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
-                    printf("|\t\tAdvogado Responsável: %s\n", advogado->nome);
-                    break;
+                } else {
+                    printf("|\t\tAutor: Não encontrado!\n");
                 }
-            }
 
-            printf("|\t\tTipo: %s\n", processoPJ->tipo);
-            printf("|\t\tData de abertura: %s\n", processoPJ->data);
-            printf("|\t\tDescrição: %s\n", processoPJ->descricao);
-            printf("|\t\tStatus: %s\n", processoPJ->status);
-            break;
+                if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
+                    printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
+                } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
+                    printf("|\t\tRéu (PF): %s\n", clientePF->nome);
+                } else {
+                    printf("|\t\tRéu: Não encontrado!\n");
+                }
+
+                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                    if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
+                        printf("|\t\tAdvogado Responsável: %s\n", advogado->nome);
+                        break;
+                    }
+                }
+
+                printf("|\t\tTipo: %s\n", processoPJ->tipo);
+                printf("|\t\tData de abertura: %s\n", processoPJ->data);
+                printf("|\t\tDescrição: %s\n", processoPJ->descricao);
+                printf("|\t\tStatus: %s\n", processoPJ->status);
+                break;
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|              Processo Inativo!               |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            }
         }
     }
 
