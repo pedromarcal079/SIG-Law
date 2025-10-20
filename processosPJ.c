@@ -7,7 +7,7 @@
 #include "clientePJ.h"
 #include "advogado.h"
 
-int gerarID(){
+int gerarID_PJ(){
     ProcessoPJ *idProcPJ;
     idProcPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
 
@@ -102,7 +102,7 @@ void cadastraProcessoPJ(void) {
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
 
-    processoPJ->id = gerarID();
+    processoPJ->id = gerarID_PJ();
     processoPJ->atividade = 1;
 
     int tam;
