@@ -85,9 +85,9 @@ void cadastraClientePJ(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|        Informe os dados da empresa:                                                         |\n");
-    printf("|   ===> CNPJ: ");
-    fgets(clientePJ->cnpj, sizeof(clientePJ->cnpj), stdin);
-    tam = strlen(clientePJ->cnpj);
+    printf("|   ===> CNPJ: ");                                                 // quando eu vou cadastrar um clientePJ eu colocoo cnpj sendo alguns números + J
+    fgets(clientePJ->cnpj, sizeof(clientePJ->cnpj), stdin);                    // Ex.: 12345J, para não dar conflito na função de achar cpf ou cnpj no módulo de processos,
+    tam = strlen(clientePJ->cnpj);                                             // já que as vezes eu coloco os mesmos números fáceis de lembrar como teste para ambos
     clientePJ->cnpj[tam-1] = '\0';
     printf("|   ===> Razão Social: ");
     fgets(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), stdin);
