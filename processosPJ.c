@@ -59,6 +59,7 @@ void moduloProcPJ(void) {
             getchar();
             break;
         default:
+            system("clear");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|       Você digitou uma opção inválida!       |\n");
@@ -102,6 +103,7 @@ void cadastraProcessoPJ(void) {
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
 
     processoPJ->id = gerarID();
+    processoPJ->atividade = 1;
 
     int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -183,10 +185,7 @@ int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF
 void mostraProcessoPJ(void) {
     system("clear");
 
-    FILE *arq_processoPJ;
-    FILE *arq_clientePJ;
-    FILE *arq_clientePF;
-    FILE *arq_advogado;
+    FILE *arq_processoPJ, *arq_clientePJ, *arq_clientePF, *arq_advogado;
 
     ProcessoPJ *processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
@@ -211,7 +210,7 @@ void mostraProcessoPJ(void) {
     arq_clientePF = fopen("clientePF.dat","rb");
     arq_advogado = fopen("advogado.dat","rb");
 
-       if (arq_processoPJ == NULL || arq_clientePJ == NULL || arq_clientePF == NULL || arq_advogado == NULL ) {
+       if (arq_processoPJ == NULL || arq_clientePJ == NULL) {
             system("clear");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
@@ -242,7 +241,7 @@ void mostraProcessoPJ(void) {
 
             while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
                 if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
-                    printf("|\t\tAdvogado: %s\n", advogado->nome);
+                    printf("|\t\tAdvogado Responsável: %s\n", advogado->nome);
                     break;
                 }
             }
@@ -311,7 +310,7 @@ void editaProcessoPJ(void) {
     arq_clientePJ = fopen("clientePJ.dat","rb");
     arq_clientePF = fopen("clientePF.dat","rb");
     arq_advogado = fopen("advogado.dat","rb");
-    if (arq_processoPJ == NULL || temp_processoPJ == NULL || arq_clientePJ == NULL || arq_clientePF == NULL || arq_advogado == NULL) {
+    if (arq_processoPJ == NULL || temp_processoPJ == NULL) {
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
@@ -425,17 +424,131 @@ void editaProcessoPJ(void) {
 
 void excluiProcessoPJ(void) {
     system("clear");
-    char procNum[15];
+
+    FILE *arq_processoPJ;
+    FILE *temp_processoPJ;
+    FILE *arq_clientePJ;
+    FILE *arq_clientePF;
+    FILE *arq_advogado;
+
+    ProcessoPJ *processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+
+    char pesquisar_id[5];
+    int tam, confi;
+    int encontrado = 0;
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Processo PJ                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o número do processo: ");
-    fgets(procNum, sizeof(procNum), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Processo excluido com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|   ===> Digite o ID do processo: ");
+    fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+    tam = strlen(pesquisar_id);
+    pesquisar_id[tam - 1] = '\0';
+
+    arq_processoPJ = fopen("processoPJ.dat", "rb");
+    temp_processoPJ = fopen("temp_processoPJ.dat", "wb");
+
+    arq_clientePJ = fopen("clientePJ.dat", "rb");
+    arq_clientePF = fopen("clientePF.dat", "rb");
+    arq_advogado = fopen("advogado.dat", "rb");
+
+    if (arq_processoPJ == NULL || temp_processoPJ == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+
+    while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+        int idBusca = atoi(pesquisar_id);
+
+        if (processoPJ->id != idBusca) {
+            fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
+        } else {
+            encontrado = 1;
+            if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
+                printf("|\t\tAutor: %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
+            } else {
+                printf("|\t\tAutor: Não encontrado!\n");
+            }
+
+            if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
+                printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
+            } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
+                printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
+            } else {
+                printf("|\t\tRéu: Não encontrado!\n");
+            }
+
+            rewind(arq_advogado);
+            while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
+                    printf("|\t\tAdvogado: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                }
+            }
+
+            printf("|\t\tTipo: %s\n", processoPJ->tipo);
+            printf("|\t\tData de abertura: %s\n", processoPJ->data);
+            printf("|\t\tDescrição: %s\n", processoPJ->descricao);
+            printf("|\t\tStatus: %s\n", processoPJ->status);
+            printf("|                                                                                             |\n");
+            printf("|   ===> Esse é o processo que deseja excluir? 1 = Sim, 2 = Não: ");
+            scanf("%d", &confi);
+            getchar();
+
+            if (confi == 1) {
+                processoPJ->atividade = 0;
+                fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
+                printf("|                                                                                             |\n");
+                printf("|        Processo excluído com sucesso!                                                       |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+            } else if (confi == 2) {
+                fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
+                printf("|                                                                                             |\n");
+                printf("|        Exclusão cancelada!                                                                  |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                fclose(arq_processoPJ);
+                fclose(temp_processoPJ);
+                remove("temp_processoPJ.dat");
+                return;
+            }
+        }
+    }
+
+    fclose(arq_processoPJ);
+    fclose(temp_processoPJ);
+    fclose(arq_clientePJ);
+    fclose(arq_clientePF);
+    fclose(arq_advogado);
+
+    if (!encontrado) {
+        remove("temp_processoPJ.dat");
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|          Processo não encontrado!            |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    } else {
+        remove("processoPJ.dat");
+        rename("temp_processoPJ.dat", "processoPJ.dat");
+    }
 }
