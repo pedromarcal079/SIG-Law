@@ -333,73 +333,82 @@ void editaProcessoPJ(void) {
         int pesqID = atoi(pesquisar_id);
         if (processoPJ->id == pesqID) {
             encontrado = 1;
-
-            if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
+            if (processoPJ->atividade == 1) {
+                if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
                 printf("|\t\tAutor: %s", clientePJ->razaoSocial);
                 printf(" (CNPJ: %s\n", clientePJ->cnpj); 
-            } else {
-                printf("|\t\tAutor: Não encontrado!\n");
-            }
-
-            if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
-                printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
-                printf(" (CNPJ: %s\n", clientePJ->cnpj);
-            } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
-                printf("|\t\tRéu (PF): %s", clientePF->nome);
-                printf(" (CPF: %s\n", clientePF->cpf);
-            } else {
-                printf("|\t\tRéu: Não encontrado!\n");
-            }
-            while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
-                    printf("|\t\tAdvogado Responsável: %s", advogado->nome);
-                    printf(" (OAB: %s\n", advogado->carteiraOAB);
+                } else {
+                    printf("|\t\tAutor: Não encontrado!\n");
                 }
-            }
-            printf("|\t\tTipo: %s\n", processoPJ->tipo);
-            printf("|\t\tData de abertura: %s\n", processoPJ->data);
-            printf("|\t\tDescrição: %s\n", processoPJ->descricao);
-            printf("|\t\tStatus: %s\n", processoPJ->status);
-            printf("|                                                                                             |\n");
 
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            printf("|                                                                                             |\n");
-            printf("|   ===> Qual dado você deseja editar?                                                        |\n");
-            printf("|        1 - Autor (CNPJ)                                                                     |\n");
-            printf("|        2 - Réu (CNPJ ou CPF)                                                                |\n");
-            printf("|        3 - Advogado Responsável (OAB)                                                       |\n");
-            printf("|        4 - Tipo                                                                             |\n");
-            printf("|        5 - Data de Abertura                                                                 |\n");
-            printf("|        6 - Descrição                                                                        |\n");
-            printf("|                                                                                             |\n");
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            printf("===> Digite sua opcao: ");
-            scanf("%d", &dado);  
-            getchar();
+                if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
+                    printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
+                    printf(" (CNPJ: %s\n", clientePJ->cnpj);
+                } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
+                    printf("|\t\tRéu (PF): %s", clientePF->nome);
+                    printf(" (CPF: %s\n", clientePF->cpf);
+                } else {
+                    printf("|\t\tRéu: Não encontrado!\n");
+                }
+                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                    if (strcmp(advogado->carteiraOAB, processoPJ->advOAB) == 0) {
+                        printf("|\t\tAdvogado Responsável: %s", advogado->nome);
+                        printf(" (OAB: %s\n", advogado->carteiraOAB);
+                    }
+                }
+                printf("|\t\tTipo: %s\n", processoPJ->tipo);
+                printf("|\t\tData de abertura: %s\n", processoPJ->data);
+                printf("|\t\tDescrição: %s\n", processoPJ->descricao);
+                printf("|\t\tStatus: %s\n", processoPJ->status);
+                printf("|                                                                                             |\n");
 
-            if (dado < 1 || dado > 9) {
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("|                                                                                             |\n");
+                printf("|   ===> Qual dado você deseja editar?                                                        |\n");
+                printf("|        1 - Autor (CNPJ)                                                                     |\n");
+                printf("|        2 - Réu (CNPJ ou CPF)                                                                |\n");
+                printf("|        3 - Advogado Responsável (OAB)                                                       |\n");
+                printf("|        4 - Tipo                                                                             |\n");
+                printf("|        5 - Data de Abertura                                                                 |\n");
+                printf("|        6 - Descrição                                                                        |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("===> Digite sua opcao: ");
+                scanf("%d", &dado);  
+                getchar();
+
+                if (dado < 1 || dado > 9) {
+                    system("clear");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|       Você digitou uma opção inválida!       |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    return;
+                } else {
+                    printf("|                                                                                             |\n");
+                    printf("|   ===> Digite o novo dado: ");
+                    fgets(edicao, sizeof(edicao), stdin);
+                    tam = strlen(edicao);
+                    edicao[tam-1] = '\0';
+
+                    switch (dado) {
+                        case 1: strcpy(processoPJ->autor, edicao); break;
+                        case 2: strcpy(processoPJ->reu, edicao); break;
+                        case 3: strcpy(processoPJ->advOAB, edicao); break;
+                        case 4: strcpy(processoPJ->tipo, edicao); break;
+                        case 5: strcpy(processoPJ->data, edicao); break;
+                        case 6: strcpy(processoPJ->descricao, edicao); break;
+                    }
+                }
+            } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
-                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|              Processo Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
                 return;
-            } else {
-                printf("|                                                                                             |\n");
-                printf("|   ===> Digite o novo dado: ");
-                fgets(edicao, sizeof(edicao), stdin);
-                tam = strlen(edicao);
-                edicao[tam-1] = '\0';
-
-                switch (dado) {
-                    case 1: strcpy(processoPJ->autor, edicao); break;
-                    case 2: strcpy(processoPJ->reu, edicao); break;
-                    case 3: strcpy(processoPJ->advOAB, edicao); break;
-                    case 4: strcpy(processoPJ->tipo, edicao); break;
-                    case 5: strcpy(processoPJ->data, edicao); break;
-                    case 6: strcpy(processoPJ->descricao, edicao); break;
-                }
             }
         }
         fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
