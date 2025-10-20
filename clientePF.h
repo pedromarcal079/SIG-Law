@@ -2,6 +2,7 @@
 #define CLIENTEPF_H
 
 typedef struct clientePF{
+    int atividade;
     char cpf[16];
     char nome[50];
     char dataNasc[13];

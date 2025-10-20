@@ -76,6 +76,8 @@ void cadastraClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
+    clientePF->atividade = 1;
+
     int tam;    
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -313,7 +315,7 @@ void excluiClientePF(void) {
 
     char pesquisar_cpf[16];
     int tam, confi;
-    int encontrado = 0, excluir = 0;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Excluir Cliente                                      |\n");
@@ -341,9 +343,18 @@ void excluiClientePF(void) {
             getchar();
 
             if (confi == 1) {
-                excluir = 1;
+                clientePF->atividade = 0;
+                fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+                printf("|                                                                                             |\n");
+                printf("|        Cliente excluido com sucesso!                                                        |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else if (confi == 2) {
                 fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+                printf("|                                                                                             |\n");
+                printf("|        Exclusão cancelada!                                                                  |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -351,6 +362,9 @@ void excluiClientePF(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_cliente);
+                fclose(temp_cliente);
+                remove("temp_clientePF.dat");
                 return;
             }
         }
@@ -366,19 +380,9 @@ void excluiClientePF(void) {
         printf("|           Cliente não encontrado!            |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n"); 
-    } else if (excluir){
+    } else {
         remove("clientePF.dat");
         rename("temp_clientePF.dat", "clientePF.dat");
-        printf("|                                                                                             |\n");
-        printf("|        Cliente excluido com sucesso!                                                        |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
-    } else {
-        remove("temp_clientePF.dat");
-        printf("|                                                                                             |\n");
-        printf("|        Exclusão cancelada!                                                                  |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
     }
     
 }
