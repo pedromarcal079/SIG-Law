@@ -2,6 +2,7 @@
 #define CLIENTEPJ_H
 
 typedef struct clientePJ{
+    int atividade;
     char cnpj[21];      
     char razaoSocial[100];      // Nome legal da empresa (Ex.: The Coca-Cola Company)
     char nomeFantasia[100];     // Nome comercial da empresa (Ex.: Coca-Cola)
