@@ -77,6 +77,8 @@ void cadastraClientePJ(void) {
     ClientePJ *clientePJ;
     clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
 
+    clientePJ->atividade = 1;
+
     int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -189,6 +191,7 @@ void mostraClientePJ(void){
             printf("|\t\tEndereço: %s\n", clientePJ->endereco);
             printf("|\t\tEmail: %s\n", clientePJ->email);
             printf("|\t\tTelefone: %s\n", clientePJ->telefone);
+            printf("|\t\tAtividade: %d\n", clientePJ->atividade);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
             return;
@@ -336,7 +339,7 @@ void excluiClientePJ(void) {
 
     char pesquisar_cnpj[21];
     int tam, confi;
-    int encontrado = 0, excluir = 0;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Empresa                                          |\n");
@@ -365,9 +368,18 @@ void excluiClientePJ(void) {
             getchar();
 
             if (confi == 1) {
-                excluir = 1;
+                clientePJ->atividade = 0;
+                fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+                printf("|                                                                                             |\n");
+                printf("|        Cliente excluido com sucesso!                                                        |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else if (confi == 2) {
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+                printf("|                                                                                             |\n");
+                printf("|        Exclusão cancelada!                                                                  |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -375,6 +387,9 @@ void excluiClientePJ(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_empresa);
+                fclose(temp_empresa);
+                remove("temp_clientePJ.dat");
                 return;
             }
         }
@@ -390,19 +405,8 @@ void excluiClientePJ(void) {
         printf("|           Cliente não encontrado!            |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-    } else if (excluir){
+    } else {
         remove("clientePJ.dat");
         rename("temp_clientePJ.dat", "clientePJ.dat");
-
-        printf("|                                                                                             |\n");
-        printf("|        Cliente excluido com sucesso!                                                        |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
-    } else {
-        remove("temp_clientePJ.dat");
-        printf("|                                                                                             |\n");
-        printf("|        Exclusão cancelada!                                                                  |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
     }
 }
