@@ -182,19 +182,28 @@ void mostraClientePJ(void){
     while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
         if (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0){
             encontrado = 1;
-            printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
-            printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
-            printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
-            printf("|\t\tRepresentante: %s\n", clientePJ->repres);
-            printf("|\t\tCPF do Representante: %s\n", clientePJ->cpfRepres);
-            printf("|\t\tÁrea de Atuação: %s\n", clientePJ->areaAtuacao);
-            printf("|\t\tEndereço: %s\n", clientePJ->endereco);
-            printf("|\t\tEmail: %s\n", clientePJ->email);
-            printf("|\t\tTelefone: %s\n", clientePJ->telefone);
-            printf("|\t\tAtividade: %d\n", clientePJ->atividade);
-            printf("|                                                                                             |\n");
-            printf("+---------------------------------------------------------------------------------------------+\n");
-            return;
+            if (clientePJ->atividade == 1){
+                printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
+                printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
+                printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
+                printf("|\t\tRepresentante: %s\n", clientePJ->repres);
+                printf("|\t\tCPF do Representante: %s\n", clientePJ->cpfRepres);
+                printf("|\t\tÁrea de Atuação: %s\n", clientePJ->areaAtuacao);
+                printf("|\t\tEndereço: %s\n", clientePJ->endereco);
+                printf("|\t\tEmail: %s\n", clientePJ->email);
+                printf("|\t\tTelefone: %s\n", clientePJ->telefone);
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                return;
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|               Cliente Inativo!               |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            }
         }
     }
     fclose(arq_empresa);
