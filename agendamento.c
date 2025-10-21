@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "agendamento.h"
-#include "processosPF.h"
-#include "processosPJ.h"
+#include "processoMenu.h"
+
 
 void moduloAgendamento(void) {
     int menuProOpcao;
@@ -14,12 +14,30 @@ void moduloAgendamento(void) {
                 getchar();
                 break;
             case 1:
-                moduloProcPF();
+                moduloMenuProcesso();
                 break;
             case 2:
-                moduloProcPJ();
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|      Módulo de Agendamento em Andamento      |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 3:
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|         Módulo de Status em Andamento        |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                printf("Pressione ENTER ... \n");
+                getchar();
                 break;
             default:
+                system("clear");
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
                 printf("|       Você digitou uma opção inválida!       |\n");
@@ -42,10 +60,11 @@ int agendamentoMenu(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                +++++ Para qual módulo você deseja agendar um processo? +++++                |\n");
+    printf("|                         +++++ Qual módulo você deseja acessar? +++++                        |\n");
     printf("|                                                                                             |\n");
-    printf("|                          1 - Processo p/ Pessoa Física                                      |\n");
-    printf("|                          2 - Processo p/ Pessoa Jurídica                                    |\n");
+    printf("|                          1 - Cadastrar Processos                                            |\n");
+    printf("|                          2 - Agendar Processos                                              |\n");
+    printf("|                          3 - Atualizar Status do Processo                                   |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -54,3 +73,4 @@ int agendamentoMenu(void) {
     getchar();
     return menuProOpcao;
 }
+

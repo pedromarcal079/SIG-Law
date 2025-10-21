@@ -1,26 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "clienteMenu.h"
-#include "clientePF.h"
-#include "clientePJ.h"
+#include "processoMenu.h"
+#include "processosPF.h"
+#include "processosPJ.h"
 
-void moduloMenuCliente(void) {
-    int menuCliOpcao;
+void moduloMenuProcesso(void) {
+    int menuProOpcao;
     do {
-        menuCliOpcao = clienteMenu();
-        switch (menuCliOpcao) {
+        menuProOpcao = processoMenu();
+        switch (menuProOpcao) {
             case 0:
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
             case 1:
-                moduloClientePF();
+                moduloProcPF();
                 break;
             case 2:
-                moduloClientePJ();
+                moduloProcPJ();
                 break;
             default:
-                system("clear");
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
                 printf("|       Você digitou uma opção inválida!       |\n");
@@ -30,28 +29,28 @@ void moduloMenuCliente(void) {
                 getchar();
                 break;
         }
-    } while (menuCliOpcao != 0);
+    } while (menuProOpcao != 0);
 }
 
 
-int clienteMenu(void) {
+int processoMenu(void) {
     system("clear");
-    int menuCliOpcao;
+    int menuProOpcao;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                      Módulo de Cliente                                      |\n");
+    printf("|                                    Módulo de Processos                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                         +++++ Qual módulo você deseja acessar? +++++                        |\n");
     printf("|                                                                                             |\n");
-    printf("|                          1 - Cliente Pessoa Física                                          |\n");
-    printf("|                          2 - Cliente Pessoa Jurídica                                        |\n");
+    printf("|                          1 - Processo p/ Pessoa Física                                      |\n");
+    printf("|                          2 - Processo p/ Pessoa Jurídica                                    |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&menuCliOpcao);
+    scanf("%d",&menuProOpcao);
     getchar();
-    return menuCliOpcao;
+    return menuProOpcao;
 }
