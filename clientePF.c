@@ -297,6 +297,7 @@ void editaClientePF(void) {
                 printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                remove("temp_clientePF.dat");
                 return;
             }
         }

@@ -321,6 +321,7 @@ void editaClientePJ(void) {
                 printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                remove("temp_clientePJ.dat");
                 return;
             }
         }
