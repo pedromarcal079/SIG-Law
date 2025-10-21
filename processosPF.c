@@ -289,27 +289,152 @@ void mostraProcessoPF(void) {
 
 void editaProcessoPF(void) {
     system("clear");
-    char procNum[15];
-    char tipo[50];
-    char data[50];
+    FILE *arq_processoPF, *temp_processoPF, *arq_clientePF, *arq_clientePJ, *arq_advogado;
+
+    ProcessoPF *processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+
+    char pesquisar_id[5];
+    int tam, dado;
+    int encontrado = 0;
+    char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                                    Editar Processo PF                                       |\n");
+    printf("|                                    Editar Processo PJ                                       |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o número do processo: ");
-    fgets(procNum, sizeof(procNum), stdin);
-    printf("|                                                                                             |\n");
-    printf("|        Digite os novos dados:                                                               |\n");
-    printf("|        Tipo: ");
-    fgets(tipo, sizeof(tipo), stdin);  
-    printf("|        Data: ");
-    fgets(data, sizeof(data), stdin);  
-    printf("|                                                                                             |\n");
-    printf("|        Dados atualizados com sucesso!                                                       |\n");
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|   ===> Digite o ID do processo: ");
+    fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+    tam = strlen(pesquisar_id);
+    pesquisar_id[tam-1] = '\0';
+
+    arq_processoPF = fopen("processoPF.dat", "rb");
+    temp_processoPF = fopen("temp_processoPF.dat", "wb");
+
+    arq_clientePF = fopen("clientePF.dat","rb");
+    arq_clientePJ = fopen("clientePJ.dat","rb");
+    arq_advogado = fopen("advogado.dat","rb");
+    if (arq_processoPF == NULL || temp_processoPF == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+
+    while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1) {
+        int pesqID = atoi(pesquisar_id);
+        if (processoPF->id == pesqID) {
+            encontrado = 1;
+            if (processoPF->atividade == 1) {
+                if (encontraClientePF_PF(clientePF, processoPF->autor, arq_clientePF)) {
+                printf("|\t\tAutor: %s", clientePF->nome);
+                printf(" (CNPJ: %s\n", clientePF->cpf); 
+                } else {
+                    printf("|\t\tAutor: Não encontrado!\n");
+                }
+
+                if (encontraClientePF_PF(clientePF, processoPF->reu, arq_clientePF)) {
+                    printf("|\t\tRéu (PJ): %s\n", clientePF->nome);
+                    printf(" (CNPJ: %s\n", clientePF->cpf);
+                } else if (encontraClientePJ_PF(clientePJ, processoPF->reu, arq_clientePJ)) {
+                    printf("|\t\tRéu (PF): %s", clientePJ->razaoSocial);
+                    printf(" (CPF: %s\n", clientePJ->cnpj);
+                } else {
+                    printf("|\t\tRéu: Não encontrado!\n");
+                }
+                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                    if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
+                        printf("|\t\tAdvogado Responsável: %s", advogado->nome);
+                        printf(" (OAB: %s\n", advogado->carteiraOAB);
+                    }
+                }
+                printf("|\t\tTipo: %s\n", processoPF->tipo);
+                printf("|\t\tData de abertura: %s\n", processoPF->data);
+                printf("|\t\tDescrição: %s\n", processoPF->descricao);
+                printf("|\t\tStatus: %s\n", processoPF->status);
+                printf("|                                                                                             |\n");
+
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("|                                                                                             |\n");
+                printf("|   ===> Qual dado você deseja editar?                                                        |\n");
+                printf("|        1 - Autor (CNPJ)                                                                     |\n");
+                printf("|        2 - Réu (CNPJ ou CPF)                                                                |\n");
+                printf("|        3 - Advogado Responsável (OAB)                                                       |\n");
+                printf("|        4 - Tipo                                                                             |\n");
+                printf("|        5 - Data de Abertura                                                                 |\n");
+                printf("|        6 - Descrição                                                                        |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                printf("===> Digite sua opcao: ");
+                scanf("%d", &dado);  
+                getchar();
+
+                if (dado < 1 || dado > 9) {
+                    system("clear");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|       Você digitou uma opção inválida!       |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    return;
+                } else {
+                    printf("|                                                                                             |\n");
+                    printf("|   ===> Digite o novo dado: ");
+                    fgets(edicao, sizeof(edicao), stdin);
+                    tam = strlen(edicao);
+                    edicao[tam-1] = '\0';
+
+                    switch (dado) {
+                        case 1: strcpy(processoPF->autor, edicao); break;
+                        case 2: strcpy(processoPF->reu, edicao); break;
+                        case 3: strcpy(processoPF->advOAB, edicao); break;
+                        case 4: strcpy(processoPF->tipo, edicao); break;
+                        case 5: strcpy(processoPF->data, edicao); break;
+                        case 6: strcpy(processoPF->descricao, edicao); break;
+                    }
+                }
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|              Processo Inativo!               |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                return;
+            }
+        }
+        fwrite(processoPF, sizeof(ProcessoPF), 1, temp_processoPF);
+    }
+    fclose(arq_processoPF);
+    fclose(temp_processoPF);
+    fclose(arq_advogado);
+    fclose(arq_clientePF);
+    fclose(arq_clientePJ);
+
+    
+    if (encontrado) {
+        remove("processoPJ.dat");
+        rename("temp_processoPJ.dat", "processoPJ.dat");
+
+        printf("|                                                                                             |\n");
+        printf("|        Dados atualizados com sucesso!                                                       |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+    } else {
+        remove("temp_processoPJ.dat");
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Processo não encontrado!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    }
 }
 
 
