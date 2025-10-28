@@ -3,6 +3,7 @@
 #include <string.h>
 #include "processosPF.h"
 
+#include "processosPJ.h"
 #include "clientePF.h"
 #include "clientePJ.h"
 #include "advogado.h"
@@ -160,27 +161,6 @@ void cadastraProcessoPF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
-int encontraClientePJ_PF(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
-    rewind(arq_clientePJ);
-    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
-        if (strcmp(clientePJ->cnpj, cnpj) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
-}
-
-int encontraClientePF_PF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
-    rewind(arq_clientePF);
-    while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
-        if (strcmp(clientePF->cpf, cpf) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
-}
-
-
 void mostraProcessoPF(void) {
     system("clear");
 
@@ -224,15 +204,15 @@ void mostraProcessoPF(void) {
         if (processoPF->id == pesqID) {
             encontrado = 1;
             if (processoPF->atividade == 1){
-                if (encontraClientePF_PF(clientePF, processoPF->autor, arq_clientePF)) {
+                if (encontraClientePF(clientePF, processoPF->autor, arq_clientePF)) {
                     printf("|\t\tAutor: %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
                 } else {
                     printf("|\t\tAutor: Não encontrado!\n");
                 }
 
-                if (encontraClientePF_PF(clientePF, processoPF->reu, arq_clientePF)) {
+                if (encontraClientePF(clientePF, processoPF->reu, arq_clientePF)) {
                     printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
-                } else if (encontraClientePJ_PF(clientePJ, processoPF->reu, arq_clientePJ)) {
+                } else if (encontraClientePJ(clientePJ, processoPF->reu, arq_clientePJ)) {
                     printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
@@ -330,15 +310,15 @@ void editaProcessoPF(void) {
         if (processoPF->id == pesqID) {
             encontrado = 1;
             if (processoPF->atividade == 1) {
-                if (encontraClientePF_PF(clientePF, processoPF->autor, arq_clientePF)) {
+                if (encontraClientePF(clientePF, processoPF->autor, arq_clientePF)) {
                     printf("|\t\tAutor: %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
                 } else {
                     printf("|\t\tAutor: Não encontrado!\n");
                 }
 
-                if (encontraClientePF_PF(clientePF, processoPF->reu, arq_clientePF)) {
+                if (encontraClientePF(clientePF, processoPF->reu, arq_clientePF)) {
                     printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
-                } else if (encontraClientePJ_PF(clientePJ, processoPF->reu, arq_clientePJ)) {
+                } else if (encontraClientePJ(clientePJ, processoPF->reu, arq_clientePJ)) {
                     printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
@@ -485,15 +465,15 @@ void excluiProcessoPF(void) {
             fwrite(processoPF, sizeof(ProcessoPF), 1, temp_processoPF);
         } else {
             encontrado = 1;
-            if (encontraClientePF_PF(clientePF, processoPF->autor, arq_clientePF)) {
+            if (encontraClientePF(clientePF, processoPF->autor, arq_clientePF)) {
                 printf("|\t\tAutor: %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
             } else {
                 printf("|\t\tAutor: Não encontrado!\n");
             }
 
-            if (encontraClientePF_PF(clientePF, processoPF->reu, arq_clientePF)) {
+            if (encontraClientePF(clientePF, processoPF->reu, arq_clientePF)) {
                 printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
-            } else if (encontraClientePJ_PF(clientePJ, processoPF->reu, arq_clientePJ)) {
+            } else if (encontraClientePJ(clientePJ, processoPF->reu, arq_clientePJ)) {
                 printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
             } else {
                 printf("|\t\tRéu: Não encontrado!\n");
