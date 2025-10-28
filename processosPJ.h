@@ -1,6 +1,10 @@
 #ifndef PROCESSOSPJ_H
 #define PROCESSOSPJ_H
 
+#include <stdio.h>
+#include "clientePF.h"
+#include "clientePJ.h"
+
 typedef struct processoPJ{
     int id;
     int atividade;
@@ -21,5 +25,7 @@ void editaProcessoPJ(void);
 void excluiProcessoPJ(void);
 
 int gerarID_PJ();
+int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ);
+int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF);
 
 #endif
