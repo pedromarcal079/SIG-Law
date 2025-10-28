@@ -226,15 +226,15 @@ void mostraProcessoPJ(void) {
             encontrado = 1;
             if (processoPJ->atividade == 1){
                 if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
-                printf("|\t\tAutor: %s\n", clientePJ->razaoSocial);
+                    printf("|\t\tAutor: %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else {
                     printf("|\t\tAutor: Não encontrado!\n");
                 }
 
                 if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
-                    printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
+                    printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
-                    printf("|\t\tRéu (PF): %s\n", clientePF->nome);
+                    printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
                 }
@@ -335,18 +335,15 @@ void editaProcessoPJ(void) {
             encontrado = 1;
             if (processoPJ->atividade == 1) {
                 if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
-                printf("|\t\tAutor: %s", clientePJ->razaoSocial);
-                printf(" (CNPJ: %s\n", clientePJ->cnpj); 
+                    printf("|\t\tAutor: %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else {
                     printf("|\t\tAutor: Não encontrado!\n");
                 }
 
                 if (encontraClientePJ(clientePJ, processoPJ->reu, arq_clientePJ)) {
-                    printf("|\t\tRéu (PJ): %s\n", clientePJ->razaoSocial);
-                    printf(" (CNPJ: %s\n", clientePJ->cnpj);
+                    printf("|\t\tRéu (PJ): %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
                 } else if (encontraClientePF(clientePF, processoPJ->reu, arq_clientePF)) {
-                    printf("|\t\tRéu (PF): %s", clientePF->nome);
-                    printf(" (CPF: %s\n", clientePF->cpf);
+                    printf("|\t\tRéu (PF): %s (CPF: %s)\n", clientePF->nome, clientePF->cpf);
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
                 }
