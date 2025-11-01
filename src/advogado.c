@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "advogado.h"
+#include "validacao.h"
 
 
 void moduloAdvogado(void) {
@@ -82,14 +83,20 @@ void cadastraAdvogado(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do advogado:                                                        |\n");
-    printf("|   ===> CPF: ");
-    fgets(advogado->cpf, sizeof(advogado->cpf), stdin);
-    tam = strlen(advogado->cpf);
-    advogado->cpf[tam-1] = '\0';
-    printf("|   ===> Nome: ");
-    fgets(advogado->nome, sizeof(advogado->nome), stdin);
-    tam = strlen(advogado->nome);
-    advogado->nome[tam-1] = '\0';
+    do{
+        printf("|   ===> CPF: ");
+        fgets(advogado->cpf, sizeof(advogado->cpf), stdin);
+        tam = strlen(advogado->cpf);
+        advogado->cpf[tam-1] = '\0';
+    } while(!vali_cpf(advogado->cpf));
+
+    do{
+        printf("|   ===> Nome: ");
+        fgets(advogado->nome, sizeof(advogado->nome), stdin);
+        tam = strlen(advogado->nome);
+        advogado->nome[tam-1] = '\0';
+    } while(!vali_nome(advogado->nome));
+        
     printf("|   ===> Carteira OAB: ");
     fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
     tam = strlen(advogado->carteiraOAB);

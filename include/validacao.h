@@ -1,0 +1,7 @@
+#ifndef VALIDACAO_H
+#define VALIDACAO_H
+
+int vali_cpf(const char* cpf);
+int vali_nome(const char* nome);
+
+#endif
