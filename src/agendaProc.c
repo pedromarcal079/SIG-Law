@@ -26,17 +26,12 @@ void moduloAgendaProc(void) {
                 getchar();
                 break;
             case 3:
-                editaAgendamento();
+                editaAgendaProces();
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
             case 4:
-                system("clear");
-                printf("+----------------------------------------------+\n");
-                printf("|                                              |\n");
-                printf("|              Módulo em Andamento             |\n");
-                printf("|                                              |\n");
-                printf("+----------------------------------------------+\n");
+                excluiAgendaProces();
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
@@ -265,7 +260,7 @@ void mostraAgendaProces(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
-void editaAgendamento(void) {
+void editaAgendaProces(void) {
     system("clear");
 
     FILE *arq_agenda, *temp_agenda, *arq_processoPF, *arq_processoPJ;
@@ -428,6 +423,167 @@ void editaAgendamento(void) {
         printf("|        Agendamento não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+    }
+
+    free(agendamento);
+    free(processoPF);
+    free(processoPJ);
+}
+
+void excluiAgendaProces(void) {
+    system("clear");
+
+    FILE *arq_agenda, *temp_agenda, *arq_processoPF, *arq_processoPJ;
+    Agendamento *agendamento = (Agendamento*) malloc(sizeof(Agendamento));
+    ProcessoPF *processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    ProcessoPJ *processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+
+    char pesquisar_id[5];
+    int tam, confi;
+    int encontrado = 0;
+    int procEncontrado = 0;
+
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Excluir Agendamento                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite o ID do agendamento: ");
+    fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+    tam = strlen(pesquisar_id);
+    pesquisar_id[tam - 1] = '\0';
+
+    arq_agenda = fopen("agenda.dat", "rb");
+    temp_agenda = fopen("temp_agenda.dat", "wb");
+
+    arq_processoPF = fopen("processoPF.dat", "rb");
+    arq_processoPJ = fopen("processoPJ.dat", "rb");
+
+    if (arq_agenda == NULL || temp_agenda == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        free(agendamento);
+        free(processoPF);
+        free(processoPJ);
+        return;
+    }
+
+    while (fread(agendamento, sizeof(Agendamento), 1, arq_agenda) == 1) {
+        int idBusca = atoi(pesquisar_id);
+
+        if (agendamento->idAgend != idBusca) {
+            fwrite(agendamento, sizeof(Agendamento), 1, temp_agenda);
+        } else {
+            encontrado = 1;
+            procEncontrado = 0;
+
+            if (strcmp(agendamento->tipoCliente, "1") == 0) {
+                if (arq_processoPF != NULL) {
+                    rewind(arq_processoPF);
+                    while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF)) {
+                        int idProcPF = atoi(agendamento->idProc);
+                        if (processoPF->id == idProcPF) {
+                            printf("|\t\tProcesso (PF): %s - CPF do Autor: %s\n", processoPF->tipo, processoPF->autor);
+                            printf("|\t\tDescrição do Processo: %s\n", processoPF->descricao);
+                            procEncontrado = 1;
+                            break;
+                        }
+                    }
+                }
+                if (!procEncontrado) {
+                    printf("|\t\tProcesso: Não encontrado!\n");
+                }
+            } else if (strcmp(agendamento->tipoCliente, "2") == 0) {
+                if (arq_processoPJ != NULL) {
+                    rewind(arq_processoPJ);
+                    while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ)) {
+                        int idProcPJ = atoi(agendamento->idProc);
+                        if (processoPJ->id == idProcPJ) {
+                            printf("|\t\tProcesso (PJ): %s - CNPJ do Autor: %s\n", processoPJ->tipo, processoPJ->autor);
+                            printf("|\t\tDescrição do Processo: %s\n", processoPJ->descricao);
+                            procEncontrado = 1;
+                            break;
+                        }
+                    }
+                }
+                if (!procEncontrado) {
+                    printf("|\t\tProcesso: Não encontrado!\n");                
+                }
+            }
+
+            printf("|\t\tData: %s\n", agendamento->data);
+            printf("|\t\tNota: %s\n", agendamento->hora);
+            printf("|\t\tLocal: %s\n", agendamento->local);
+            printf("|\t\tTipo de Compromisso: %s\n", agendamento->tipo);
+            printf("|\t\tObservações: %s\n", agendamento->observacao);
+            
+            if (strcmp(agendamento->tipoCliente, "1") == 0) {
+                printf("|\t\tTipo de Cliente: Pessoa Física\n");
+            } else if (strcmp(agendamento->tipoCliente, "2") == 0) {
+                printf("|\t\tTipo de Cliente: Pessoa Jurídica\n");
+            } else {
+                printf("|\t\tTipo de Cliente: Não encontrado!\n");
+            }
+
+            printf("|                                                                                             |\n");
+            printf("+---------------------------------------------------------------------------------------------+\n");
+            printf("|                                                                                             |\n");
+            printf("|   ===> Esse é o agendamento que deseja excluir? 1 = Sim, 2 = Não: ");
+            scanf("%d", &confi);
+            getchar();
+
+            if (confi == 1) {
+                printf("|                                                                                             |\n");
+                printf("|        Agendamento excluído com sucesso!                                                    |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+            } else if (confi == 2) {
+                fwrite(agendamento, sizeof(Agendamento), 1, temp_agenda);
+                printf("|                                                                                             |\n");
+                printf("|        Exclusão cancelada!                                                                  |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+            } else {
+                system("clear");
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|       Você digitou uma opção inválida!       |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+                fclose(arq_agenda);
+                fclose(temp_agenda);
+                fclose(arq_processoPF);
+                fclose(arq_processoPJ);
+                remove("temp_agenda.dat");
+                free(agendamento);
+                free(processoPF);
+                free(processoPJ);
+                return;
+            }
+        }
+    }
+
+    fclose(arq_agenda);
+    fclose(temp_agenda);
+    if (arq_processoPF != NULL) fclose(arq_processoPF);
+    if (arq_processoPJ != NULL) fclose(arq_processoPJ);
+
+    if (!encontrado) {
+        remove("temp_agenda.dat");
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|          Agendamento não encontrado!         |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+    } else {
+        remove("agenda.dat");
+        rename("temp_agenda.dat", "agenda.dat");
     }
 
     free(agendamento);

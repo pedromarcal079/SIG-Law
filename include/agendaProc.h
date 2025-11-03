@@ -17,7 +17,8 @@ void moduloAgendaProc(void);
 int menuAgendaProc(void);
 void agendaProces(void);
 void mostraAgendaProces(void);
-void editaAgendamento(void);
+void editaAgendaProces(void);
+void excluiAgendaProces(void);
 
 int gerarID_Agenda(void);
 
