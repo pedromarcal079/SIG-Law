@@ -15,9 +15,9 @@ typedef struct agendamento {
 
 void moduloAgendaProc(void);
 int menuAgendaProc(void);
-int gerarID_Agenda(void);
 void agendaProces(void);
 
+int gerarID_Agenda(void);
 
 #endif
 

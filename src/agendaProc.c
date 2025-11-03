@@ -16,6 +16,7 @@ void moduloAgendaProc(void) {
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
+                break;
             case 2:
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -121,7 +122,7 @@ void agendaProces(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|        Módulo em Andamento                                                                  |\n");
+    printf("|        Módulo em Andamento:                                                                 |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
