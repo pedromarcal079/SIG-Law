@@ -8,7 +8,7 @@ typedef struct agendamento {
     char data[13];
     char tipo[30];
     char local[50];         
-    char descricao[150];
+    char observacao[150];
     char status[20];
     char tipoCliente[5];
 } Agendamento;
@@ -16,6 +16,7 @@ typedef struct agendamento {
 void moduloAgendaProc(void);
 int menuAgendaProc(void);
 void agendaProces(void);
+void mostraAgendaProces(void);
 
 int gerarID_Agenda(void);
 

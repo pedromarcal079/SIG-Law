@@ -3,6 +3,9 @@
 #include <string.h>
 #include "agendaProc.h"
 
+#include "processosPF.h"
+#include "processosPJ.h"
+
 void moduloAgendaProc(void) {
     int agenProc;
     do {
@@ -18,12 +21,7 @@ void moduloAgendaProc(void) {
                 getchar();
                 break;
             case 2:
-                system("clear");
-                printf("+----------------------------------------------+\n");
-                printf("|                                              |\n");
-                printf("|              Módulo em Andamento             |\n");
-                printf("|                                              |\n");
-                printf("+----------------------------------------------+\n");
+                mostraAgendaProces();
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
@@ -151,9 +149,9 @@ void agendaProces(void) {
     tam = strlen(agendamento->local);
     agendamento->local[tam-1] = '\0';
     printf("|   ===> Descrição: ");
-    fgets(agendamento->descricao, sizeof(agendamento->descricao), stdin);
-    tam = strlen(agendamento->descricao);
-    agendamento->descricao[tam-1] = '\0';
+    fgets(agendamento->observacao, sizeof(agendamento->observacao), stdin);
+    tam = strlen(agendamento->observacao);
+    agendamento->observacao[tam-1] = '\0';
     strcpy(agendamento->status, "Em Andamento");
 
     arq_agenda = fopen("agenda.dat","ab");
@@ -178,3 +176,96 @@ void agendaProces(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
+void mostraAgendaProces(void) {
+    system("clear");
+
+    FILE *arq_agenda, *arq_processoPF, *arq_processoPJ;
+    Agendamento *agendamento = (Agendamento*) malloc(sizeof(Agendamento));
+    ProcessoPF *processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    ProcessoPJ *processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+
+    char pesquisar_id[5];
+    int tam, encontrado = 0;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                   Mostrar Agendamento                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|   ===> Digite o ID do agendamento: ");
+    fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+    tam = strlen(pesquisar_id);
+    pesquisar_id[tam-1] = '\0';
+
+    arq_agenda = fopen("agenda.dat","rb");
+    arq_processoPF = fopen("processoPF.dat","rb");
+    arq_processoPJ = fopen("processoPJ.dat","rb");
+
+    if (arq_agenda == NULL) {
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+
+    while (fread(agendamento, sizeof(Agendamento), 1, arq_agenda)) {
+        int pesqID = atoi(pesquisar_id);
+        if (agendamento->idAgend == pesqID) {
+            encontrado = 1;
+            // verifica se é processo PF ou PJ
+            if (strcmp(agendamento->tipoCliente, "1") == 0) {
+                while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF)) {
+                    int idProcPF = atoi(agendamento->idProc);
+                    if (processoPF->id == idProcPF) {
+                        printf("|\t\tProcesso (PF): %s - CPF do Autor: %s\n", processoPF->tipo, processoPF->autor);
+                        printf("|\t\tDescrição do Processo: %s\n", processoPF->descricao);
+                        break;
+                    }
+                }
+            } else if (strcmp(agendamento->tipoCliente, "2") == 0) {
+                while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ)) {
+                    int idProcPJ = atoi(agendamento->idProc);
+                    if (processoPJ->id == idProcPJ) {
+                        printf("|\t\tProcesso (PJ): %s - CNPJ do Autor: %s\n", processoPJ->tipo, processoPJ->autor);
+                        printf("|\t\tDescrição do Processo: %s\n", processoPJ->descricao);
+                        break;
+                    }
+                }
+            } else {
+                printf("+----------------------------------------------+\n");
+                printf("|                                              |\n");
+                printf("|          Tipo de Processo Inválido           |\n");
+                printf("|                                              |\n");
+                printf("+----------------------------------------------+\n");
+            }
+
+            printf("|\t\tData: %s\n", agendamento->data);
+            printf("|\t\tHora: %s\n", agendamento->hora);
+            printf("|\t\tObservações: %s\n", agendamento->observacao);
+            printf("|\t\tTipo de Compromisso: %s\n", agendamento->tipo);
+            printf("|\t\tLocal: %s\n", agendamento->local);
+            printf("|\t\tStatus do agendamento: %s\n", agendamento->status);
+            break;
+        }
+    }
+    fclose(arq_agenda);
+    fclose(arq_processoPF);
+    fclose(arq_processoPJ);
+
+    free(agendamento);
+    free(processoPF);
+    free(processoPJ);
+
+    if (!encontrado) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|          Agendamento não encontrado!         |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+}
