@@ -103,15 +103,17 @@ void cadastraAdvogado(void) {
         tam = strlen(advogado->carteiraOAB);
         advogado->carteiraOAB[tam-1] = '\0';
     } while(!vali_carteiraOAB(advogado->carteiraOAB));
-    
     printf("|   ===> Especialidade: ");
     fgets(advogado->especialidade, sizeof(advogado->especialidade), stdin);
     tam = strlen(advogado->especialidade);
     advogado->especialidade[tam-1] = '\0';
-    printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(advogado->dataNasc, sizeof(advogado->dataNasc), stdin);
-    tam = strlen(advogado->dataNasc);
-    advogado->dataNasc[tam-1] = '\0';
+    do{
+        printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
+        fgets(advogado->dataNasc, sizeof(advogado->dataNasc), stdin);
+        tam = strlen(advogado->dataNasc);
+        advogado->dataNasc[tam-1] = '\0';
+    } while(!vali_dataNasc(advogado->dataNasc));
+
     printf("|   ===> Endereço: ");
     fgets(advogado->endereco, sizeof(advogado->endereco), stdin);
     tam = strlen(advogado->endereco);
