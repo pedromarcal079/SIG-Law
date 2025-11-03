@@ -3,5 +3,6 @@
 
 int vali_cpf(const char* cpf);
 int vali_nome(const char* nome);
+int vali_carteiraOAB(const char* carteiraOAB);
 
 #endif

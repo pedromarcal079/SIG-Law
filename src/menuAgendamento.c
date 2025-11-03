@@ -5,7 +5,7 @@
 #include "agendaProc.h"
 
 
-void moduloAgendamento(void) {
+void modulo_menuAgendamento(void) {
     int menuAgend;
     do {
         menuAgend = agendamentoMenu();
@@ -45,7 +45,7 @@ void moduloAgendamento(void) {
 }
 
 
-int agendamentoMenu(void) {
+int agendamentoMenu2(void) {
     system("clear");
     int menuAgend;
     printf("+---------------------------------------------------------------------------------------------+\n");
