@@ -3,14 +3,14 @@
 
 typedef struct agendamento {
     int idAgend;
-    int idProc;
+    char idProc[5];
     char hora[7];
     char data[13];
     char tipo[30];
     char local[50];         
     char descricao[150];
     char status[20];
-    int tipoCliente;
+    char tipoCliente[5];
 } Agendamento;
 
 void moduloAgendaProc(void);
