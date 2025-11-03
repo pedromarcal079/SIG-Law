@@ -97,10 +97,13 @@ void cadastraAdvogado(void) {
         advogado->nome[tam-1] = '\0';
     } while(!vali_nome(advogado->nome));
         
-    printf("|   ===> Carteira OAB: ");
-    fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
-    tam = strlen(advogado->carteiraOAB);
-    advogado->carteiraOAB[tam-1] = '\0';
+    do{
+        printf("|   ===> Carteira OAB: ");
+        fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
+        tam = strlen(advogado->carteiraOAB);
+        advogado->carteiraOAB[tam-1] = '\0';
+    } while(!vali_carteiraOAB(advogado->carteiraOAB));
+    
     printf("|   ===> Especialidade: ");
     fgets(advogado->especialidade, sizeof(advogado->especialidade), stdin);
     tam = strlen(advogado->especialidade);
