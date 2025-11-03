@@ -73,7 +73,7 @@ int menuAdvogado(void) {
 void cadastraAdvogado(void) {
     system("clear");
     Advogado *advogado;
-    int tam;
+    int tam, espec;
     FILE *arq_advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -103,12 +103,23 @@ void cadastraAdvogado(void) {
         tam = strlen(advogado->carteiraOAB);
         advogado->carteiraOAB[tam-1] = '\0';
     } while(!vali_carteiraOAB(advogado->carteiraOAB));
-    printf("|   ===> Especialidade: ");
-    fgets(advogado->especialidade, sizeof(advogado->especialidade), stdin);
-    tam = strlen(advogado->especialidade);
-    advogado->especialidade[tam-1] = '\0';
+
+    printf("              |   ===> Especialidade <===   |                   \n");
+    printf("| 1-Civil  2-Penal  3-Do Trabalho  4-Tributário  5-Empresarial |\n");
+    printf("Digite a opção desejada:");
+    scanf("%d", &espec);
+    getchar();
+    switch (espec){
+        case 1: (strcpy(advogado->especialidade, "Civil")); break;
+        case 2: (strcpy(advogado->especialidade, "Penal")); break;
+        case 3: (strcpy(advogado->especialidade, "Do Trabalho")); break;
+        case 4: (strcpy(advogado->especialidade, "Tributário")); break;
+        case 5: (strcpy(advogado->especialidade, "Empresarial")); break;
+    }
+
+
     do{
-        printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
+        printf("|   ===> Data de Nascimento (dd/mm/aaaa): ");
         fgets(advogado->dataNasc, sizeof(advogado->dataNasc), stdin);
         tam = strlen(advogado->dataNasc);
         advogado->dataNasc[tam-1] = '\0';
@@ -123,7 +134,7 @@ void cadastraAdvogado(void) {
     fgets(advogado->email, sizeof(advogado->email), stdin);
     tam = strlen(advogado->email);
     advogado->email[tam-1] = '\0';
-    
+
     do{
         printf("|   ===> Telefone: ");
         fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
