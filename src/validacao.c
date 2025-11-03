@@ -116,3 +116,19 @@ int vali_dataNasc(const char* dataNasc){
     }
     return true;
 }
+
+int vali_telefone(const char* telefone){
+    int i = 0;
+    if (strlen(telefone) == 0){
+        printf("Coloque um telefone que não esteja vazio!\n");
+        return false;
+    }
+    while (telefone[i] != '\0'){
+        if(!iswdigit(telefone[i]) || telefone[i] == ' '){
+            printf("Coloque apenas números!\n");
+            return false;
+        }
+        i++;
+    }
+    return true;
+}

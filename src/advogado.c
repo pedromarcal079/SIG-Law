@@ -96,7 +96,7 @@ void cadastraAdvogado(void) {
         tam = strlen(advogado->nome);
         advogado->nome[tam-1] = '\0';
     } while(!vali_nome(advogado->nome));
-        
+
     do{
         printf("|   ===> Carteira OAB: ");
         fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
@@ -118,14 +118,18 @@ void cadastraAdvogado(void) {
     fgets(advogado->endereco, sizeof(advogado->endereco), stdin);
     tam = strlen(advogado->endereco);
     advogado->endereco[tam-1] = '\0';
+
     printf("|   ===> Email: ");
     fgets(advogado->email, sizeof(advogado->email), stdin);
     tam = strlen(advogado->email);
     advogado->email[tam-1] = '\0';
-    printf("|   ===> Telefone: ");
-    fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
-    tam = strlen(advogado->telefone);
-    advogado->telefone[tam-1] = '\0';
+    
+    do{
+        printf("|   ===> Telefone: ");
+        fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
+        tam = strlen(advogado->telefone);
+        advogado->telefone[tam-1] = '\0';
+    } while(!vali_telefone(advogado->telefone));
     
     arq_advogado = fopen("advogado.dat","ab");
     if (arq_advogado == NULL) {
