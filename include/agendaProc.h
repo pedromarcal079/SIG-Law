@@ -1,0 +1,32 @@
+#ifndef AGENDAPROC_H
+#define AGENDAPROC_H
+
+typedef struct agendamento {
+    int idAgend;
+    int idProc;
+    char hora[7];
+    char data[13];
+    char tipo[30];
+    char local[50];         
+    char descricao[150];
+    char status[20];
+    int tipoCliente;
+} Agendamento;
+
+void moduloAgendaProc(void);
+int menuAgendaProc(void);
+int gerarID_Agenda(void);
+void agendaProces(void);
+
+
+#endif
+
+//Agendar Processo:
+//ID do agendamento (automático)
+//ID do processo
+//Horário
+//Data
+//Tipo (audiência, reunião, consulta, prazo, etc.)
+//Local (Online, tribunal, etc.)(??)
+//Descrição
+//Status (pendente, realizado, cancelado)
