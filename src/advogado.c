@@ -35,6 +35,11 @@ void moduloAdvogado(void) {
                 getchar();
                 break;
             case 5:
+                lixeiraAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
+            case 6:
                 relatorioAdvogado();
                 printf("Pressione ENTER ... \n");
                 getchar();
@@ -65,7 +70,8 @@ int menuAdvogado(void) {
     printf("|                               2 - Mostra Advogado                                           |\n");
     printf("|                               3 - Edita Advogado                                            |\n");
     printf("|                               4 - Exclui Processo                                           |\n");
-    printf("|                               5 - Lista Advogados                                           |\n");
+    printf("|                               5 - Lixeira Advogado                                         |\n");
+    printf("|                               6 - Lista Advogados                                           |\n");
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -426,6 +432,84 @@ void excluiAdvogado(void) {
         rename("temp_advogado.dat", "advogado.dat");
     }
     
+}
+
+
+void lixeiraAdvogado(void) {
+    system("clear");
+    FILE *arq_advogado;
+    FILE *temp_advogado;
+    Advogado *advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
+    int opcao;
+    char pesquisar_cpf[15];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Lixeira Advogado                                         |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
+    scanf("%d", &opcao);
+    getchar();
+    arq_advogado = fopen("advogado.dat", "rb");
+    temp_advogado = fopen("temp_advogado.dat","wb");
+    if (opcao == 1) {
+        printf("Digite o CPF do advogado que deseja restaurar: ");
+        fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
+        int tam = strlen(pesquisar_cpf);
+        pesquisar_cpf[tam-1] = '\0';
+        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
+            if ((advogado->atividade == 0) && (strcmp(advogado->cpf, pesquisar_cpf) == 0)){
+                advogado->atividade = 1;
+                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                printf("|                                                                                             |\n");
+                printf("|        Advogado restaurado com sucesso!                                                     |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(temp_advogado);
+                fclose(arq_advogado);
+                remove("advogado.dat");
+                rename("temp_advogado.dat", "advogado.dat");
+                return;
+            } else {
+                system("clear");
+                printf("+-------------------------------------------------------+\n");
+                printf("|                                                       |\n");
+                printf("|  Não há advogado com esse CPF que esteja na lixeira!  |\n");
+                printf("|                                                       |\n");
+                printf("+-------------------------------------------------------+\n");
+                fclose(temp_advogado);
+                fclose(arq_advogado);
+                remove("temp_advogado.dat");
+                return;
+            }
+        }
+    } 
+    else if (opcao == 2) {
+        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
+            if (advogado->atividade == 1){
+                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+            }
+        }
+        fclose(arq_advogado);
+        fclose(temp_advogado);
+        remove("advogado.dat");
+        rename("temp_advogado.dat", "advogado.dat");
+        return;
+    } 
+    else {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|       Você digitou uma opção inválida!       |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        fclose(temp_advogado);
+        fclose(arq_advogado);
+        remove("temp_advogado.dat");
+        return;
+    }
 }
 
 
