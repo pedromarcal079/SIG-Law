@@ -59,6 +59,7 @@ int agendamentoMenu2(void) {
     printf("|                          1 - Cadastrar Processos                                            |\n");
     printf("|                          2 - Agendar Processos                                              |\n");
     printf("|                          3 - Atualizar Status do Processo                                   |\n");
+    printf("|                          4 - Listar Processos                                              |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

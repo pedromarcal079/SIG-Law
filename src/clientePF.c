@@ -59,6 +59,7 @@ int menuClientePF(void) {
     printf("|                          2 - Mostra cliente                                                 |\n");
     printf("|                          3 - Edita cliente                                                  |\n");
     printf("|                          4 - Exclui cliente                                                 |\n");
+    printf("|                          5 - Lista clientes                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

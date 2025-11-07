@@ -60,6 +60,7 @@ int menuClientePJ(void) {
     printf("|                          2 - Mostra empresa                                                 |\n");
     printf("|                          3 - Edita empresa                                                  |\n");
     printf("|                          4 - Exclui empresa                                                 |\n");
+    printf("|                          5 - Lista empresas                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

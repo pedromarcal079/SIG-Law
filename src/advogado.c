@@ -60,6 +60,7 @@ int menuAdvogado(void) {
     printf("|                               2 - Mostra Advogado                                           |\n");
     printf("|                               3 - Edita Advogado                                            |\n");
     printf("|                               4 - Exclui Processo                                           |\n");
+    printf("|                               5 - Lista Advogados                                           |\n");
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

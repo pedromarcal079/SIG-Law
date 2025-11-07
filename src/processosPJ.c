@@ -85,6 +85,7 @@ int menuProcessoPJ(void) {
     printf("|                          2 - Mostra processo                                                |\n");
     printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
+    printf("|                          5 - Lista processos                                               |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

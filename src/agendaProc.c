@@ -62,6 +62,7 @@ int menuAgendaProc(void) {
     printf("|                          2 - Mostra processo agendado                                       |\n");
     printf("|                          3 - Edita processo agendado                                        |\n");
     printf("|                          4 - Exclui processo agendado                                       |\n");
+    printf("|                          5 - Lista processos agendados                                      |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
