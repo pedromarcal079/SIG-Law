@@ -27,6 +27,9 @@ void telaEquipe(void) {
     printf("|               Henderson Emanuel Bernardo de Medeiros                                        |\n");
     printf("|               E-mail: hendersonbernardo2018@gmail.com                                       |\n");
     printf("|                                                                                             |\n");
+    printf("|               Leonardo Relva de Aráujo                                                      |\n");
+    printf("|               E-mail: leonardo.relva.111@ufrn.edu.br                                        |\n");
+    printf("|                                                                                             |\n");
     printf("|               Git: https://github.com/pedromarcal079/SIG-Law.git                            |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
