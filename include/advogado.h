@@ -2,6 +2,7 @@
 #define ADVOGADO_H
 
 typedef struct advogado{
+    int atividade;
     char cpf[15];
     char nome[50];
     char carteiraOAB[20];       // Ex: 123456/SP , 78910-RJ , 98765 RN     
@@ -18,5 +19,6 @@ void cadastraAdvogado(void);
 void mostraAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
+void relatorioAdvogado(void);
 
 #endif

@@ -34,6 +34,11 @@ void moduloAdvogado(void) {
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
+            case 5:
+                relatorioAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
             default:
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
@@ -419,4 +424,36 @@ void excluiAdvogado(void) {
         printf("+---------------------------------------------------------------------------------------------+\n");
     }
     
+}
+
+
+void relatorioAdvogado(void) {
+    FILE *arq_advogado;
+    Advogado *advogado;
+    advogado = (Advogado*) malloc(sizeof(Advogado));
+    arq_advogado = fopen ("advogado.dat", "rb");
+    if (arq_advogado == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+        if (advogado->atividade){
+            printf("|CPF: %s / ", advogado->cpf);
+            printf("Nome: %s / ", advogado->nome);
+            printf("Carteira OAB: %s / ", advogado->carteiraOAB);
+            printf("Especialidade: %s / ", advogado->especialidade);
+            printf("Data de Nascimento: %s / ", advogado->dataNasc);
+            printf("Endereço: %s / ", advogado->endereco);
+            printf("Email: %s / ", advogado->email);
+            printf("Telefone: %s\n", advogado->telefone);
+            printf("+---------------------------------------------------------------------------------------------+\n");
+        }
+    }
+    fclose(arq_advogado);
+    free(advogado);
 }
