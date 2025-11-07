@@ -19,6 +19,7 @@ void cadastraAdvogado(void);
 void mostraAdvogado(void);
 void editaAdvogado(void);
 void excluiAdvogado(void);
+void lixeiraAdvogado(void);
 void relatorioAdvogado(void);
 
 #endif
