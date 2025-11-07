@@ -350,7 +350,7 @@ void excluiAdvogado(void) {
     advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
     int tam, confi;
-    int encontrado = 0, excluir = 0;
+    int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Excluir Advogado                                         |\n");
@@ -366,7 +366,7 @@ void excluiAdvogado(void) {
     temp_advogado = fopen("temp_advogado.dat","wb");
 
     while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
-        if (strcmp(advogado->cpf, pesquisar_cpf) != 0){
+        if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
             fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
         } else {
             encontrado = 1;
@@ -384,9 +384,18 @@ void excluiAdvogado(void) {
             getchar();
 
             if (confi == 1) {
-                excluir = 1;
+                advogado->atividade = 0;
+                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                printf("|                                                                                             |\n");
+                printf("|        Advogado excluido com sucesso!                                                       |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else if (confi == 2) {
                 fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                printf("|                                                                                             |\n");
+                printf("|        Exclusão cancelada!                                                                  |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -394,6 +403,9 @@ void excluiAdvogado(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(temp_advogado);
+                fclose(arq_advogado);
+                remove("temp_advogado.dat");
                 return;
             }
         }
@@ -406,31 +418,27 @@ void excluiAdvogado(void) {
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
-        printf("|           Cliente não encontrado!            |\n");
+        printf("|           Advogado não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n"); 
-    } else if (excluir){
+    } else {
         remove("advogado.dat");
         rename("temp_advogado.dat", "advogado.dat");
-        printf("|                                                                                             |\n");
-        printf("|        Cliente excluido com sucesso!                                                        |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
-    } else {
-        remove("temp_advogado.dat");
-        printf("|                                                                                             |\n");
-        printf("|        Exclusão cancelada!                                                                  |\n");
-        printf("|                                                                                             |\n");
-        printf("+---------------------------------------------------------------------------------------------+\n");
     }
     
 }
 
 
 void relatorioAdvogado(void) {
+    system("clear");
     FILE *arq_advogado;
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Relatório de Advogados                                   |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
     arq_advogado = fopen ("advogado.dat", "rb");
     if (arq_advogado == NULL){
         system("clear");
