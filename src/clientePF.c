@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <utilidades.h>
 #include "clientePF.h"
 
 void moduloClientePF(void){
@@ -79,7 +80,6 @@ void cadastraClientePF(void) {
 
     clientePF->atividade = 1;
 
-    int tam;    
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -87,31 +87,13 @@ void cadastraClientePF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do cliente:                                                         |\n");
-
-    printf("|   ===> CPF: ");
-    fgets(clientePF->cpf, sizeof(clientePF->cpf), stdin);
-    tam = strlen(clientePF->cpf);
-    clientePF->cpf[tam-1] = '\0';
-    printf("|   ===> Nome: ");
-    fgets(clientePF->nome, sizeof(clientePF->nome), stdin);
-    tam = strlen(clientePF->nome);
-    clientePF->nome[tam-1] = '\0';
-    printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    fgets(clientePF->dataNasc, sizeof(clientePF->dataNasc), stdin);
-    tam = strlen(clientePF->dataNasc);
-    clientePF->dataNasc[tam-1] = '\0';
-    printf("|   ===> Endereço: ");
-    fgets(clientePF->endereco, sizeof(clientePF->endereco), stdin);
-    tam = strlen(clientePF->endereco);
-    clientePF->endereco[tam-1] = '\0';
-    printf("|   ===> Email: ");
-    fgets(clientePF->email, sizeof(clientePF->email), stdin);
-    tam = strlen(clientePF->email);
-    clientePF->email[tam-1] = '\0';
-    printf("|   ===> Telefone: ");
-    fgets(clientePF->telefone, sizeof(clientePF->telefone), stdin);
-    tam = strlen(clientePF->telefone);
-    clientePF->telefone[tam-1] = '\0';
+    printf("|\n");
+    input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
+    input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
+    input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");
+    input(clientePF->endereco, sizeof(clientePF->endereco), "|   ===> Endereço: ");
+    input(clientePF->email, sizeof(clientePF->email), "|   ===> Email: ");
+    input(clientePF->telefone, sizeof(clientePF->telefone), "|   ===> Telefone: ");
 
     arq_cliente = fopen("clientePF.dat","ab");
     if (arq_cliente == NULL) {
