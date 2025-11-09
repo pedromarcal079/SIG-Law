@@ -125,8 +125,8 @@ void mostraClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[16];
-    int tam;
+    char cpf_lido[16];
+    /*int tam;*/
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -134,10 +134,7 @@ void mostraClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o CPF do cliente: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(cpf_lido, sizeof(cpf_lido), "|   ===> Digite o CPF do cliente: ");
 
     arq_cliente = fopen("clientePF.dat", "rb");
     if (arq_cliente == NULL) {
@@ -151,7 +148,7 @@ void mostraClientePF(void) {
     }
 
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
-        if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
+        if (strcmp(clientePF->cpf, cpf_lido) == 0){
             encontrado = 1;
             if (clientePF->atividade == 1){
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
@@ -195,8 +192,8 @@ void editaClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[16];
-    int tam, dado;
+    char cpf_lido[16];
+    int tam, dado;   // tam nao esta sendo usado!
     int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -205,10 +202,7 @@ void editaClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o CPF do cliente: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(cpf_lido, sizeof(cpf_lido), "|   ===> Digite o CPF do cliente: ");
 
     arq_cliente = fopen("clientePF.dat", "rb");
     temp_cliente = fopen("temp_clientePF.dat","wb");
@@ -223,7 +217,7 @@ void editaClientePF(void) {
     }
 
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
-        if (strcmp(clientePF->cpf, pesquisar_cpf) == 0){
+        if (strcmp(clientePF->cpf, cpf_lido) == 0){
             encontrado = 1;
             if (clientePF->atividade == 1){
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
@@ -317,8 +311,8 @@ void excluiClientePF(void) {
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
-    char pesquisar_cpf[16];
-    int tam, confi;
+    char cpf_lido[16];
+    int tam, confi; // tam nao esta sendo usado!
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -326,16 +320,13 @@ void excluiClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o CPF do cliente: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(cpf_lido, sizeof(cpf_lido), "|   ===> Digite o CPF do cliente");
 
     arq_cliente = fopen("clientePF.dat","rb");
     temp_cliente = fopen("temp_clientePF.dat","wb");
 
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
-        if (strcmp(clientePF->cpf, pesquisar_cpf) != 0){
+        if (strcmp(clientePF->cpf, cpf_lido) != 0){
             fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
         } else {
             encontrado = 1;
