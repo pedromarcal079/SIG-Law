@@ -550,6 +550,96 @@ void excluiProcessoPF(void) {
 }
 
 
+void lixeiraProcessoPF(void) {
+    system("clear");
+    FILE *arq_processoPF;
+    FILE *temp_processoPF;
+    ProcessoPF *processoPF;
+    processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    int opcao;
+    char pesquisar_id[5];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Lixeira Processo PF                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Você deseja restaurar um processo ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
+    scanf("%d", &opcao);
+    getchar();
+    arq_processoPF = fopen("processoPF.dat", "rb");
+    temp_processoPF = fopen("temp_processoPF.dat","wb");
+
+    if (arq_processoPF == NULL || temp_processoPF == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    if (opcao == 1) {
+        printf("Digite o ID do processo que deseja restaurar: ");
+        fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+        int tam = strlen(pesquisar_id);
+        pesquisar_id[tam-1] = '\0';
+        while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1){
+            int idBusca = atoi(pesquisar_id);
+            if ((processoPF->id == idBusca) && (processoPF->atividade == 0)){
+                processoPF->atividade = 1;
+                fwrite(processoPF, sizeof(ProcessoPF), 1, temp_processoPF);
+                printf("|                                                                                             |\n");
+                printf("|        Processo restaurado com sucesso!                                                     |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(temp_processoPF);
+                fclose(arq_processoPF);
+                remove("processoPF.dat");
+                rename("temp_processoPF.dat", "processoPF.dat");
+                return;
+            }  
+            else {
+                system("clear");
+                printf("+-------------------------------------------------------+\n");
+                printf("|                                                       |\n");
+                printf("|  Não há Processo com esse Id que esteja na lixeira!  |\n");
+                printf("|                                                       |\n");
+                printf("+-------------------------------------------------------+\n");
+                fclose(temp_processoPF);
+                fclose(arq_processoPF);
+                remove("temp_processoPF.dat");
+                return;
+            }
+        }
+    } 
+    else if (opcao == 2) {
+        while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1){
+            if (processoPF->atividade == 1){
+                fwrite(processoPF, sizeof(ProcessoPF), 1, temp_processoPF);
+            }
+        }
+        fclose(arq_processoPF);
+        fclose(temp_processoPF);
+        remove("processoPF.dat");
+        rename("temp_processoPF.dat", "processoPF.dat");
+        return;
+    } 
+    else {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|       Você digitou uma opção inválida!       |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        fclose(temp_processoPF);
+        fclose(arq_processoPF);
+        remove("temp_processoPF.dat");
+        return;
+    }
+}
+
+
 void relatorioProcessosPF(void) {
     FILE *arq_processoPF;
     ProcessoPF *processoPF;
