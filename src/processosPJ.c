@@ -58,6 +58,11 @@ void moduloProcPJ(void) {
             printf("Pressione ENTER ... \n");
             getchar();
             break;
+        case 5:
+            relatorioProcessosPJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
         default:
             system("clear");
             printf("+----------------------------------------------+\n");
@@ -85,7 +90,7 @@ int menuProcessoPJ(void) {
     printf("|                          2 - Mostra processo                                                |\n");
     printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
-    printf("|                          5 - Lista processos                                               |\n");
+    printf("|                          5 - Listar processos                                               |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -567,4 +572,36 @@ void excluiProcessoPJ(void) {
         remove("processoPJ.dat");
         rename("temp_processoPJ.dat", "processoPJ.dat");
     }
+}
+
+
+void relatorioProcessosPJ(void) {
+    FILE *arq_processoPJ;
+    ProcessoPJ *processoPJ;
+    processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    arq_processoPJ = fopen ("processoPJ.dat", "rb");
+    if (arq_processoPJ == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+        if (processoPJ->atividade){
+            printf("|ID: %d / ", processoPJ->id);
+            printf("Tipo: %s / ", processoPJ->tipo);
+            printf("Autor: %s / ", processoPJ->autor);
+            printf("Réu: %s / ", processoPJ->reu);
+            printf("Carteira OAB: %s / ", processoPJ->advOAB);
+            printf("Descrição: %s / ", processoPJ->descricao);
+            printf("Data: %s / ", processoPJ->data);
+            printf("Status: %s\n", processoPJ->status);
+            printf("+---------------------------------------------------------------------------------------------+\n");
+        }
+    }
+    fclose(arq_processoPJ);
+    free(processoPJ);
 }

@@ -23,6 +23,7 @@ void cadastraProcessoPJ(void);
 void mostraProcessoPJ(void);
 void editaProcessoPJ(void);
 void excluiProcessoPJ(void);
+void relatorioProcessosPJ(void);
 
 int gerarID_PJ();
 int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ);
