@@ -59,6 +59,11 @@ void moduloProcPJ(void) {
             getchar();
             break;
         case 5:
+            lixeiraAdvogado();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 6:
             relatorioProcessosPJ();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -90,7 +95,8 @@ int menuProcessoPJ(void) {
     printf("|                          2 - Mostra processo                                                |\n");
     printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
-    printf("|                          5 - Listar processos                                               |\n");
+    printf("|                          5 - Lixeira                                                        |\n");
+    printf("|                          6 - Relatório                                                       |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -459,7 +465,6 @@ void excluiProcessoPJ(void) {
 
     char pesquisar_id[5];
     int tam, confi;
-    int encontrado = 0;
 
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -495,7 +500,6 @@ void excluiProcessoPJ(void) {
         if (processoPJ->id != idBusca) {
             fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
         } else {
-            encontrado = 1;
             if (encontraClientePJ(clientePJ, processoPJ->autor, arq_clientePJ)) {
                 printf("|\t\tAutor: %s (CNPJ: %s)\n", clientePJ->razaoSocial, clientePJ->cnpj);
             } else {
@@ -553,24 +557,94 @@ void excluiProcessoPJ(void) {
             }
         }
     }
+}
 
-    fclose(arq_processoPJ);
-    fclose(temp_processoPJ);
-    fclose(arq_clientePJ);
-    fclose(arq_clientePF);
-    fclose(arq_advogado);
+void lixeiraProcessoPJ(void) {
+    system("clear");
+    FILE *arq_processoPJ;
+    FILE *temp_processoPJ;
+    ProcessoPJ *processoPJ;
+    processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    int opcao;
+    char pesquisar_id[5];
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Lixeira Processo PF                                      |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Você deseja restaurar um processo ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
+    scanf("%d", &opcao);
+    getchar();
+    arq_processoPJ = fopen("processoPJ.dat", "rb");
+    temp_processoPJ = fopen("temp_processoPJ.dat","wb");
 
-    if (!encontrado) {
-        remove("temp_processoPJ.dat");
+    if (arq_processoPJ == NULL || temp_processoPJ == NULL) {
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
-        printf("|          Processo não encontrado!            |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-    } else {
+        return;
+    }
+    if (opcao == 1) {
+        printf("Digite o ID do processo que deseja restaurar: ");
+        fgets(pesquisar_id, sizeof(pesquisar_id), stdin);
+        int tam = strlen(pesquisar_id);
+        pesquisar_id[tam-1] = '\0';
+        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1){
+            int idBusca = atoi(pesquisar_id);
+            if ((processoPJ->id == idBusca) && (processoPJ->atividade == 0)){
+                processoPJ->atividade = 1;
+                fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
+                printf("|                                                                                             |\n");
+                printf("|        Processo restaurado com sucesso!                                                     |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(temp_processoPJ);
+                fclose(arq_processoPJ);
+                remove("processoPJ.dat");
+                rename("temp_processoPJ.dat", "processoPJ.dat");
+                return;
+            }  
+            else {
+                system("clear");
+                printf("+-------------------------------------------------------+\n");
+                printf("|                                                       |\n");
+                printf("|  Não há Processo com esse Id que esteja na lixeira!  |\n");
+                printf("|                                                       |\n");
+                printf("+-------------------------------------------------------+\n");
+                fclose(temp_processoPJ);
+                fclose(arq_processoPJ);
+                remove("temp_processoPJ.dat");
+                return;
+            }
+        }
+    } 
+    else if (opcao == 2) {
+        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1){
+            if (processoPJ->atividade == 1){
+                fwrite(processoPJ, sizeof(ProcessoPJ), 1, temp_processoPJ);
+            }
+        }
+        fclose(arq_processoPJ);
+        fclose(temp_processoPJ);
         remove("processoPJ.dat");
         rename("temp_processoPJ.dat", "processoPJ.dat");
+        return;
+    } 
+    else {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|       Você digitou uma opção inválida!       |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        fclose(temp_processoPJ);
+        fclose(arq_processoPJ);
+        remove("temp_processoPJ.dat");
+        return;
     }
 }
 
