@@ -60,6 +60,11 @@ void moduloProcPF(void) {
             getchar();
             break;
         case 5:
+            lixeiraAdvogado();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 6:
             relatorioProcessosPF();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -90,7 +95,8 @@ int menuProcessoPF(void) {
     printf("|                          2 - Mostra processo                                                |\n");
     printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
-    printf("|                          5 - Listar processos                                               |\n");
+    printf("|                          5 - Lixeira                                                        |\n");
+    printf("|                          6 - Relatório                                                       |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");

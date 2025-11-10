@@ -23,6 +23,7 @@ void cadastraProcessoPJ(void);
 void mostraProcessoPJ(void);
 void editaProcessoPJ(void);
 void excluiProcessoPJ(void);
+void lixeiraProcessoPJ(void);
 void relatorioProcessosPJ(void);
 
 int gerarID_PJ();
