@@ -19,6 +19,7 @@ void cadastraProcessoPF(void);
 void mostraProcessoPF(void);
 void editaProcessoPF(void);
 void excluiProcessoPF(void);
+void relatorioProcessosPF(void);
 
 int gerarID_PJ();
 
