@@ -438,11 +438,11 @@ void relatorioClientePJ(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
-    printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
+    printf("%-30s %-30s %-30s %-30s %-30s %-30s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
     printf("+------------------------------------------------------------------------------------------------------+\n");
     while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ)) {
         if (clientePJ->atividade == 1){
-            printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", clientePJ->cnpj, clientePJ->razaoSocial, clientePJ->nomeFantasia, clientePJ->endereco, clientePJ->email, clientePJ->telefone);
+            printf("%-30s %-30s %-30s %-30s %-30s %-30s\n", clientePJ->cnpj, clientePJ->razaoSocial, clientePJ->nomeFantasia, clientePJ->endereco, clientePJ->email, clientePJ->telefone);
         }
         printf("+------------------------------------------------------------------------------------------------------+\n");
     }
