@@ -33,6 +33,8 @@ void moduloClientePJ(void) {
             printf("Pressione ENTER ... \n");
             getchar();
             break;
+        case 5:
+            
         default:
             system("clear");
             printf("+----------------------------------------------+\n");
@@ -430,4 +432,36 @@ void excluiClientePJ(void) {
         remove("clientePJ.dat");
         rename("temp_clientePJ.dat", "clientePJ.dat");
     }
+}
+
+void relatorioClientePJ(void) {
+    system("clear");
+    FILE *arq_cliente;
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                       |\n");
+    printf("|                                         Relatório de Advogados                                        |\n");
+    printf("|                                                                                                       |\n");
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    arq_cliente = fopen ("clientePJ.dat", "rb");
+    if (arq_cliente == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
+    printf("+------------------------------------------------------------------------------------------------------+\n");
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_cliente)) {
+        if (clientePJ->atividade == 1){
+            printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", clientePJ->cnpj, clientePJ->razaoSocial, clientePJ->nomeFantasia, clientePJ->endereco, clientePJ->email, ClientePJ->telefone);
+        }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
+    }
+    fclose(arq_cliente);
+    free(clientePF);
 }
