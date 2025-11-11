@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <utilidades.h>
+#include "validacao.h"
 #include "clientePF.h"
 
 void moduloClientePF(void){
@@ -30,6 +31,11 @@ void moduloClientePF(void){
             break;
         case 4:
             excluiClientePF();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 5:
+            relatorioClientePF();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
@@ -89,11 +95,14 @@ void cadastraClientePF(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|\n");
     input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
-    input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
-    input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");
+    input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: "); 
+    input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): "); 
     input(clientePF->endereco, sizeof(clientePF->endereco), "|   ===> Endereço: ");
     input(clientePF->email, sizeof(clientePF->email), "|   ===> Email: ");
     input(clientePF->telefone, sizeof(clientePF->telefone), "|   ===> Telefone: ");
+    
+    
+    
 
     arq_cliente = fopen("clientePF.dat","ab");
     if (arq_cliente == NULL) {
@@ -312,7 +321,7 @@ void excluiClientePF(void) {
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
     char cpf_lido[16];
-    int tam, confi; // tam nao esta sendo usado!
+    int confi; // tam nao esta sendo usado!
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -380,4 +389,36 @@ void excluiClientePF(void) {
         rename("temp_clientePF.dat", "clientePF.dat");
     }
     
+}
+
+void relatorioClientePF(void) {
+    system("clear");
+    FILE *arq_cliente;
+    ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                       |\n");
+    printf("|                                         Relatório de Advogados                                        |\n");
+    printf("|                                                                                                       |\n");
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    arq_cliente = fopen ("clientePF.dat", "rb");
+    if (arq_cliente == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
+    printf("+------------------------------------------------------------------------------------------------------+\n");
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente)) {
+        if (clientePF->atividade == 1){
+            printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+        }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
+    }
+    fclose(arq_cliente);
+    free(clientePF);
 }
