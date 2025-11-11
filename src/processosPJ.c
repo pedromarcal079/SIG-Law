@@ -663,18 +663,13 @@ void relatorioProcessosPJ(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
+    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+    printf("+------------------------------------------------------------------------------------------------------+\n");
     while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
         if (processoPJ->atividade){
-            printf("|ID: %d / ", processoPJ->id);
-            printf("Tipo: %s / ", processoPJ->tipo);
-            printf("Autor: %s / ", processoPJ->autor);
-            printf("Réu: %s / ", processoPJ->reu);
-            printf("Carteira OAB: %s / ", processoPJ->advOAB);
-            printf("Descrição: %s / ", processoPJ->descricao);
-            printf("Data: %s / ", processoPJ->data);
-            printf("Status: %s\n", processoPJ->status);
-            printf("+---------------------------------------------------------------------------------------------+\n");
+            printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
         }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
     }
     fclose(arq_processoPJ);
     free(processoPJ);
