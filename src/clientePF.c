@@ -396,11 +396,11 @@ void relatorioClientePF(void) {
     FILE *arq_cliente;
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
-    printf("+-------------------------------------------------------------------------------------------------------+\n");
-    printf("|                                                                                                       |\n");
-    printf("|                                         Relatório de Advogados                                        |\n");
-    printf("|                                                                                                       |\n");
-    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                                                                 |\n");
+    printf("|                                                              Relatório de Advogados                                                             |\n");
+    printf("|                                                                                                                                                 |\n");
+    printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     arq_cliente = fopen ("clientePF.dat", "rb");
     if (arq_cliente == NULL){
         system("clear");
@@ -411,13 +411,13 @@ void relatorioClientePF(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
-    printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
-    printf("+------------------------------------------------------------------------------------------------------+\n");
+    printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
+    printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente)) {
         if (clientePF->atividade == 1){
-            printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+            printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
         }
-        printf("+------------------------------------------------------------------------------------------------------+\n");
+        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     }
     fclose(arq_cliente);
     free(clientePF);
