@@ -533,18 +533,13 @@ void relatorioAdvogado(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
+    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
+    printf("+------------------------------------------------------------------------------------------------------+\n");
     while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
         if (advogado->atividade){
-            printf("|CPF: %s / ", advogado->cpf);
-            printf("Nome: %s / ", advogado->nome);
-            printf("Carteira OAB: %s / ", advogado->carteiraOAB);
-            printf("Especialidade: %s / ", advogado->especialidade);
-            printf("Data de Nascimento: %s / ", advogado->dataNasc);
-            printf("Endereço: %s / ", advogado->endereco);
-            printf("Email: %s / ", advogado->email);
-            printf("Telefone: %s\n", advogado->telefone);
-            printf("+---------------------------------------------------------------------------------------------+\n");
+            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
         }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
     }
     fclose(arq_advogado);
     free(advogado);
