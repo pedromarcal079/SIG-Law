@@ -96,6 +96,7 @@ void cadastraClientePF(void) {
     printf("|\n");
     input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
     input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: "); 
+    input(clientePF->sexo, sizeof(clientePF->sexo), "|   ===> Qual genero (Masculino = M) ou (Feminino = F): ");
     input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): "); 
     input(clientePF->endereco, sizeof(clientePF->endereco), "|   ===> Endereço: ");
     input(clientePF->email, sizeof(clientePF->email), "|   ===> Email: ");
@@ -115,6 +116,13 @@ void cadastraClientePF(void) {
         free(clientePF);
         return;
     }
+
+    if(clientePF->sexo[0] == 'm' || clientePF->sexo[0] == 'M'){
+        strcpy(clientePF->sexo,"Masculino");
+    }else{
+        strcpy(clientePF->sexo,"Feminino");
+    }
+
     fwrite(clientePF, sizeof(ClientePF), 1, arq_cliente);
     fclose(arq_cliente);
     free(clientePF);
@@ -162,6 +170,7 @@ void mostraClientePF(void) {
             if (clientePF->atividade == 1){
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
                 printf("|\t\tNome: %s\n", clientePF->nome);
+                printf("|\t\tSexo: %s\n", clientePF->sexo);
                 printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
                 printf("|\t\tEndereço: %s\n", clientePF->endereco);
                 printf("|\t\tEmail: %s\n", clientePF->email);
@@ -396,9 +405,11 @@ void relatorioClientePF(void) {
     FILE *arq_cliente;
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    char op_sexo[15];
+    char filtro_sexo[15];
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                                                                 |\n");
-    printf("|                                                              Relatório de Advogados                                                             |\n");
+    printf("|                                                              Relatório de Clientes                                                              |\n");
     printf("|                                                                                                                                                 |\n");
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     arq_cliente = fopen ("clientePF.dat", "rb");
@@ -409,16 +420,33 @@ void relatorioClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        free(clientePF);
         return;
     }
+    printf("Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
+    scanf("%s", op_sexo);
+
+    if(op_sexo[0] == 'm' || op_sexo[0] == 'M'){
+        strcmp(filtro_sexo, "Masculino");
+    }else{
+        strcmp(filtro_sexo, "Feminino");
+    }
+
     printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente)) {
-        if (clientePF->atividade == 1){
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
+        if(strcmp(filtro_sexo, clientePF->sexo) == 0){
+            if (clientePF->atividade == 1){
+                printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+            }
+            printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        }
+        /*if (clientePF->atividade == 1){
             printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
         }
         printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    }
+    }*/
     fclose(arq_cliente);
     free(clientePF);
+    }
 }
