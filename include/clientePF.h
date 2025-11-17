@@ -5,6 +5,7 @@ typedef struct clientePF{
     int atividade;
     char cpf[16];
     char nome[50];
+    char sexo[15];
     char dataNasc[13];
     char endereco[100];
     char email[100];
