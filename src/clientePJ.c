@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utilidades.h"
 #include "clientePJ.h"
 
 
@@ -30,6 +31,11 @@ void moduloClientePJ(void) {
             break;
         case 4:
             excluiClientePJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 5:
+            relatorioClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
             break;
@@ -80,7 +86,13 @@ void cadastraClientePJ(void) {
 
     clientePJ->atividade = 1;
 
-    int tam;
+    // COMENTARIO ANTIGO :
+    // quando eu vou cadastrar um clientePJ eu colocoo cnpj sendo alguns números + J
+    // Ex.: 12345J, para não dar conflito na função de achar cpf ou cnpj no módulo de processos,
+    // já que as vezes eu coloco os mesmos números fáceis de lembrar como teste para ambo
+    
+
+    //int tam;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Empresa                                     |\n");
@@ -88,42 +100,16 @@ void cadastraClientePJ(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|        Informe os dados da empresa:                                                         |\n");
-    printf("|   ===> CNPJ: ");                                                 // quando eu vou cadastrar um clientePJ eu colocoo cnpj sendo alguns números + J
-    fgets(clientePJ->cnpj, sizeof(clientePJ->cnpj), stdin);                    // Ex.: 12345J, para não dar conflito na função de achar cpf ou cnpj no módulo de processos,
-    tam = strlen(clientePJ->cnpj);                                             // já que as vezes eu coloco os mesmos números fáceis de lembrar como teste para ambos
-    clientePJ->cnpj[tam-1] = '\0';
-    printf("|   ===> Razão Social: ");
-    fgets(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), stdin);
-    tam = strlen(clientePJ->razaoSocial);
-    clientePJ->razaoSocial[tam-1] = '\0';
-    printf("|   ===> Nome Fantasia: ");
-    fgets(clientePJ->nomeFantasia, sizeof(clientePJ->nomeFantasia), stdin);
-    tam = strlen(clientePJ->nomeFantasia);
-    clientePJ->nomeFantasia[tam-1] = '\0';
-    printf("|   ===> Nome do Representante: ");
-    fgets(clientePJ->repres, sizeof(clientePJ->repres), stdin);
-    tam = strlen(clientePJ->repres);
-    clientePJ->repres[tam-1] = '\0';
-    printf("|   ===> CPF do Representante: ");
-    fgets(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), stdin);
-    tam = strlen(clientePJ->cpfRepres);
-    clientePJ->cpfRepres[tam-1] = '\0';
-    printf("|   ===> Área de Atuação: ");
-    fgets(clientePJ->areaAtuacao, sizeof(clientePJ->areaAtuacao), stdin);
-    tam = strlen(clientePJ->areaAtuacao);
-    clientePJ->areaAtuacao[tam-1] = '\0';
-    printf("|   ===> Endereço: ");
-    fgets(clientePJ->endereco, sizeof(clientePJ->endereco), stdin);
-    tam = strlen(clientePJ->endereco);
-    clientePJ->endereco[tam-1] = '\0';
-    printf("|   ===> Email: ");
-    fgets(clientePJ->email, sizeof(clientePJ->email), stdin);
-    tam = strlen(clientePJ->email);
-    clientePJ->email[tam-1] = '\0';
-    printf("|   ===> Telefone: ");
-    fgets(clientePJ->telefone, sizeof(clientePJ->telefone), stdin);
-    tam = strlen(clientePJ->telefone);
-    clientePJ->telefone[tam-1] = '\0';
+    printf("|\n");
+    input(clientePJ->cnpj, sizeof(clientePJ->cnpj), "|   ===> CNPJ: ");
+    input(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), "|   ===> Razão Social: ");
+    input(clientePJ->nomeFantasia, sizeof(clientePJ->nomeFantasia), "|   ===> Nome Fantasia: ");
+    input(clientePJ->repres, sizeof(clientePJ->repres), "|   ===> Nome do Representante: ");
+    input(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), "|   ===> CPF do Representante: ");
+    input(clientePJ->areaAtuacao, sizeof(clientePJ->areaAtuacao), "|   ===> Área de Atuação: ");
+    input(clientePJ->endereco, sizeof(clientePJ->endereco), "|   ===> Endereço: ");
+    input(clientePJ->email, sizeof(clientePJ->email), "|   ===> Email: ");
+    input(clientePJ->telefone, sizeof(clientePJ->telefone), "|   ===> Telefone: ");
 
     arq_empresa = fopen("clientePJ.dat","ab");
     if (arq_empresa == NULL) {
@@ -430,4 +416,36 @@ void excluiClientePJ(void) {
         remove("clientePJ.dat");
         rename("temp_clientePJ.dat", "clientePJ.dat");
     }
+}
+
+void relatorioClientePJ(void) {
+    system("clear");
+    FILE *arq_clientePJ;
+    ClientePJ *clientePJ;
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                       |\n");
+    printf("|                                         Relatório de Advogados                                        |\n");
+    printf("|                                                                                                       |\n");
+    printf("+-------------------------------------------------------------------------------------------------------+\n");
+    arq_clientePJ = fopen ("clientePJ.dat", "rb");
+    if (arq_clientePJ == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
+    printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
+    printf("+------------------------------------------------------------------------------------------------------+\n");
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ)) {
+        if (clientePJ->atividade == 1){
+            printf("%-15s %-15s %-30s %-15s %-15s %-15s\n", clientePJ->cnpj, clientePJ->razaoSocial, clientePJ->nomeFantasia, clientePJ->endereco, clientePJ->email, clientePJ->telefone);
+        }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
+    }
+    fclose(arq_clientePJ);
+    free(clientePJ);
 }
