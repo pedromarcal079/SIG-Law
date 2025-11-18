@@ -405,7 +405,7 @@ void relatorioClientePF(void) {
     FILE *arq_cliente;
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
-    char op_sexo[15];
+    char op_sexo[3];
     char filtro_sexo[15];
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                                                                 |\n");
@@ -424,12 +424,13 @@ void relatorioClientePF(void) {
         return;
     }
     printf("Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
-    scanf("%s", op_sexo);
+    scanf("%c", op_sexo);
+    getchar();
 
     if(op_sexo[0] == 'm' || op_sexo[0] == 'M'){
-        strcmp(filtro_sexo, "Masculino");
+        strcpy(filtro_sexo, "Masculino");
     }else{
-        strcmp(filtro_sexo, "Feminino");
+        strcpy(filtro_sexo, "Feminino");
     }
 
     printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
@@ -440,13 +441,9 @@ void relatorioClientePF(void) {
                 printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
             }
             printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            
         }
-        /*if (clientePF->atividade == 1){
-            printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
-        }
-        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    }*/
+    }
     fclose(arq_cliente);
     free(clientePF);
-    }
 }
