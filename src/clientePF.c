@@ -417,6 +417,7 @@ void relatorioClientePF(void) {
     FILE *arq_cliente;
     ClientePF *clientePF;
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    int opcao;
     char op_sexo[3];
     char filtro_sexo[15];
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
@@ -424,38 +425,56 @@ void relatorioClientePF(void) {
     printf("|                                                              Relatório de Clientes                                                              |\n");
     printf("|                                                                                                                                                 |\n");
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    arq_cliente = fopen ("clientePF.dat", "rb");
-    if (arq_cliente == NULL){
-        system("clear");
-        printf("+----------------------------------------------+\n");
-        printf("|                                              |\n");
-        printf("|           Erro ao abrir o arquivo!           |\n");
-        printf("|                                              |\n");
-        printf("+----------------------------------------------+\n");
-        free(clientePF);
-        return;
-    }
-    printf("Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
-    scanf("%c", op_sexo);
+    printf("| gostaria de filtrar algum dado? (1- Sim / 2- Não):                                          |\n");
+    scanf("%i", &opcao);
     getchar();
-
-    if(op_sexo[0] == 'm' || op_sexo[0] == 'M'){
-        strcpy(filtro_sexo, "Masculino");
-    }else{
-        strcpy(filtro_sexo, "Feminino");
-    }
-
-    printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
-    printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
-        if(strcmp(filtro_sexo, clientePF->sexo) == 0){
-            if (clientePF->atividade == 1){
+    if (opcao == 2){
+        arq_cliente = fopen ("clientePF.dat", "rb");
+        if (arq_cliente == NULL){
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            free(clientePF);
+            return;
+        }
+        printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
+        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+            if(clientePF->atividade == 1){
                 printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
             }
             printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-            
         }
+        fclose(arq_cliente);
+        free(clientePF);
     }
-    fclose(arq_cliente);
-    free(clientePF);
+    else if(opcao == 1){
+        arq_cliente = fopen ("clientePF.dat", "rb");
+        printf("Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
+        scanf("%c", op_sexo);
+        getchar();
+
+        if(op_sexo[0] == 'm' || op_sexo[0] == 'M'){
+            strcpy(filtro_sexo, "Masculino");
+        }else{
+            strcpy(filtro_sexo, "Feminino");
+        }
+
+        printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
+        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
+            if(strcmp(filtro_sexo, clientePF->sexo) == 0){
+                if (clientePF->atividade == 1){
+                    printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+                }   
+                printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            
+            }
+        }
+        fclose(arq_cliente);
+        free(clientePF);
+    }
 }
