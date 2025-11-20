@@ -94,16 +94,28 @@ void cadastraClientePF(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|\n");
-    input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
-    input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: "); 
+    do{
+        input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
+    }while(!vali_cpf(clientePF->cpf));
+
+    do{
+        input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
+    }while(!vali_nome(clientePF->nome));
+     
     input(clientePF->sexo, sizeof(clientePF->sexo), "|   ===> Qual genero (Masculino = M) ou (Feminino = F): ");
-    input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): "); 
+    
+    do{
+        input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");
+    }while(!vali_dataNasc(clientePF->dataNasc));
+
     input(clientePF->endereco, sizeof(clientePF->endereco), "|   ===> Endereço: ");
+    
     input(clientePF->email, sizeof(clientePF->email), "|   ===> Email: ");
-    input(clientePF->telefone, sizeof(clientePF->telefone), "|   ===> Telefone: ");
     
-    
-    
+    do{
+        input(clientePF->telefone, sizeof(clientePF->telefone), "|   ===> Telefone: ");
+    }while(!vali_telefone(clientePF->telefone));
+
 
     arq_cliente = fopen("clientePF.dat","ab");
     if (arq_cliente == NULL) {
