@@ -101,8 +101,10 @@ void cadastraClientePF(void) {
     do{
         input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
     }while(!vali_nome(clientePF->nome));
-     
-    input(clientePF->sexo, sizeof(clientePF->sexo), "|   ===> Qual genero (Masculino = M) ou (Feminino = F): ");
+
+    do{
+        input(clientePF->sexo, sizeof(clientePF->sexo), "|   ===> Qual genero (Masculino = M) ou (Feminino = F): ");
+    }while(!vali_sexo(clientePF->sexo));
     
     do{
         input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");
@@ -131,7 +133,7 @@ void cadastraClientePF(void) {
 
     if(clientePF->sexo[0] == 'm' || clientePF->sexo[0] == 'M'){
         strcpy(clientePF->sexo,"Masculino");
-    }else{
+    }else if(clientePF->sexo[0] == 'f' || clientePF->sexo[0] == 'F'){
         strcpy(clientePF->sexo,"Feminino");
     }
 
@@ -425,7 +427,7 @@ void relatorioClientePF(void) {
     printf("|                                                              Relatório de Clientes                                                              |\n");
     printf("|                                                                                                                                                 |\n");
     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-    printf("| gostaria de filtrar algum dado? (1- Sim / 2- Não):                                          |\n");
+    printf("| gostaria de filtrar algum dado? (1- Sim / 2- Não): ");
     scanf("%i", &opcao);
     getchar();
     if (opcao == 2){
@@ -440,7 +442,7 @@ void relatorioClientePF(void) {
             free(clientePF);
             return;
         }
-        printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
+        printf("\n%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
         printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if(clientePF->atividade == 1){
@@ -453,7 +455,8 @@ void relatorioClientePF(void) {
     }
     else if(opcao == 1){
         arq_cliente = fopen ("clientePF.dat", "rb");
-        printf("Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
+        printf("|\n");
+        printf("| Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
         scanf("%c", op_sexo);
         getchar();
 

@@ -12,6 +12,10 @@ int vali_cpf(const char* cpf){
         printf("Coloque um cpf que não esteja vazio!\n");
         return false;
     }
+    if (strlen(cpf) != 11){
+        printf("CPF INVALIDO!\n");
+        return false;
+    }
     while (cpf[i] != '\0'){
         if(!iswdigit(cpf[i]) || cpf[i] == ' '){
             printf("Coloque apenas números!\n");
@@ -30,7 +34,7 @@ int vali_nome(const char* nome){
     }
 
     while (nome[i] != '\0'){
-        if(!iswalpha(nome[i]) && nome[i] != ' '){
+        if(!iswalpha(nome[i]) || nome[i] == ' '){
             printf("Coloque apenas letras e espaços!\n");
             return false;
         }
@@ -129,6 +133,27 @@ int vali_telefone(const char* telefone){
             return false;
         }
         i++;
+    }
+    return true;
+}
+
+int vali_sexo(char* sexo){
+    int i = 0;
+    if(strlen(sexo) == 0){
+        printf("\tDigite 'm' ou 'f'\n");
+        return false;
+    }
+    while(sexo[i] != '\0'){
+        if(sexo[i] == 'm' || sexo[i] == 'M'){
+            return true;
+        }
+        else if(sexo[i] == 'f' || sexo[i] == 'F'){
+            return true;
+        }
+        else{
+            printf("\tGenero incorreto!\n");
+            return false;
+        }
     }
     return true;
 }
