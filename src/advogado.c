@@ -88,6 +88,7 @@ void cadastraAdvogado(void) {
     int tam, espec;
     FILE *arq_advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
+    advogado->atividade = 1;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Advogado                                       |\n");
