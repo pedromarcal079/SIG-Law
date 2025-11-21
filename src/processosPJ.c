@@ -653,24 +653,148 @@ void relatorioProcessosPJ(void) {
     FILE *arq_processoPJ;
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
-    arq_processoPJ = fopen ("processoPJ.dat", "rb");
-    if (arq_processoPJ == NULL){
-        system("clear");
-        printf("+----------------------------------------------+\n");
-        printf("|                                              |\n");
-        printf("|           Erro ao abrir o arquivo!           |\n");
-        printf("|                                              |\n");
-        printf("+----------------------------------------------+\n");
-        return;
-    }
-    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
-    printf("+------------------------------------------------------------------------------------------------------+\n");
-    while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
-        if (processoPJ->atividade){
-            printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+    int opcao, filtro, pesq_filtro;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Relatório de Advogados                                   |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("| gostaria de filtrar algum dado? (1- Sim / 2- Não):                                          |\n");
+    scanf("%d", &opcao);
+    getchar();
+    if(opcao == 2){
+        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+        if (arq_processoPJ == NULL){
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            return;
         }
+        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
         printf("+------------------------------------------------------------------------------------------------------+\n");
+        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+            if (processoPJ->atividade){
+                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+            }
+            printf("+------------------------------------------------------------------------------------------------------+\n");
+        }
+        fclose(arq_processoPJ);
+        free(processoPJ);
     }
-    fclose(arq_processoPJ);
-    free(processoPJ);
+    else if (opcao == 1){
+        printf("+---------------------------------------------------------------------------------------------+\n");
+        printf("|                                                                                             |\n");
+        printf("|   ===> Qual dado você deseja filtrar?                                                       |\n");
+        printf("|        1 - Tipo                                                                             |\n");
+        printf("|        2 - Status                                                                           |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+        scanf("%d", &filtro);
+        getchar();
+        switch(filtro){
+            case 1: {
+                printf("|     ===> Digite o tipo de processo que deseja filtrar:      |\n");
+                printf("| 1-Civil  2-Penal  3-Trabalista  4-Tributário  5-Empresarial |\n");
+                scanf("%d", &pesq_filtro);
+                getchar();
+                switch(pesq_filtro){
+                    case 1: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->tipo, "Civil") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                    case 2: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->tipo, "Penal") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                    case 3: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->tipo, "Trabalhista") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                    case 4: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->tipo, "Tributário") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                    case 5: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->tipo, "Empresarial") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                }
+            }; break;
+            case 2: {
+                printf("|     ===> Digite o status do processo que deseja filtrar:      |\n");
+                printf("|                1-Em andamento  2-Concluído                    |\n");
+                scanf("%d", &pesq_filtro);
+                getchar();
+                switch(pesq_filtro){
+                    case 1: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->status, "Em andamento") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                    case 2: {
+                        arq_processoPJ = fopen ("processoPJ.dat", "rb");
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
+                        while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+                            if (processoPJ->atividade && strcmp(processoPJ->status, "Concluído") == 0){
+                                printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPJ->id, processoPJ->tipo, processoPJ->autor, processoPJ->reu, processoPJ->advOAB, processoPJ->descricao, processoPJ->data, processoPJ->status);
+                            }
+                            printf("+------------------------------------------------------------------------------------------------------+\n");
+                        }
+                        fclose(arq_processoPJ);
+                    }; break;
+                }
+            }; break;
+        }
+    }
 }
