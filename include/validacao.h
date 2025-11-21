@@ -6,5 +6,6 @@ int vali_nome(const char* nome);
 int vali_carteiraOAB(const char* carteiraOAB);
 int vali_dataNasc(const char* dataNasc);
 int vali_telefone(const char* telefone);
+int vali_sexo(char* sexo);
 
 #endif
