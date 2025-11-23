@@ -3,6 +3,7 @@
 #include <string.h>
 #include "utilidades.h"
 #include "clientePJ.h"
+#include "validacao.h"
 
 
 void moduloClientePJ(void) {
