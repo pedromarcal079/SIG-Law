@@ -189,6 +189,7 @@ void mostraClientePF(void) {
                 printf("|\t\tEndereço: %s\n", clientePF->endereco);
                 printf("|\t\tEmail: %s\n", clientePF->email);
                 printf("|\t\tTelefone: %s\n", clientePF->telefone);
+                printf("|\t\tID do Processo: %s\n", clientePF->idProcesso);
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 return;
