@@ -110,9 +110,14 @@ int menuProcessoPF(void) {
 void cadastraProcessoPF(void) {
     system("clear");
     FILE *arq_processoPF;
+    /*FILE *arq_cliente;
+    FILE *temp_cliente;*/
 
     ProcessoPF *processoPF;
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+
+    /*ClientePF *clientePF;
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));*/
 
     processoPF->id = gerarID_PF();
     processoPF->atividade = 1;
@@ -151,6 +156,9 @@ void cadastraProcessoPF(void) {
     processoPF->data[tam-1] = '\0';
     strcpy(processoPF->status, "Em Andamento");
 
+    /*arq_cliente = fopen("clientePF.dat", "rb");
+    temp_cliente = fopen("temp_cliente.dat", "wb");*/
+
     arq_processoPF = fopen("processoPF.dat","ab");
     if (arq_processoPF == NULL){
         system("clear");
@@ -164,6 +172,21 @@ void cadastraProcessoPF(void) {
     }
     fwrite(processoPF, sizeof(ProcessoPF),1,arq_processoPF);
     fclose(arq_processoPF);
+
+    /*while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+        if(strcmp(processoPF->autor, clientePF->cpf) == 0){
+            strcpy(clientePF->idProcesso, processoPF->id);
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+        }else{
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+        }
+    }
+
+    fclose(arq_cliente);
+    fclose(temp_cliente);
+
+    remove("clientePF.dat");
+    rename("temp_clientePF.dat", "clientePF.dat");*/
 
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
