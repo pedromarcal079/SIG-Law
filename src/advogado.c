@@ -5,6 +5,7 @@
 #include "processosPF.h"
 #include "processosPJ.h"
 #include "validacao.h"
+#include "utilidades.h"
 
 
 void moduloAdvogado(void) {
@@ -99,24 +100,15 @@ void cadastraAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("|        Informe os dados do advogado:                                                        |\n");
     do{
-        printf("|   ===> CPF: ");
-        fgets(advogado->cpf, sizeof(advogado->cpf), stdin);
-        tam = strlen(advogado->cpf);
-        advogado->cpf[tam-1] = '\0';
+        input(advogado->cpf, sizeof(advogado->cpf), "|   ===> CPF: ");
     } while(!vali_cpf(advogado->cpf));
 
     do{
-        printf("|   ===> Nome: ");
-        fgets(advogado->nome, sizeof(advogado->nome), stdin);
-        tam = strlen(advogado->nome);
-        advogado->nome[tam-1] = '\0';
+        input(advogado->nome, sizeof(advogado->nome), "|   ===> Nome: ");
     } while(!vali_nome(advogado->nome));
 
     do{
-        printf("|   ===> Carteira OAB: ");
-        fgets(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), stdin);
-        tam = strlen(advogado->carteiraOAB);
-        advogado->carteiraOAB[tam-1] = '\0';
+        input(advogado->carteiraOAB, sizeof(advogado->carteiraOAB), "|   ===> Carteira OAB: ");
     } while(!vali_carteiraOAB(advogado->carteiraOAB));
 
     printf("              |   ===> Especialidade <===   |                   \n");
@@ -134,10 +126,7 @@ void cadastraAdvogado(void) {
 
 
     do{
-        printf("|   ===> Data de Nascimento (dd/mm/aaaa): ");
-        fgets(advogado->dataNasc, sizeof(advogado->dataNasc), stdin);
-        tam = strlen(advogado->dataNasc);
-        advogado->dataNasc[tam-1] = '\0';
+        input(advogado->dataNasc, sizeof(advogado->dataNasc), "|   ===> Data de Nascimento: ");
     } while(!vali_dataNasc(advogado->dataNasc));
 
     printf("|   ===> Endereço: ");
@@ -151,10 +140,7 @@ void cadastraAdvogado(void) {
     advogado->email[tam-1] = '\0';
 
     do{
-        printf("|   ===> Telefone: ");
-        fgets(advogado->telefone, sizeof(advogado->telefone), stdin);
-        tam = strlen(advogado->telefone);
-        advogado->telefone[tam-1] = '\0';
+       input(advogado->telefone, sizeof(advogado->telefone), "|   ===> telefone: ");
     } while(!vali_telefone(advogado->telefone));
     
     arq_advogado = fopen("advogado.dat","ab");
