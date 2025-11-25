@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "advogado.h"
+#include "processosPF.h"
+#include "processosPJ.h"
 #include "validacao.h"
 
 
@@ -517,10 +519,17 @@ void lixeiraAdvogado(void) {
 void relatorioAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
+    FILE *arq_processoPF;
+    FILE *arq_processoPJ;
+    ProcessoPF *processoPF;
+    processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    ProcessoPJ *processoPJ;
+    processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     int opcao, filtro, pesq_espec;
     char pesq_nome[50];
+    char *especialidade;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Relatório de Advogados                                   |\n");
@@ -531,6 +540,8 @@ void relatorioAdvogado(void) {
     getchar();
     if (opcao == 2){
         arq_advogado = fopen ("advogado.dat", "rb");
+        arq_processoPF = fopen("processoPF.dat", "rb");
+        arq_processoPJ = fopen("processoPJ.dat", "rb");
         if (arq_advogado == NULL){
             system("clear");
             printf("+----------------------------------------------+\n");
@@ -540,11 +551,22 @@ void relatorioAdvogado(void) {
             printf("+----------------------------------------------+\n");
             return;
         }
-        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
+        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
         printf("+------------------------------------------------------------------------------------------------------+\n");
-        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+        while ((fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) && (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1) && (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1)) {
             if (advogado->atividade){
-                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
+                if((processoPF->atividade && (strcmp(processoPF->advOAB,advogado->carteiraOAB) == 0)) && (processoPJ->atividade && (strcmp(processoPJ->advOAB,advogado->carteiraOAB) == 0))) {
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15d %-15d\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, processoPF->id, processoPJ->id);
+                }
+                else if((processoPF->atividade && (strcmp(processoPF->advOAB,advogado->carteiraOAB) == 0)) && !(processoPJ->atividade && (strcmp(processoPJ->advOAB,advogado->carteiraOAB) == 0))) {
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15d %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, processoPF->id, "Sem registros");
+                }
+                else if(!(processoPF->atividade && (strcmp(processoPF->advOAB,advogado->carteiraOAB) == 0)) && (processoPJ->atividade && (strcmp(processoPJ->advOAB,advogado->carteiraOAB) == 0))) {
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15d\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, "Sem registros", processoPJ->id);
+                }
+                else{
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, "Sem registros", "Sem registros");
+                }
             }
             printf("+------------------------------------------------------------------------------------------------------+\n");
         }
@@ -583,56 +605,19 @@ void relatorioAdvogado(void) {
                 scanf("%d", &pesq_espec);
                 getchar();
                 switch (pesq_espec){
-                    case 1: {
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
-                        printf("+------------------------------------------------------------------------------------------------------+\n");
-                        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                            if ((strcmp(advogado->especialidade, "Civil") == 0) && (advogado->atividade)){
-                                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
-                            }
-                            printf("+------------------------------------------------------------------------------------------------------+\n");
-                        }
-                    }; break;
-                    case 2: {
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
-                        printf("+------------------------------------------------------------------------------------------------------+\n");
-                        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                            if ((strcmp(advogado->especialidade, "Penal") == 0) && (advogado->atividade)){
-                                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
-                            }
-                            printf("+------------------------------------------------------------------------------------------------------+\n");
-                        }
-                    }; break;
-                    case 3: {
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
-                        printf("+------------------------------------------------------------------------------------------------------+\n");
-                        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                            if ((strcmp(advogado->especialidade, "Do Trabalho") == 0) && (advogado->atividade)){
-                                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
-                            }
-                            printf("+------------------------------------------------------------------------------------------------------+\n");
-                        }
-                    }; break;
-                    case 4: {
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
-                        printf("+------------------------------------------------------------------------------------------------------+\n");
-                        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                            if ((strcmp(advogado->especialidade, "Tributário") == 0) && (advogado->atividade)){
-                                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
-                            }
-                            printf("+------------------------------------------------------------------------------------------------------+\n");
-                        }
-                    }; break;
-                    case 5: {
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
-                        printf("+------------------------------------------------------------------------------------------------------+\n");
-                        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                            if ((strcmp(advogado->especialidade, "Empresarial") == 0) && (advogado->atividade)){
-                                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
-                            }
-                            printf("+------------------------------------------------------------------------------------------------------+\n");
-                        }
-                    }; break;
+                    case 1: (especialidade = "Civil"); break;
+                    case 2: (especialidade = "Penal"); break;
+                    case 3: (especialidade = "Do Trabalho"); break;
+                    case 4: (especialidade = "Tributário"); break;
+                    case 5: (especialidade = "Empresarial"); break;
+                }
+                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone");
+                printf("+------------------------------------------------------------------------------------------------------+\n");
+                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                    if ((strcmp(advogado->especialidade, especialidade) == 0) && (advogado->atividade)){
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone);
+                    }
+                    printf("+------------------------------------------------------------------------------------------------------+\n");
                 }
             }
         }
