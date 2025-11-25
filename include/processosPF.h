@@ -22,6 +22,6 @@ void excluiProcessoPF(void);
 void lixeiraProcessoPF(void);
 void relatorioProcessosPF(void);
 
-int gerarID_PJ();
+char* gerarID_PJ();
 
 #endif
