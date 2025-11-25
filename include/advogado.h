@@ -11,6 +11,8 @@ typedef struct advogado{
     char endereco[100];
     char email[100];
     char telefone[20];
+    char idProcessoPF[20];
+    char idProcessoPJ[20];
 } Advogado;
 
 void moduloAdvogado(void);
