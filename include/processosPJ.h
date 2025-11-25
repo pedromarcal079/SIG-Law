@@ -26,7 +26,7 @@ void excluiProcessoPJ(void);
 void lixeiraProcessoPJ(void);
 void relatorioProcessosPJ(void);
 
-int gerarID_PJ();
+char* gerarID_PJ();
 int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ);
 int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF);
 
