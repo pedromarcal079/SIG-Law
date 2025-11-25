@@ -126,16 +126,28 @@ void cadastraProcessoPF(void) {
     system("clear");
     ProcessoPF *processoPF = NULL;
     ClientePF *clientePF = NULL;
+    Advogado *advogado = NULL;
     char *novoID_str = NULL;
     FILE *arq_processoPF = NULL;
     FILE *arq_cliente = NULL;
     FILE *temp_cliente = NULL;
+    FILE *arq_advogado = NULL;
+    FILE *temp_advogado = NULL;
 
     int tam;
     
     processoPF = (ProcessoPF*)malloc(sizeof(ProcessoPF));
     if(processoPF == NULL){
         printf("\nERRO: Falha na alocacao de memoria para o processo. \n");
+        getchar();
+        return;
+    }
+
+    advogado = (Advogado*)malloc(sizeof(Advogado));
+    if(advogado == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o Advogado.\n");
+        free(processoPF);
+        free(clientePF);
         getchar();
         return;
     }
@@ -216,6 +228,33 @@ void cadastraProcessoPF(void) {
         return;
     }
 
+    arq_advogado = fopen("advogado.dat", "rb");
+    if(arq_advogado == NULL){
+        printf("\nERRO: Nao foi possivel abrir o arquivo de advogados (advogado.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        free(processoPF);
+        free(clientePF);
+        free(advogado);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
+    temp_advogado = fopen("temp_advogado.dat", "wb");
+    if(temp_advogado == NULL){
+        printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_advogado.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        fclose(arq_advogado);
+        free(processoPF);
+        free(clientePF);
+        free(advogado);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
     arq_processoPF = fopen("processoPF.dat","ab");
     if (arq_processoPF == NULL){
         printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
@@ -243,11 +282,23 @@ void cadastraProcessoPF(void) {
         }
     }
 
+    while(fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
+        if(strcmp(processoPF->advOAB, advogado->carteiraOAB) == 0){
+            strcpy(advogado->idProcessoPF, novoID_str);
+            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+        }
+        else{
+            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+        }
+    }
+
     fwrite(processoPF, sizeof(ProcessoPF),1,arq_processoPF);
 
     fclose(arq_cliente);
     fclose(temp_cliente);
     fclose(arq_processoPF);
+    fclose(arq_advogado);
+    fclose(temp_advogado);
 
     remove("clientePF.dat");
     if(rename("temp_cliente.dat", "clientePF.dat") != 0){
@@ -256,6 +307,14 @@ void cadastraProcessoPF(void) {
         getchar();
     }
     rename("temp_clientePF.dat", "clientePF.dat");
+
+    remove("advogado.dat");
+    if(rename("temp_advogado.dat", "advogado.dat") != 0){
+        perror("ERRO CRITICO AO RENOMEAR O ARQUIVO DE ADVOGADO");
+        printf("\n*** AVISO: Os dados do advogado foram salvos em temp_advogado.dat! ***");
+        getchar();
+    }
+    rename("temp_advogado.dat", "advogado.dat");
 
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
