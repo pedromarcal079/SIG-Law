@@ -3,6 +3,7 @@
 #include <string.h>
 #include "utilidades.h"
 #include "clientePJ.h"
+#include "validacao.h"
 
 
 void moduloClientePJ(void) {
@@ -102,14 +103,29 @@ void cadastraClientePJ(void) {
     printf("|        Informe os dados da empresa:                                                         |\n");
     printf("|\n");
     input(clientePJ->cnpj, sizeof(clientePJ->cnpj), "|   ===> CNPJ: ");
+
     input(clientePJ->razaoSocial, sizeof(clientePJ->razaoSocial), "|   ===> Razão Social: ");
+
     input(clientePJ->nomeFantasia, sizeof(clientePJ->nomeFantasia), "|   ===> Nome Fantasia: ");
-    input(clientePJ->repres, sizeof(clientePJ->repres), "|   ===> Nome do Representante: ");
-    input(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), "|   ===> CPF do Representante: ");
+
+    do{
+        input(clientePJ->repres, sizeof(clientePJ->repres), "|   ===> Nome do Representante: ");
+    }while(!vali_nome(clientePJ->repres));
+
+    do{
+        input(clientePJ->cpfRepres, sizeof(clientePJ->cpfRepres), "|   ===> CPF do Representante: ");
+    }while(!vali_cpf(clientePJ->cpfRepres));
+
     input(clientePJ->areaAtuacao, sizeof(clientePJ->areaAtuacao), "|   ===> Área de Atuação: ");
+
     input(clientePJ->endereco, sizeof(clientePJ->endereco), "|   ===> Endereço: ");
+
     input(clientePJ->email, sizeof(clientePJ->email), "|   ===> Email: ");
-    input(clientePJ->telefone, sizeof(clientePJ->telefone), "|   ===> Telefone: ");
+
+    do{
+        input(clientePJ->telefone, sizeof(clientePJ->telefone), "|   ===> Telefone: ");
+    }while(!vali_telefone(clientePJ->telefone));;
+
 
     arq_empresa = fopen("clientePJ.dat","ab");
     if (arq_empresa == NULL) {

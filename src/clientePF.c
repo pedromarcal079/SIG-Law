@@ -189,6 +189,7 @@ void mostraClientePF(void) {
                 printf("|\t\tEndereço: %s\n", clientePF->endereco);
                 printf("|\t\tEmail: %s\n", clientePF->email);
                 printf("|\t\tTelefone: %s\n", clientePF->telefone);
+                printf("|\t\tID do Processo: %s\n", clientePF->idProcesso);
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 return;
@@ -442,13 +443,13 @@ void relatorioClientePF(void) {
             free(clientePF);
             return;
         }
-        printf("\n%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
-        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("\n%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "ID do Processo");
+        printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if(clientePF->atividade == 1){
-                printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+                printf("%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n",clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone, clientePF->idProcesso);
             }
-            printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         }
         fclose(arq_cliente);
         free(clientePF);
@@ -466,14 +467,14 @@ void relatorioClientePF(void) {
             strcpy(filtro_sexo, "Feminino");
         }
 
-        printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone");
-        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "Id do Processo");
+        printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1) {
             if(strcmp(filtro_sexo, clientePF->sexo) == 0){
                 if (clientePF->atividade == 1){
-                    printf("%-20s %-20s %-30s %-30s %-30s %-30s\n", clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone);
+                    printf("%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n",clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone, clientePF->idProcesso);
                 }   
-                printf("+-------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+                printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             
             }
         }

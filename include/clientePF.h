@@ -10,6 +10,7 @@ typedef struct clientePF{
     char endereco[100];
     char email[100];
     char telefone[20];
+    char idProcesso[20];
 } ClientePF;
 
 void moduloClientePF(void);

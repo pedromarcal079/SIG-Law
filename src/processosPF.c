@@ -8,26 +8,41 @@
 #include "clientePJ.h"
 #include "advogado.h"
 
-int gerarID_PF(){
-    ProcessoPF *idProcPF;
-    idProcPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+#define MAX_ID_LEN 20
 
-    FILE *arq_processoPF;
-
+char* gerarID_PF(){
+    FILE *arq_processoPF = NULL;
+    ProcessoPF *idProcPF = NULL;
+    char *idString = NULL;
     int ultimoID = 0;
+    int novoID;
+
+    idProcPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    if(idProcPF == NULL){
+        return NULL;
+    }
+
 
     arq_processoPF = fopen("processoPF.dat","rb");
-    if (arq_processoPF == NULL){
-        return 1;
+    
+    if(arq_processoPF != NULL){
+        while(fread(idProcPF, sizeof(ProcessoPF), 1, arq_processoPF)){
+            ultimoID = idProcPF->id;
+        }
+        fclose(arq_processoPF);
     }
 
-    while (fread(idProcPF, sizeof(ProcessoPF), 1, arq_processoPF))
-    {
-        ultimoID = idProcPF->id;
-    }
-
-    return ultimoID + 1;
     free(idProcPF);
+    novoID = ultimoID + 1;
+
+    idString = (char*) malloc(MAX_ID_LEN * sizeof(char));
+
+    if(idString == NULL){
+        return NULL;
+    }
+
+    snprintf(idString, MAX_ID_LEN, "%d", novoID);
+    return idString;
 }
 
 void moduloProcPF(void) {
@@ -109,15 +124,42 @@ int menuProcessoPF(void) {
 
 void cadastraProcessoPF(void) {
     system("clear");
-    FILE *arq_processoPF;
-
-    ProcessoPF *processoPF;
-    processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
-
-    processoPF->id = gerarID_PF();
-    processoPF->atividade = 1;
+    ProcessoPF *processoPF = NULL;
+    ClientePF *clientePF = NULL;
+    char *novoID_str = NULL;
+    FILE *arq_processoPF = NULL;
+    FILE *arq_cliente = NULL;
+    FILE *temp_cliente = NULL;
 
     int tam;
+    
+    processoPF = (ProcessoPF*)malloc(sizeof(ProcessoPF));
+    if(processoPF == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o processo. \n");
+        getchar();
+        return;
+    }
+
+    
+    clientePF = (ClientePF*)malloc(sizeof(ClientePF));
+    if(clientePF == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o Cliente.\n");
+        free(processoPF);
+        getchar();
+        return;
+    }
+
+    novoID_str = gerarID_PF();
+    if(novoID_str == NULL){
+        printf("\nERRO: Falha ao gerar o novo ID do Processo.\n");
+        free(processoPF);
+        free(clientePF);
+        getchar();
+        return;
+    }
+
+    processoPF->atividade = 1;
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Processo PF                                    |\n");
@@ -151,24 +193,76 @@ void cadastraProcessoPF(void) {
     processoPF->data[tam-1] = '\0';
     strcpy(processoPF->status, "Em Andamento");
 
-    arq_processoPF = fopen("processoPF.dat","ab");
-    if (arq_processoPF == NULL){
-        system("clear");
-        printf("+----------------------------------------------+\n");
-        printf("|                                              |\n");
-        printf("|           Erro ao abrir o arquivo!           |\n");
-        printf("|                                              |\n");
-        printf("+----------------------------------------------+\n");
+    processoPF->id = atoi(novoID_str);
+
+    arq_cliente = fopen("clientePF.dat", "rb");
+    if(arq_cliente == NULL){
+        printf("\nERRO: Nao foi possivel abrir o arquivo de clientes (clientePF.dat)!");
         free(processoPF);
+        free(clientePF);
+        free(novoID_str);
+        getchar();
         return;
     }
+
+    temp_cliente = fopen("temp_cliente.dat", "wb");
+    if(temp_cliente == NULL){
+        printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_cliente.dat)!");
+        fclose(arq_cliente);
+        free(processoPF);
+        free(clientePF);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
+    arq_processoPF = fopen("processoPF.dat","ab");
+    if (arq_processoPF == NULL){
+        printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        free(processoPF);
+        free(clientePF);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
+    rewind(arq_cliente); // Volta para o inicio do arquivo de clientes
+
+    while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+        if(strcmp(processoPF->autor, clientePF->cpf) == 0){
+            strcpy(clientePF->idProcesso, novoID_str);
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+        }
+        else if(strcmp(processoPF->reu, clientePF->cpf) == 0){
+            strcpy(clientePF->idProcesso, novoID_str);
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+        }else{
+            fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+        }
+    }
+
     fwrite(processoPF, sizeof(ProcessoPF),1,arq_processoPF);
+
+    fclose(arq_cliente);
+    fclose(temp_cliente);
     fclose(arq_processoPF);
+
+    remove("clientePF.dat");
+    if(rename("temp_cliente.dat", "clientePF.dat") != 0){
+        perror("ERRO CRITICO AO RENOMEAR O ARQUIVO DE CLIENTE");
+        printf("\n*** AVISO: Os dados do cliente foram salvos em temp_cliente.dat! ***");
+        getchar();
+    }
+    rename("temp_clientePF.dat", "clientePF.dat");
 
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O ID desse processo é: %d\n", processoPF->id);
     free(processoPF);
+    free(clientePF);
+    free(novoID_str);
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }
