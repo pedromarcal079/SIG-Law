@@ -7,27 +7,42 @@
 #include "clientePJ.h"
 #include "advogado.h"
 
-/*int gerarID_PJ(){
-    ProcessoPJ *idProcPJ;
-    idProcPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+#define MAX_ID_LEN 20
 
-    FILE *arq_processoPJ;
-
+char* gerarID_PJ(){
+    FILE *arq_processoPJ = NULL;
+    ProcessoPJ *idProcPJ = NULL;
+    char *idString = NULL;
     int ultimoID = 0;
+    int novoID;
 
-    arq_processoPJ = fopen("processoPJ.dat","rb");
-    if (arq_processoPJ == NULL){
-        return 1;
+    idProcPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    if(idProcPJ == NULL){
+        return NULL;
     }
 
-    while (fread(idProcPJ, sizeof(ProcessoPJ), 1, arq_processoPJ))
-    {
-        ultimoID = idProcPJ->id;
+
+    arq_processoPJ = fopen("processoPF.dat","rb");
+    
+    if(arq_processoPJ != NULL){
+        while(fread(idProcPJ, sizeof(ProcessoPJ), 1, arq_processoPJ)){
+            ultimoID = idProcPJ->id;
+        }
+        fclose(arq_processoPJ);
     }
 
-    return ultimoID + 1;
     free(idProcPJ);
-}*/
+    novoID = ultimoID + 1;
+
+    idString = (char*) malloc(MAX_ID_LEN * sizeof(char));
+
+    if(idString == NULL){
+        return NULL;
+    }
+
+    snprintf(idString, MAX_ID_LEN, "%d", novoID);
+    return idString;
+}
 
 void moduloProcPJ(void) {
     int procPjOpcao;
@@ -109,15 +124,38 @@ int menuProcessoPJ(void) {
 
 void cadastraProcessoPJ(void) {
     system("clear");
-    FILE *arq_processoPJ;
-
-    ProcessoPJ *processoPJ;
-    processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
-
-    /*processoPJ->id = gerarID_PJ();*/
+    ProcessoPJ *processoPJ = NULL;
+    ClientePJ *clientePJ = NULL;
+    Advogado *advogado = NULL;
+    char *novoID_str = NULL;
+    FILE *arq_processoPJ = NULL;
+    FILE *arq_cliente = NULL;
+    FILE *temp_cliente = NULL;
+    FILE *arq_advogado = NULL;
+    FILE *temp_advogado = NULL;
     processoPJ->atividade = 1;
 
     int tam;
+
+    advogado = (Advogado*)malloc(sizeof(Advogado));
+    if(advogado == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o Advogado.\n");
+        free(processoPJ);
+        free(clientePJ);
+        getchar();
+        return;
+    }
+
+    novoID_str = gerarID_PJ();
+    if(novoID_str == NULL){
+        printf("\nERRO: Falha ao gerar o novo ID do Processo.\n");
+        free(processoPJ);
+        free(clientePJ);
+        getchar();
+        return;
+    }
+
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Cadastrar Processo PJ                                    |\n");
@@ -151,24 +189,79 @@ void cadastraProcessoPJ(void) {
     processoPJ->data[tam-1] = '\0';
     strcpy(processoPJ->status, "Em Andamento");
 
-    arq_processoPJ = fopen("processoPJ.dat","ab");
-    if (arq_processoPJ == NULL){
-        system("clear");
-        printf("+----------------------------------------------+\n");
-        printf("|                                              |\n");
-        printf("|           Erro ao abrir o arquivo!           |\n");
-        printf("|                                              |\n");
-        printf("+----------------------------------------------+\n");
+    processoPJ->id = atoi(novoID_str);
+
+    arq_advogado = fopen("advogado.dat", "rb");
+    if(arq_advogado == NULL){
+        printf("\nERRO: Nao foi possivel abrir o arquivo de advogados (advogado.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
         free(processoPJ);
+        free(clientePJ);
+        free(advogado);
+        free(novoID_str);
+        getchar();
         return;
     }
+
+    temp_advogado = fopen("temp_advogado.dat", "wb");
+    if(temp_advogado == NULL){
+        printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_advogado.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        fclose(arq_advogado);
+        free(processoPJ);
+        free(clientePJ);
+        free(advogado);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
+    arq_processoPJ = fopen("processoPF.dat","ab");
+    if (arq_processoPJ == NULL){
+        printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        free(processoPJ);
+        free(clientePJ);
+        free(novoID_str);
+        getchar();
+        return;
+    }
+
+    rewind(arq_advogado);
+
+    while(fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
+        if(strcmp(processoPJ->advOAB, advogado->carteiraOAB) == 0){
+            strcpy(advogado->idProcessoPJ, novoID_str);
+            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+        }
+        else{
+            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+        }
+    }
+
     fwrite(processoPJ, sizeof(ProcessoPJ),1,arq_processoPJ);
     fclose(arq_processoPJ);
+    fclose(arq_advogado);
+    fclose(temp_advogado);
+
+    remove("advogado.dat");
+    if(rename("temp_advogado.dat", "advogado.dat") != 0){
+        perror("ERRO CRITICO AO RENOMEAR O ARQUIVO DE ADVOGADO");
+        printf("\n*** AVISO: Os dados do advogado foram salvos em temp_advogado.dat! ***");
+        getchar();
+    }
+    rename("temp_advogado.dat", "advogado.dat");
+
 
     printf("|                                                                                             |\n");
     printf("|        Processo cadastrado com sucesso!                                                     |\n");
     printf("|        O ID desse processo é: %d\n", processoPJ->id);
     free(processoPJ);
+    free(advogado);
+    free(novoID_str);
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
 }

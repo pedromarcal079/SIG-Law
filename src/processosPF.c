@@ -268,6 +268,7 @@ void cadastraProcessoPF(void) {
     }
 
     rewind(arq_cliente); // Volta para o inicio do arquivo de clientes
+    rewind(arq_advogado);
 
     while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
         if(strcmp(processoPF->autor, clientePF->cpf) == 0){
@@ -321,6 +322,7 @@ void cadastraProcessoPF(void) {
     printf("|        O ID desse processo é: %d\n", processoPF->id);
     free(processoPF);
     free(clientePF);
+    free(advogado);
     free(novoID_str);
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
