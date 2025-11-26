@@ -15,6 +15,11 @@ typedef struct advogado{
     char idProcessoPJ[20];
 } Advogado;
 
+typedef struct advogado_node {
+    Advogado advogado;
+    struct advogado_node* prox;
+} AdvogadoNode;
+
 void moduloAdvogado(void);
 int menuAdvogado(void);
 void cadastraAdvogado(void);

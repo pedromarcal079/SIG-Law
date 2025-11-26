@@ -506,6 +506,9 @@ void relatorioAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
     Advogado *advogado;
+    Advogado *adv;
+    Advogado *ant;
+    Advogado *lista;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     int opcao, filtro, pesq_espec;
     char pesq_nome[50];
@@ -531,9 +534,12 @@ void relatorioAdvogado(void) {
             free(advogado);
             return;
         }
+        adv = lista;
+
+        }
         printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
         printf("+------------------------------------------------------------------------------------------------------+\n");
-        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
+        while (adv != NULL){
             if (advogado->atividade){
                 printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
             }
