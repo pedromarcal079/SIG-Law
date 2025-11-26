@@ -86,6 +86,9 @@ void cadastraClientePF(void) {
 
     clientePF->atividade = 1;
 
+    int j, i = 0;
+    char temp_dataNasc[13];
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                       Cadastrar Cliente                                     |\n");
@@ -107,8 +110,11 @@ void cadastraClientePF(void) {
     }while(!vali_sexo(clientePF->sexo));
     
     do{
-        input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");
-    }while(!vali_dataNasc(clientePF->dataNasc));
+        printf("|   ===> Data de Nascimento (dd/nn/aaaa): ");
+        scanf("%s", temp_dataNasc);
+        getchar();
+        /*input(clientePF->dataNasc, sizeof(clientePF->dataNasc), "|   ===> Data de Nascimento (dd/nn/aaaa): ");*/
+    }while(!vali_dataNasc(temp_dataNasc));
 
     input(clientePF->endereco, sizeof(clientePF->endereco), "|   ===> Endereço: ");
     
@@ -135,6 +141,24 @@ void cadastraClientePF(void) {
         strcpy(clientePF->sexo,"Masculino");
     }else if(clientePF->sexo[0] == 'f' || clientePF->sexo[0] == 'F'){
         strcpy(clientePF->sexo,"Feminino");
+    }
+
+    // PARTE QUE PEGA A DATA DE NASCIMENTO E DIVIDE COM A "/"
+    for(j = 0; j < 2; j++){
+        clientePF->dataNasc[i++] = temp_dataNasc[j];
+    }
+
+    clientePF->dataNasc[i++] = '/';
+    
+
+    for(j = 2; j < 4; j++){
+        clientePF->dataNasc[i++] = temp_dataNasc[j];
+    }
+
+    clientePF->dataNasc[i++] = '/';
+
+    for(j = 4; j < 8; j++){
+        clientePF->dataNasc[i++] = temp_dataNasc[j];
     }
 
     fwrite(clientePF, sizeof(ClientePF), 1, arq_cliente);
@@ -182,6 +206,7 @@ void mostraClientePF(void) {
         if (strcmp(clientePF->cpf, cpf_lido) == 0){
             encontrado = 1;
             if (clientePF->atividade == 1){
+                printf("|\n");
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
                 printf("|\t\tNome: %s\n", clientePF->nome);
                 printf("|\t\tSexo: %s\n", clientePF->sexo);
