@@ -34,7 +34,7 @@ int vali_nome(const char* nome){
     }
 
     while (nome[i] != '\0'){
-        if(!iswalpha(nome[i]) || nome[i] == ' '){
+        if(!iswalpha(nome[i]) && nome[i] != ' '){
             printf("Coloque apenas letras e espaços!\n");
             return false;
         }
@@ -105,15 +105,21 @@ int vali_carteiraOAB(const char* carteiraOAB){
 
 int vali_dataNasc(const char* dataNasc){
     int i = 0;
+
     if (strlen(dataNasc) == 0){
-        printf("Coloque um nome que não esteja vazio!\n");
+        printf("|  Coloque um nome que não esteja vazio!\n");
+        return false;
+    }
+
+    if(strlen(dataNasc) != 8){
+        printf("|  Data Invalida!\n");
         return false;
     }
 
     while (dataNasc[i] != '\0'){
         if(!iswdigit(dataNasc[i])){
-            printf("Coloque apenas os números!\n");
-            printf("Ex: 01012025");
+            printf("|  Coloque apenas os números!\n");
+            printf("|  Ex: 01012025\n");
             return false;
         }
         i++;
