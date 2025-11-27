@@ -507,14 +507,12 @@ void lixeiraAdvogado(void) {
     }
 }
 
-
 void relatorioAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
     Advogado *advogado;
     Advogado *adv;
-    Advogado *ant;
-    Advogado *lista;
+    Advogado *lista = NULL;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     int opcao, filtro, pesq_espec;
     char pesq_nome[50];
@@ -541,8 +539,6 @@ void relatorioAdvogado(void) {
             return;
         }
         adv = lista;
-
-        }
         printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
         printf("+------------------------------------------------------------------------------------------------------+\n");
         while (adv != NULL){
@@ -554,6 +550,7 @@ void relatorioAdvogado(void) {
         fclose(arq_advogado);
         free(advogado);
     }
+
     else if (opcao == 1){
         arq_advogado = fopen ("advogado.dat", "rb");
         printf("+---------------------------------------------------------------------------------------------+\n");
@@ -575,9 +572,20 @@ void relatorioAdvogado(void) {
                 printf("+------------------------------------------------------------------------------------------------------+\n");
                 while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
                     if ((strcmp(advogado->nome, pesq_nome) == 0) && (advogado->atividade)){
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                            advogado->cpf,
+                            advogado->nome,
+                            advogado->carteiraOAB,
+                            advogado->especialidade,
+                            advogado->dataNasc,
+                            advogado->endereco,
+                            advogado->email,
+                            advogado->telefone,
+                            advogado->idProcessoPF,
+                            advogado->idProcessoPJ
+                        );
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
                     }
-                    printf("+------------------------------------------------------------------------------------------------------+\n");
                 }
                 fclose(arq_advogado);
                 free(advogado);
@@ -608,10 +616,13 @@ void relatorioAdvogado(void) {
         }
     }
 }
+
 void listaAdvogado(void){
     system("clear");
     Advogado *lista = gerarLista_adv();
     Advogado *advogado = lista;
+    int quantidade = 0;
+    Advogado *aux = lista;
     int opcao;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -625,20 +636,72 @@ void listaAdvogado(void){
     scanf("%d",&opcao);
     getchar();
     switch(opcao){
-        case 1:
+        case 1: {
             printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
             printf("+------------------------------------------------------------------------------------------------------+\n");
             while(lista != NULL){
                 if (lista->atividade){
-                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", lista->cpf, lista->nome, lista->carteiraOAB, lista->especialidade, lista->dataNasc, lista->endereco, lista->email, lista->telefone, lista->idProcessoPF, lista->idProcessoPJ);
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                        lista->cpf,
+                        lista->nome,
+                        lista->carteiraOAB,
+                        lista->especialidade,
+                        lista->dataNasc,
+                        lista->endereco,
+                        lista->email,
+                        lista->telefone,
+                        lista->idProcessoPF,
+                        lista->idProcessoPJ
+                    );
                 }
                 lista = lista->prox;
                 printf("+------------------------------------------------------------------------------------------------------+\n");
             }
             free(advogado);
-            break;
+        }; break;
+
         case 2: {
-            // Bubble sort para ordenar a lista por nome
-        }
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    quantidade++;
+                }
+                aux = aux->prox;
+            }
+
+            if (quantidade == 0) {
+                printf("Nenhum advogado ativo.\n");
+                return;
+            }
+            Advogado **vetor = (Advogado**) malloc(quantidade * sizeof(Advogado*));
+            aux = lista;
+            int i = 0;
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    vetor[i] = aux;
+                    i++;
+                }
+                aux = aux->prox;
+            }
+            qsort(vetor, quantidade, sizeof(Advogado*), compararNomesAdvogado);
+            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
+            printf("+------------------------------------------------------------------------------------------------------+\n");
+            for (int j = 0; j < quantidade; j++) {
+                Advogado *adv = vetor[j]; 
+                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", 
+                    adv->cpf, 
+                    adv->nome, 
+                    adv->carteiraOAB,
+                    adv->especialidade,
+                    adv->dataNasc,
+                    adv->endereco,
+                    adv->email,
+                    adv->telefone,
+                    adv->idProcessoPF,
+                    adv->idProcessoPJ
+                );
+                printf("+------------------------------------------------------------------------------------------------------+\n");
+            }
+            free(vetor);
+        }; break;
     }
 }
