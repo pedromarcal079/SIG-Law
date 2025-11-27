@@ -88,6 +88,7 @@ void cadastraClientePF(void) {
 
     int j, i = 0;
     char temp_dataNasc[13];
+    char temp_cpf[15];
 
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -98,8 +99,11 @@ void cadastraClientePF(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|\n");
     do{
-        input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
-    }while(!vali_cpf(clientePF->cpf));
+        printf("|   ===> CPF: ");
+        scanf("%s", temp_cpf);
+        getchar();
+        /*input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");*/
+    }while(!vali_cpf(temp_cpf));
 
     do{
         input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
@@ -143,6 +147,8 @@ void cadastraClientePF(void) {
         strcpy(clientePF->sexo,"Feminino");
     }
 
+
+
     // PARTE QUE PEGA A DATA DE NASCIMENTO E DIVIDE COM A "/"
     for(j = 0; j < 2; j++){
         clientePF->dataNasc[i++] = temp_dataNasc[j];
@@ -160,6 +166,35 @@ void cadastraClientePF(void) {
     for(j = 4; j < 8; j++){
         clientePF->dataNasc[i++] = temp_dataNasc[j];
     }
+
+    i = 0;
+
+    // PARTE QUE SEPARA O CPF COM OS '.' e o '-'
+    for(j = 0; j < 3; j++){
+        clientePF->cpf[i++] = temp_cpf[j];
+    }
+
+    clientePF->cpf[i++] = '.';
+
+    for(j = 3; j < 6; j++){
+        clientePF->cpf[i++] = temp_cpf[j];
+    }
+
+    clientePF->cpf[i++] = '.';
+
+    for(j = 6; j < 9; j++){
+        clientePF->cpf[i++] = temp_cpf[j];
+    }
+
+    clientePF->cpf[i++] = '-';
+
+    for(j = 9; j < 11; j++){
+        clientePF->cpf[i++] = temp_cpf[j];
+    }
+
+    clientePF->cpf[i] = '\0';
+
+
 
     fwrite(clientePF, sizeof(ClientePF), 1, arq_cliente);
     fclose(arq_cliente);
