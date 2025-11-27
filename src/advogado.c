@@ -47,6 +47,11 @@ void moduloAdvogado(void) {
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
+            case 7:
+                listaAdvogado();
+                printf("Pressione ENTER ... \n");
+                getchar();
+                break;
             default:
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
@@ -73,8 +78,9 @@ int menuAdvogado(void) {
     printf("|                               2 - Mostra Advogado                                           |\n");
     printf("|                               3 - Edita Advogado                                            |\n");
     printf("|                               4 - Exclui Processo                                           |\n");
-    printf("|                               5 - Lixeira Advogado                                         |\n");
-    printf("|                               6 - Lista Advogados                                           |\n");
+    printf("|                               5 - Lixeira Advogado                                          |\n");
+    printf("|                               6 - Relatorio Advogados                                       |\n");
+    printf("|                               7 - Listar Advogados                                          |\n");
     printf("|                               0 - Sair                                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -599,6 +605,40 @@ void relatorioAdvogado(void) {
                 fclose(arq_advogado);
                 free(advogado);
             }
+        }
+    }
+}
+void listaAdvogado(void){
+    system("clear");
+    Advogado *lista = gerarLista_adv();
+    Advogado *advogado = lista;
+    int opcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Listagem Advogado                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                           1 - listar por ordem de cadastro                                  |\n");
+    printf("|                           2 - listar por Ordem alfabética                                   |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
+    switch(opcao){
+        case 1:
+            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
+            printf("+------------------------------------------------------------------------------------------------------+\n");
+            while(lista != NULL){
+                if (lista->atividade){
+                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", lista->cpf, lista->nome, lista->carteiraOAB, lista->especialidade, lista->dataNasc, lista->endereco, lista->email, lista->telefone, lista->idProcessoPF, lista->idProcessoPJ);
+                }
+                lista = lista->prox;
+                printf("+------------------------------------------------------------------------------------------------------+\n");
+            }
+            free(advogado);
+            break;
+        case 2: {
+            // Bubble sort para ordenar a lista por nome
         }
     }
 }
