@@ -51,3 +51,10 @@ Advogado* gerarLista_adv(void){
 
     return lista;
 }
+
+int compararNomesAdvogado(const void *a, const void *b) {
+    Advogado *advA = *(Advogado**)a;
+    Advogado *advB = *(Advogado**)b;
+    
+    return strcasecmp(advA->nome, advB->nome);
+}

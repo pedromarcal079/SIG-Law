@@ -16,6 +16,11 @@ typedef struct advogado{
     struct advogado *prox;
 } Advogado;
 
+typedef struct advogado_node {
+    Advogado advogado;
+    struct advogado_node* prox;
+} AdvogadoNode;
+
 void moduloAdvogado(void);
 int menuAdvogado(void);
 void cadastraAdvogado(void);
