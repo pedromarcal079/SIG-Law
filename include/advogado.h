@@ -13,6 +13,7 @@ typedef struct advogado{
     char telefone[20];
     char idProcessoPF[20];
     char idProcessoPJ[20];
+    struct advogado *prox;
 } Advogado;
 
 void moduloAdvogado(void);
@@ -23,5 +24,7 @@ void editaAdvogado(void);
 void excluiAdvogado(void);
 void lixeiraAdvogado(void);
 void relatorioAdvogado(void);
+void listaAdvogado(void);
+
 
 #endif
