@@ -111,7 +111,7 @@ int menuProcessoPF(void) {
     printf("|                          3 - Edita processo                                                 |\n");
     printf("|                          4 - Exclui processo                                                |\n");
     printf("|                          5 - Lixeira                                                        |\n");
-    printf("|                          6 - Relatório                                                       |\n");
+    printf("|                          6 - Relatório                                                      |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
