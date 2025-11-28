@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "agendamento.h"
 #include "processoMenu.h"
+#include "atualizaStatus.h"
 
 
 void moduloAgendamento(void) {
@@ -27,14 +28,7 @@ void moduloAgendamento(void) {
                 getchar();
                 break;
             case 3:
-                system("clear");
-                printf("+----------------------------------------------+\n");
-                printf("|                                              |\n");
-                printf("|         Módulo de Status em Andamento        |\n");
-                printf("|                                              |\n");
-                printf("+----------------------------------------------+\n");
-                printf("Pressione ENTER ... \n");
-                getchar();
+                moduloStatus();
                 break;
             default:
                 system("clear");
@@ -65,7 +59,7 @@ int agendamentoMenu(void) {
     printf("|                          1 - Cadastrar Processos                                            |\n");
     printf("|                          2 - Agendar Processos                                              |\n");
     printf("|                          3 - Atualizar Status do Processo                                   |\n");
-    printf("|                          4 - Listar Processos                                              |\n");
+    printf("|                          4 - Listar Processos                                               |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
