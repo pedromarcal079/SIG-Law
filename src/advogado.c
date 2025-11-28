@@ -94,7 +94,7 @@ int menuAdvogado(void) {
 void cadastraAdvogado(void) {
     system("clear");
     Advogado *advogado;
-    int tam, espec;
+    int espec;
     FILE *arq_advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     advogado->atividade = 1;
@@ -135,15 +135,9 @@ void cadastraAdvogado(void) {
         input(advogado->dataNasc, sizeof(advogado->dataNasc), "|   ===> Data de Nascimento: ");
     } while(!vali_dataNasc(advogado->dataNasc));
 
-    printf("|   ===> Endereço: ");
-    fgets(advogado->endereco, sizeof(advogado->endereco), stdin);
-    tam = strlen(advogado->endereco);
-    advogado->endereco[tam-1] = '\0';
+    input(advogado->endereco, sizeof(advogado->endereco), "|   ===> Endereço: ");
 
-    printf("|   ===> Email: ");
-    fgets(advogado->email, sizeof(advogado->email), stdin);
-    tam = strlen(advogado->email);
-    advogado->email[tam-1] = '\0';
+    input(advogado->email, sizeof(advogado->email), "|   ===> Email: ");
 
     do{
        input(advogado->telefone, sizeof(advogado->telefone), "|   ===> telefone: ");
@@ -177,7 +171,6 @@ void mostraAdvogado(void){
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
-    int tam;
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -185,9 +178,7 @@ void mostraAdvogado(void){
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|   ===> Digite o CPF do advogado: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF: ");
     arq_advogado = fopen("advogado.dat", "rb");
     if (arq_advogado == NULL) {
         system("clear");
@@ -236,7 +227,7 @@ void editaAdvogado(void) {
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
-    int tam, dado;
+    int dado, espec;
     int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -245,10 +236,7 @@ void editaAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o CPF do advogado: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(pesquisar_cpf, sizeof(pesquisar_cpf), "|   ===> Digite o cpf do advogado: ");
 
     arq_advogado = fopen("advogado.dat", "rb");
     temp_advogado = fopen("temp_advogado.dat", "wb");
@@ -300,21 +288,49 @@ void editaAdvogado(void) {
                 printf("+----------------------------------------------+\n");
                 return;
             } else {
-                printf("|                                                                                             |\n");
-                printf("|   ===> Digite o novo dado: ");
-                fgets(edicao, sizeof(edicao), stdin);
-                tam = strlen(edicao);
-                edicao[tam - 1] = '\0';
-
                 switch (dado) {
-                    case 1: strcpy(advogado->cpf, edicao); break;
-                    case 2: strcpy(advogado->nome, edicao); break;
-                    case 3: strcpy(advogado->carteiraOAB, edicao); break;
-                    case 4: strcpy(advogado->especialidade, edicao); break;
-                    case 5: strcpy(advogado->dataNasc, edicao); break;
-                    case 6: strcpy(advogado->endereco, edicao); break;
-                    case 7: strcpy(advogado->email, edicao); break;
-                    case 8: strcpy(advogado->telefone, edicao); break;
+                    case 1: { 
+                        input(edicao, sizeof(edicao), "Digite o novo CPF: ");
+                        strcpy(advogado->cpf, edicao);
+                    }; break;
+                    case 2: { 
+                        input(edicao, sizeof(edicao), "Digite o novo nome: ");
+                        strcpy(advogado->nome, edicao);
+                    }; break;
+                    case 3: { 
+                        input(edicao, sizeof(edicao), "Digite a nova carteira OAB: ");
+                        strcpy(advogado->carteiraOAB, edicao);
+                    }; break;
+                    case 4: {
+                        printf("              |   ===> Especialidade <===   |                   \n");
+                        printf("| 1-Civil  2-Penal  3-Do Trabalho  4-Tributário  5-Empresarial |\n");
+                        printf("Digite a opção desejada:");
+                        scanf("%d", &espec);
+                        getchar();
+                        switch (espec){
+                            case 1: (strcpy(advogado->especialidade, "Civil")); break;
+                            case 2: (strcpy(advogado->especialidade, "Penal")); break;
+                            case 3: (strcpy(advogado->especialidade, "Do Trabalho")); break;
+                            case 4: (strcpy(advogado->especialidade, "Tributário")); break;
+                            case 5: (strcpy(advogado->especialidade, "Empresarial")); break;
+                        }
+                    }; break;
+                    case 5: { 
+                        input(edicao, sizeof(edicao), "Digite a nova data de nascimento: ");
+                        strcpy(advogado->dataNasc, edicao);
+                    }; break;
+                    case 6: { 
+                        input(edicao, sizeof(edicao), "Digite o novo endereço: ");
+                        strcpy(advogado->endereco, edicao);
+                    }; break;
+                    case 7: { 
+                        input(edicao, sizeof(edicao), "Digite o novo email: ");
+                        strcpy(advogado->email, edicao);
+                    }; break;
+                    case 8: { 
+                        input(edicao, sizeof(edicao), "Digite o novo telefone: ");
+                        strcpy(advogado->telefone, edicao);
+                    }; break;
                 }
             }
         }
@@ -346,11 +362,10 @@ void editaAdvogado(void) {
 void excluiAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
-    FILE *temp_advogado;
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     char pesquisar_cpf[15];
-    int tam, confi;
+    int confi;
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -358,18 +373,12 @@ void excluiAdvogado(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|   ===> Digite o cpf do advogado: ");
-    fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-    tam = strlen(pesquisar_cpf);
-    pesquisar_cpf[tam-1] = '\0';
+    input(pesquisar_cpf, sizeof(pesquisar_cpf), "|   ===> Digite o cpf do advogado: ");
 
-    arq_advogado = fopen("advogado.dat", "rb");
-    temp_advogado = fopen("temp_advogado.dat","wb");
+    arq_advogado = fopen("advogado.dat", "r+b");
 
     while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
         if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
-            fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
-        } else {
             encontrado = 1;
             printf("|\t\tCPF: %s\n", advogado->cpf);
             printf("|\t\tNome: %s\n", advogado->nome);
@@ -386,17 +395,22 @@ void excluiAdvogado(void) {
 
             if (confi == 1) {
                 advogado->atividade = 0;
-                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                fseek(arq_advogado, -sizeof(Advogado), SEEK_CUR);
+                fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
                 printf("|                                                                                             |\n");
                 printf("|        Advogado excluido com sucesso!                                                       |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_advogado);
+                return;
             } else if (confi == 2) {
-                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_advogado);
+                return;
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -404,15 +418,12 @@ void excluiAdvogado(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
-                fclose(temp_advogado);
                 fclose(arq_advogado);
-                remove("temp_advogado.dat");
                 return;
             }
         }
     }
     fclose(arq_advogado);
-    fclose(temp_advogado);
     
     if (!encontrado){
         remove("temp_advogado.dat");
@@ -437,7 +448,9 @@ void lixeiraAdvogado(void) {
     Advogado *advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     int opcao;
+    int encontrado = 0;
     char pesquisar_cpf[15];
+    
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Lixeira Advogado                                         |\n");
@@ -447,41 +460,37 @@ void lixeiraAdvogado(void) {
     printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
     scanf("%d", &opcao);
     getchar();
-    arq_advogado = fopen("advogado.dat", "rb");
-    temp_advogado = fopen("temp_advogado.dat","wb");
     if (opcao == 1) {
-        printf("Digite o CPF do advogado que deseja restaurar: ");
-        fgets(pesquisar_cpf, sizeof(pesquisar_cpf), stdin);
-        int tam = strlen(pesquisar_cpf);
-        pesquisar_cpf[tam-1] = '\0';
+        arq_advogado = fopen("advogado.dat", "r+b");
+        input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF do advogado que deseja restaurar: ");
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
             if ((advogado->atividade == 0) && (strcmp(advogado->cpf, pesquisar_cpf) == 0)){
+                encontrado = 1;
                 advogado->atividade = 1;
-                fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
+                fseek(arq_advogado, -sizeof(Advogado), SEEK_CUR);
+                fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
                 printf("|                                                                                             |\n");
                 printf("|        Advogado restaurado com sucesso!                                                     |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(temp_advogado);
                 fclose(arq_advogado);
-                remove("advogado.dat");
-                rename("temp_advogado.dat", "advogado.dat");
-                return;
-            } else {
-                system("clear");
-                printf("+-------------------------------------------------------+\n");
-                printf("|                                                       |\n");
-                printf("|  Não há advogado com esse CPF que esteja na lixeira!  |\n");
-                printf("|                                                       |\n");
-                printf("+-------------------------------------------------------+\n");
-                fclose(temp_advogado);
-                fclose(arq_advogado);
-                remove("temp_advogado.dat");
                 return;
             }
         }
+        if (!encontrado){
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Advogado não encontrado!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            fclose(arq_advogado);
+            return;
+        }
     } 
     else if (opcao == 2) {
+        arq_advogado = fopen("advogado.dat", "rb");
+        temp_advogado = fopen("temp_advogado.dat","wb");
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
             if (advogado->atividade == 1){
                 fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
@@ -500,9 +509,6 @@ void lixeiraAdvogado(void) {
         printf("|       Você digitou uma opção inválida!       |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(temp_advogado);
-        fclose(arq_advogado);
-        remove("temp_advogado.dat");
         return;
     }
 }
@@ -511,8 +517,6 @@ void relatorioAdvogado(void) {
     system("clear");
     FILE *arq_advogado;
     Advogado *advogado;
-    Advogado *adv;
-    Advogado *lista = NULL;
     advogado = (Advogado*) malloc(sizeof(Advogado));
     int opcao, filtro, pesq_espec;
     char pesq_nome[50];
@@ -538,10 +542,9 @@ void relatorioAdvogado(void) {
             free(advogado);
             return;
         }
-        adv = lista;
         printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
         printf("+------------------------------------------------------------------------------------------------------+\n");
-        while (adv != NULL){
+        while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
             if (advogado->atividade){
                 printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
             }
@@ -564,10 +567,7 @@ void relatorioAdvogado(void) {
         getchar();
         switch(filtro) {
             case 1: {
-                printf("|  ===> Digite o nome que você deseja filtrar:             |\n");
-                fgets(pesq_nome, sizeof(pesq_nome), stdin);
-                int tam = strlen(pesq_nome);
-                pesq_nome[tam-1] = '\0';
+                input(pesq_nome, sizeof(pesq_nome), "|  ===> Digite o nome que você deseja filtrar:             |\n");
                 printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
                 printf("+------------------------------------------------------------------------------------------------------+\n");
                 while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
@@ -606,9 +606,20 @@ void relatorioAdvogado(void) {
                 printf("+------------------------------------------------------------------------------------------------------+\n");
                 while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
                     if ((strcmp(advogado->especialidade, especialidade) == 0) && (advogado->atividade)){
-                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
+                        printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                            advogado->cpf,
+                            advogado->nome,
+                            advogado->carteiraOAB,
+                            advogado->especialidade,
+                            advogado->dataNasc,
+                            advogado->endereco,
+                            advogado->email,
+                            advogado->telefone,
+                            advogado->idProcessoPF,
+                            advogado->idProcessoPJ
+                        );
+                        printf("+------------------------------------------------------------------------------------------------------+\n");
                     }
-                    printf("+------------------------------------------------------------------------------------------------------+\n");
                 }
                 fclose(arq_advogado);
                 free(advogado);
