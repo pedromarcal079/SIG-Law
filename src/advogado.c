@@ -521,6 +521,7 @@ void relatorioAdvogado(void) {
     int opcao, filtro, pesq_espec;
     char pesq_nome[50];
     char *especialidade;
+    int i = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                    Relatório de Advogados                                   |\n");
@@ -547,9 +548,12 @@ void relatorioAdvogado(void) {
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
             if (advogado->atividade){
                 printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
+                i++;
             }
-            printf("+------------------------------------------------------------------------------------------------------+\n");
         }
+        printf("+------------------------------------------------------------------------------------------------------+\n");
+        printf("|   Total de advogados ativos: %d                                                                      |\n", i);
+        printf("+------------------------------------------------------------------------------------------------------+\n");
         fclose(arq_advogado);
         free(advogado);
     }
@@ -582,11 +586,14 @@ void relatorioAdvogado(void) {
                             advogado->email,
                             advogado->telefone,
                             advogado->idProcessoPF,
-                            advogado->idProcessoPJ
-                        );
+                            advogado->idProcessoPJ);
+                            i++;
                         printf("+------------------------------------------------------------------------------------------------------+\n");
                     }
                 }
+                printf("+------------------------------------------------------------------------------------------------------+\n");
+                printf("|   Total de advogados Com este nome: %d                                                               |\n", i);
+                printf("+------------------------------------------------------------------------------------------------------+\n");
                 fclose(arq_advogado);
                 free(advogado);
             }; break; 
@@ -616,11 +623,14 @@ void relatorioAdvogado(void) {
                             advogado->email,
                             advogado->telefone,
                             advogado->idProcessoPF,
-                            advogado->idProcessoPJ
-                        );
+                            advogado->idProcessoPJ);
+                            i++;
                         printf("+------------------------------------------------------------------------------------------------------+\n");
                     }
                 }
+                printf("+------------------------------------------------------------------------------------------------------+\n");
+                printf("|   Total de advogados com esta especialidade: %d                                                      |\n", i);
+                printf("+------------------------------------------------------------------------------------------------------+\n");
                 fclose(arq_advogado);
                 free(advogado);
             }
