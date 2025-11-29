@@ -14,10 +14,9 @@ void moduloStatusPF(void){
                 printf("Pressione ENTER ... \n");
                 break;
             case 1:
-                editarStatus();
-                break;
-            case 2:
                 listarStatus();
+                printf("Pressione ENTER ... \n");
+                getchar();
                 break;
         }
 
@@ -35,8 +34,7 @@ int menuStatus(void){
     printf("|                                                                                              |\n");
     printf("|                          +++++ Qual módulo você deseja acessar? +++++                        |\n");
     printf("|                                                                                              |\n");
-    printf("|                           1 - Atualizar Status                                               |\n");
-    printf("|                           2 - Listar Status                                                  |\n");
+    printf("|                           1 - Listar Status                                                  |\n");
     printf("|                           0 - Voltar                                                         |\n");
     printf("|                                                                                              |\n");
     printf("+----------------------------------------------------------------------------------------------+\n");
@@ -48,13 +46,12 @@ int menuStatus(void){
 
 
 
-void editarStatus(void){
 
-}
 
 
 
 void listarStatus(void){
+    system("clear");
     FILE *arq_processoPF;
     ProcessoPF *processoPF;
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
@@ -63,11 +60,14 @@ void listarStatus(void){
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Qual status deseja vizualizar?                                                       |\n");
-    printf("|        1 - Em andamento                                                                     |\n");
+    printf("|        1 - Em Andamento                                                                     |\n");
     printf("|        2 - Concluído                                                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("|   ===> Digite sua opcao: ");
     scanf("%d", &opcao);
     getchar();
 
+    printf("\n");
     switch(opcao){
         case 1:
             arq_processoPF = fopen("processoPF.dat", "rb");
@@ -80,13 +80,15 @@ void listarStatus(void){
                 printf("+----------------------------------------------+\n");
                 return;
             }
-            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
-            printf("+------------------------------------------------------------------------------------------------------+\n");
+            printf(" %-15s %-35s %-30s %-27s %-22s %-30s %-25s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "Descrição", "Data", "Status");
+            printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             while(fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1){
-                if(processoPF->atividade && strcmp(processoPF->status, "Em andamento") == 0){
-                    printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPF->id, processoPF->tipo, processoPF->autor, processoPF->reu, processoPF->advOAB, processoPF->descricao, processoPF->data, processoPF->status);
+                if(strcmp(processoPF->status, "Em Andamento") == 0){
+                    if(processoPF->atividade){
+                        printf("|%-15d %-30s %-30s %-30s %-25s %-25s %-25s %-15s\n", processoPF->id, processoPF->tipo, processoPF->autor, processoPF->reu, processoPF->advOAB, processoPF->descricao, processoPF->data, processoPF->status);
+                    }
                 }
-                printf("+------------------------------------------------------------------------------------------------------+\n");
+                printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             fclose(arq_processoPF);
             break;
@@ -104,8 +106,10 @@ void listarStatus(void){
             printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "descrição", "Data", "Status");
             printf("+------------------------------------------------------------------------------------------------------+\n");
             while(fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1){
-                if(processoPF->atividade && strcmp(processoPF->status, "Concluído") == 0){
-                    printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPF->id, processoPF->tipo, processoPF->autor, processoPF->reu, processoPF->advOAB, processoPF->descricao, processoPF->data, processoPF->status);
+                if(strcmp(processoPF->status, "Concluído") == 0){
+                    if(processoPF->atividade){
+                        printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", processoPF->id, processoPF->tipo, processoPF->autor, processoPF->reu, processoPF->advOAB, processoPF->descricao, processoPF->data, processoPF->status);
+                    }
                 }
                 printf("+------------------------------------------------------------------------------------------------------+\n");
             }
