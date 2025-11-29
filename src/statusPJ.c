@@ -8,13 +8,13 @@
 void moduloStatusPJ(void){
     int menuProOpcao;
     do {
-        menuProOpcao = menuStatus();
+        menuProOpcao = menuStatusPJ();
         switch(menuProOpcao){
             case 0:
                 printf("Pressione ENTER ... \n");
                 break;
             case 1:
-                listarStatus();
+                listarStatusPJ();
                 printf("Pressione ENTER ... \n");
                 getchar();
                 break;
@@ -23,7 +23,7 @@ void moduloStatusPJ(void){
     } while(menuProOpcao != 0);
 }
 
-int menuStatus(void){
+int menuStatusPJ(void){
     system("clear");
     int menuProOpcao;
     printf("+----------------------------------------------------------------------------------------------+\n");
@@ -50,7 +50,7 @@ int menuStatus(void){
 
 
 
-void listarStatus(void){
+void listarStatusPJ(void){
     system("clear");
     FILE *arq_processoPJ;
     ProcessoPJ *processoPJ;

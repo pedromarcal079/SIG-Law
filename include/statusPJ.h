@@ -3,7 +3,7 @@
 
 
 void moduloStatusPJ(void);
-int menuStatus(void);
-void listarStatus(void);
+int menuStatusPJ(void);
+void listarStatusPJ(void);
 
 #endif
