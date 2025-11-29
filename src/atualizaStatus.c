@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "atualizaStatus.h"
 #include "statusPF.h"
+#include "statusPJ.h"
 
 
 void moduloStatus(void){
@@ -16,7 +17,7 @@ void moduloStatus(void){
                 moduloStatusPF();
                 break;
             case 2:
-                //moduloStatusPJ();
+               moduloStatusPJ();
                 break;
             default:
                 system("clear");
