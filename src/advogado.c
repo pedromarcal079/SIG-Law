@@ -77,7 +77,7 @@ int menuAdvogado(void) {
     printf("|                               1 - Cadastra Advogado                                         |\n");
     printf("|                               2 - Mostra Advogado                                           |\n");
     printf("|                               3 - Edita Advogado                                            |\n");
-    printf("|                               4 - Exclui Processo                                           |\n");
+    printf("|                               4 - Exclui Advogado                                           |\n");
     printf("|                               5 - Lixeira Advogado                                          |\n");
     printf("|                               6 - Relatorio Advogados                                       |\n");
     printf("|                               7 - Listar Advogados                                          |\n");
@@ -637,11 +637,11 @@ void listaAdvogado(void){
     getchar();
     switch(opcao){
         case 1: {
-            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
-            printf("+------------------------------------------------------------------------------------------------------+\n");
+            printf("%-20s %-15s %-20s %-25s %-20s %-33s %-25s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
+            printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             while(lista != NULL){
                 if (lista->atividade){
-                    printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                    printf("%-20s %-15s %-20s %-25s %-20s %-30s %-27s %-15s %-15s %-15s\n",
                         lista->cpf,
                         lista->nome,
                         lista->carteiraOAB,
@@ -655,7 +655,7 @@ void listaAdvogado(void){
                     );
                 }
                 lista = lista->prox;
-                printf("+------------------------------------------------------------------------------------------------------+\n");
+                printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             free(advogado);
         }; break;
@@ -683,11 +683,11 @@ void listaAdvogado(void){
                 aux = aux->prox;
             }
             qsort(vetor, quantidade, sizeof(Advogado*), compararNomesAdvogado);
-            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
-            printf("+------------------------------------------------------------------------------------------------------+\n");
+            printf("%-20s %-15s %-20s %-25s %-20s %-33s %-25s %-15s %-15s %-15s\n", "CPF", "Nome", "Carteira OAB", "Especialidade", "Data Nasc.","Endereço", "Email", "Telefone", "ID PPF", "ID PPJ");
+            printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             for (int j = 0; j < quantidade; j++) {
                 Advogado *adv = vetor[j]; 
-                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", 
+                printf("%-20s %-15s %-20s %-25s %-20s %-30s %-27s %-15s %-15s %-15s\n", 
                     adv->cpf, 
                     adv->nome, 
                     adv->carteiraOAB,
@@ -699,7 +699,7 @@ void listaAdvogado(void){
                     adv->idProcessoPF,
                     adv->idProcessoPJ
                 );
-                printf("+------------------------------------------------------------------------------------------------------+\n");
+                printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             free(vetor);
         }; break;
