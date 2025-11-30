@@ -133,9 +133,25 @@ void cadastraProcessoPJ(void) {
     FILE *temp_cliente = NULL;
     FILE *arq_advogado = NULL;
     FILE *temp_advogado = NULL;
-    processoPJ->atividade = 1;
+    
 
     int tam;
+
+    processoPJ = (ProcessoPJ*)malloc(sizeof(ProcessoPJ));
+    if(processoPJ == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o processo. \n");
+        getchar();
+        return;
+    }
+    processoPJ->atividade = 1;
+
+    clientePJ = (ClientePJ*)malloc(sizeof(ClientePJ));
+    if(clientePJ == NULL){
+        printf("\nERRO: Falha na alocacao de memoria para o Cliente.\n");
+        free(processoPJ);
+        getchar();
+        return;
+    }
 
     advogado = (Advogado*)malloc(sizeof(Advogado));
     if(advogado == NULL){
@@ -218,7 +234,7 @@ void cadastraProcessoPJ(void) {
         return;
     }
 
-    arq_processoPJ = fopen("processoPF.dat","ab");
+    arq_processoPJ = fopen("processoPJ.dat","ab");
     if (arq_processoPJ == NULL){
         printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
         fclose(arq_cliente);

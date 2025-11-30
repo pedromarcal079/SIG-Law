@@ -28,6 +28,9 @@ void moduloAgendamento(void) {
                 getchar();
                 break;
             case 3:
+                printf("irei fazer");
+                break;
+            case 4:
                 moduloStatus();
                 break;
             default:

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "atualizaStatus.h"
+#include "statusPF.h"
+#include "statusPJ.h"
 
 
 void moduloStatus(void){
@@ -12,10 +14,10 @@ void moduloStatus(void){
                 printf("Pressione ENTER ... \n");
                 break;
             case 1:
-                // MODULO STATUS CLIENTE PF
+                moduloStatusPF();
                 break;
             case 2:
-                // MODULO STATUS CLIENTE PJ
+               moduloStatusPJ();
                 break;
             default:
                 system("clear");
@@ -31,8 +33,6 @@ void moduloStatus(void){
 
     } while (menuProOpcao != 0);
 }
-
-
 
 
 
