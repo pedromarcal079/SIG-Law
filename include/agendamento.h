@@ -2,6 +2,6 @@
 #define AGENDAMENTO_H
 
 void moduloMenuProcesso(void);
-int ProcessoMenu(void);
+int processoMenu(void);
 
 #endif

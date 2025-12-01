@@ -206,6 +206,7 @@ void mostraAdvogado(void){
         }
     }
     fclose(arq_advogado);
+    free(advogado);
     if(!encontrado){
         system("clear");
         printf("+----------------------------------------------+\n");
@@ -338,6 +339,7 @@ void editaAdvogado(void) {
     }
     fclose(arq_advogado);
     fclose(temp_advogado);
+    free(advogado);
 
     if(encontrado) {
         remove("advogado.dat");
@@ -402,6 +404,7 @@ void excluiAdvogado(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 fclose(arq_advogado);
+                free(advogado);
                 return;
             } else if (confi == 2) {
                 fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
@@ -410,6 +413,7 @@ void excluiAdvogado(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 fclose(arq_advogado);
+                free(advogado);
                 return;
             } else {
                 system("clear");
@@ -419,11 +423,13 @@ void excluiAdvogado(void) {
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
                 fclose(arq_advogado);
+                free(advogado);
                 return;
             }
         }
     }
     fclose(arq_advogado);
+    free(advogado);
     
     if (!encontrado){
         system("clear");
@@ -469,6 +475,7 @@ void lixeiraAdvogado(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 fclose(arq_advogado);
+                free(advogado);
                 return;
             }
         }
@@ -480,6 +487,7 @@ void lixeiraAdvogado(void) {
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
             fclose(arq_advogado);
+            free(advogado);
             return;
         }
     } 
@@ -493,6 +501,7 @@ void lixeiraAdvogado(void) {
         }
         fclose(arq_advogado);
         fclose(temp_advogado);
+        free(advogado);
         remove("advogado.dat");
         rename("temp_advogado.dat", "advogado.dat");
         return;
@@ -684,6 +693,8 @@ void listaAdvogado(void){
                 printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             free(advogado);
+            free(lista);
+            free(aux);
         }; break;
 
         case 2: {
@@ -728,6 +739,9 @@ void listaAdvogado(void){
                 printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             free(vetor);
+            free(advogado);
+            free(aux);
+            free(lista);
         }; break;
     }
 }

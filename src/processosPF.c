@@ -166,6 +166,7 @@ void cadastraProcessoPF(void) {
     if(processoPF == NULL){
         printf("\nERRO: Falha na alocacao de memoria para o processo. \n");
         getchar();
+        free(processoPF);
         return;
     }
 
@@ -173,7 +174,7 @@ void cadastraProcessoPF(void) {
     if(advogado == NULL){
         printf("\nERRO: Falha na alocacao de memoria para o Advogado.\n");
         free(processoPF);
-        free(clientePF);
+        free(advogado);
         getchar();
         return;
     }
@@ -183,6 +184,8 @@ void cadastraProcessoPF(void) {
     if(clientePF == NULL){
         printf("\nERRO: Falha na alocacao de memoria para o Cliente.\n");
         free(processoPF);
+        free(advogado);
+        free(clientePF);
         getchar();
         return;
     }
@@ -191,7 +194,9 @@ void cadastraProcessoPF(void) {
     if(novoID_str == NULL){
         printf("\nERRO: Falha ao gerar o novo ID do Processo.\n");
         free(processoPF);
+        free(advogado);
         free(clientePF);
+        free(novoID_str);
         getchar();
         return;
     }
@@ -231,7 +236,9 @@ void cadastraProcessoPF(void) {
     arq_cliente = fopen("clientePF.dat", "rb");
     if(arq_cliente == NULL){
         printf("\nERRO: Nao foi possivel abrir o arquivo de clientes (clientePF.dat)!");
+        fclose(arq_cliente);
         free(processoPF);
+        free(advogado);
         free(clientePF);
         free(novoID_str);
         getchar();
@@ -242,9 +249,11 @@ void cadastraProcessoPF(void) {
     if(temp_cliente == NULL){
         printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_cliente.dat)!");
         fclose(arq_cliente);
+        fclose(temp_cliente);
         free(processoPF);
         free(clientePF);
         free(novoID_str);
+        free(advogado);
         getchar();
         return;
     }
@@ -254,6 +263,7 @@ void cadastraProcessoPF(void) {
         printf("\nERRO: Nao foi possivel abrir o arquivo de advogados (advogado.dat)!");
         fclose(arq_cliente);
         fclose(temp_cliente);
+        fclose(arq_advogado);
         free(processoPF);
         free(clientePF);
         free(advogado);
@@ -268,6 +278,7 @@ void cadastraProcessoPF(void) {
         fclose(arq_cliente);
         fclose(temp_cliente);
         fclose(arq_advogado);
+        fclose(temp_advogado);
         free(processoPF);
         free(clientePF);
         free(advogado);
@@ -281,6 +292,10 @@ void cadastraProcessoPF(void) {
         printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
         fclose(arq_cliente);
         fclose(temp_cliente);
+        fclose(arq_advogado);
+        fclose(arq_processoPF);
+        fclose(temp_advogado);
+        free(advogado);
         free(processoPF);
         free(clientePF);
         free(novoID_str);
@@ -318,8 +333,8 @@ void cadastraProcessoPF(void) {
 
     fclose(arq_cliente);
     fclose(temp_cliente);
-    fclose(arq_processoPF);
     fclose(arq_advogado);
+    fclose(arq_processoPF);
     fclose(temp_advogado);
 
     remove("clientePF.dat");
@@ -380,6 +395,14 @@ void mostraProcessoPF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_clientePF);
+        fclose(arq_advogado);
+        fclose(arq_processoPF);
+        fclose(arq_clientePJ);
+        free(clientePJ);
+        free(advogado);
+        free(processoPF);
+        free(clientePF);
         return;
     }
     rewind(arq_processoPF);

@@ -137,6 +137,7 @@ void cadastraClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_cliente);
         free(clientePF);
         return;
     }
@@ -234,6 +235,8 @@ void mostraClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_cliente);
+        free(clientePF);
         return;
     }
 
@@ -252,6 +255,8 @@ void mostraClientePF(void) {
                 printf("|\t\tID do Processo: %s\n", clientePF->idProcesso);
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_cliente);
+                free(clientePF);
                 return;
             } else {
                 system("clear");
@@ -260,11 +265,14 @@ void mostraClientePF(void) {
                 printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_cliente);
+                free(clientePF);
                 return;
             }
         }
     }
     fclose(arq_cliente);
+    free(clientePF);
     if(!encontrado){
         system("clear");
         printf("+----------------------------------------------+\n");
@@ -306,6 +314,10 @@ void editaClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        free(clientePF);
+        free(temp_cliente);
         return;
     }
 
@@ -375,6 +387,8 @@ void editaClientePF(void) {
     }
     fclose(arq_cliente);
     fclose(temp_cliente);
+    free(clientePF);
+    free(temp_cliente);
 
     if(encontrado) {
         remove("clientePF.dat");
@@ -437,12 +451,20 @@ void excluiClientePF(void) {
                 printf("|        Cliente excluido com sucesso!                                                        |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_cliente);
+                fclose(temp_cliente);
+                free(clientePF);
+                free(temp_cliente);
             } else if (confi == 2) {
                 fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_cliente);
+                fclose(temp_cliente);
+                free(clientePF);
+                free(temp_cliente);
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -452,6 +474,8 @@ void excluiClientePF(void) {
                 printf("+----------------------------------------------+\n");
                 fclose(arq_cliente);
                 fclose(temp_cliente);
+                free(clientePF);
+                free(temp_cliente);
                 remove("temp_clientePF.dat");
                 return;
             }
@@ -459,6 +483,8 @@ void excluiClientePF(void) {
     }
     fclose(arq_cliente);
     fclose(temp_cliente);
+    free(clientePF);
+    free(temp_cliente);
     
     if (!encontrado){
         remove("temp_clientePF.dat");
@@ -500,6 +526,7 @@ void relatorioClientePF(void) {
             printf("|           Erro ao abrir o arquivo!           |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
+            fclose(arq_cliente);
             free(clientePF);
             return;
         }

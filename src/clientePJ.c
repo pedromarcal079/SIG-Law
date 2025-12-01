@@ -135,6 +135,7 @@ void cadastraClientePJ(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_empresa);
         free(clientePJ);
         return;
     }
@@ -178,6 +179,7 @@ void mostraClientePJ(void){
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        fclose(arq_empresa);
         free(clientePJ);
         return;
     }
@@ -205,11 +207,14 @@ void mostraClientePJ(void){
                 printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_empresa);
+                free(clientePJ);
                 return;
             }
         }
     }
     fclose(arq_empresa);
+    free(clientePJ);
     if (!encontrado) {
         system("clear");
         printf("+----------------------------------------------+\n");
@@ -297,6 +302,9 @@ void editaClientePJ(void) {
                     printf("|       Você digitou uma opção inválida!       |\n");
                     printf("|                                              |\n");
                     printf("+----------------------------------------------+\n");
+                    fclose(arq_empresa);
+                    fclose(temp_empresa);
+                    free(clientePJ);
                     return;
                 } else {
                     printf("|                                                                                             |\n");
@@ -324,6 +332,9 @@ void editaClientePJ(void) {
                 printf("|               Cliente Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_empresa);
+                fclose(temp_empresa);
+                free(clientePJ);
                 remove("temp_clientePJ.dat");
                 return;
             }
@@ -332,6 +343,7 @@ void editaClientePJ(void) {
     }
     fclose(arq_empresa);
     fclose(temp_empresa);
+    free(clientePJ);
 
     if (encontrado) {
         remove("clientePJ.dat");
@@ -397,12 +409,18 @@ void excluiClientePJ(void) {
                 printf("|        Cliente excluido com sucesso!                                                        |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_empresa);
+                fclose(temp_empresa);
+                free(clientePJ);
             } else if (confi == 2) {
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_empresa);
+                fclose(temp_empresa);
+                free(clientePJ);
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -412,6 +430,7 @@ void excluiClientePJ(void) {
                 printf("+----------------------------------------------+\n");
                 fclose(arq_empresa);
                 fclose(temp_empresa);
+                free(clientePJ);
                 remove("temp_clientePJ.dat");
                 return;
             }
@@ -419,6 +438,7 @@ void excluiClientePJ(void) {
     }
     fclose(arq_empresa);
     fclose(temp_empresa);
+    free(clientePJ);
 
     if (!encontrado) {
         remove("temp_clientePJ.dat");
