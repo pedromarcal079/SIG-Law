@@ -3,10 +3,10 @@
 
 #include "advogado.h"
 #include "clienteMenu.h"
-#include "menuAgendamento.h"
 #include "sobre.h"
 #include "equipe.h"
 #include "agendaProc.h"
+#include "agendamento.h"    
 
 // Projeto Versão 0.1.0-rc1
 
@@ -16,6 +16,7 @@ void telaSair(void);
 
 int main(void) {
     int opcao;
+    printf("\n");
     do {
         opcao = menu();
         switch (opcao) {

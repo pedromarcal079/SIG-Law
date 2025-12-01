@@ -1,7 +1,7 @@
 #ifndef AGENDAMENTO_H
 #define AGENDAMENTO_H
 
-void moduloAgendamento(void);
-int agendamentoMenu(void);
+void moduloMenuProcesso(void);
+int ProcessoMMenu(void);
 
 #endif
