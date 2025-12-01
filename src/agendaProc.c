@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "agendaProc.h"
@@ -590,4 +590,4 @@ void excluiAgendaProces(void) {
     free(agendamento);
     free(processoPF);
     free(processoPJ);
-}
+}*/

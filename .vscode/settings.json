@@ -1,14 +1,6 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "string.h": "c",
-        "stdlib.h": "c",
-        "stdbool.h": "c",
-        "stdio.h": "c",
-        "agendamento.h": "c",
-        "processomenu.h": "c",
-        "menuagendamento.h": "c",
-        "processospf.h": "c",
-        "advogado.h": "c"
+        "processospj.h": "c"
     }
 }

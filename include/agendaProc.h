@@ -1,4 +1,4 @@
-#ifndef AGENDAPROC_H
+/*#ifndef AGENDAPROC_H
 #define AGENDAPROC_H
 
 typedef struct agendamento {
@@ -33,3 +33,4 @@ int gerarID_Agenda(void);
 //Local (Online, tribunal, etc.)(??)
 //Descrição
 //Status (pendente, realizado, cancelado)
+*/

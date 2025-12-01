@@ -127,12 +127,12 @@ int menuProcessoPF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    printf("|                          1 - Cadastra processo PF                                              |\n");
-    printf("|                          2 - Mostra processo PF                                                |\n");
-    printf("|                          3 - Edita processo PF                                                 |\n");
-    printf("|                          4 - Exclui processo PF                                                |\n");
-    printf("|                          5 - Lixeira PF                                                        |\n");
-    printf("|                          6 - Relatório PF                                                      |\n");
+    printf("|                          1 - Cadastra processo PF                                           |\n");
+    printf("|                          2 - Mostra processo PF                                              |\n");
+    printf("|                          3 - Edita processo PF                                               |\n");
+    printf("|                          4 - Exclui processo PF                                             |\n");
+    printf("|                          5 - Lixeira PF                                                     |\n");
+    printf("|                          6 - Relatório PF                                                   |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
