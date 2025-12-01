@@ -11,6 +11,7 @@ typedef struct processoPF{
         char descricao[200];
         char status[20];
         char data[13];
+        struct processoPF* prox;
     } ProcessoPF;
 
 void moduloProcPF(void);
@@ -21,7 +22,9 @@ void editaProcessoPF(void);
 void excluiProcessoPF(void);
 void lixeiraProcessoPF(void);
 void relatorioProcessosPF(void);
+void listaProcessosPF(void);
+char* gerarID_PF();
+ProcessoPF* gerarLista_ProcPF();
 
-char* gerarID_PJ();
 
 #endif

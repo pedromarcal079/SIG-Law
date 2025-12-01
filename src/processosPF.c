@@ -11,6 +11,25 @@
 
 #define MAX_ID_LEN 20
 
+void* proc_getProximo(void* item) {
+    return ((ProcessoPF*)item)->prox;
+}
+
+int proc_compararData(const void* a, const void* b) {
+    ProcessoPF* pA = *(ProcessoPF**)a;
+    ProcessoPF* pB = *(ProcessoPF**)b;
+    int d1, m1, y1;
+    int d2, m2, y2;
+    
+    sscanf(pA->data, "%d/%d/%d", &d1, &m1, &y1);
+    sscanf(pB->data, "%d/%d/%d", &d2, &m2, &y2);
+    if (y1 != y2) return y1 - y2;
+    if (m1 != m2) return m1 - m2;
+
+    return d1 - d2;
+}
+
+
 char* gerarID_PF(){
     FILE *arq_processoPF = NULL;
     ProcessoPF *idProcPF = NULL;
@@ -195,7 +214,9 @@ void cadastraProcessoPF(void) {
     input(processoPF->reu, sizeof(processoPF->reu), "|   ===> Réu (CNPJ ou CPF): ");
     input(processoPF->advOAB, sizeof(processoPF->advOAB), "|   ===> Advogado Responsável (OAB): ");
     input(processoPF->descricao, sizeof(processoPF->descricao), "|   ===> Descrição do processo: ");
-    input(processoPF->data, sizeof(processoPF->data), "|   ===> Data de Cadastro: ");
+    do {
+        input(processoPF->data, sizeof(processoPF->data), "|   ===> Data de agendamento: ");
+    } while (!vali_data(processoPF->data));
     strcpy(processoPF->status, "Em Andamento");
 
     processoPF->id = atoi(novoID_str);
@@ -929,5 +950,71 @@ void relatorioProcessosPF(void) {
                 free(processoPF);
             }; break;
         }
+    }
+}
+
+void listaProcessoPF(void){
+    system("clear");
+    ProcessoPF *lista = gerarLista_ProcPF(); 
+    ProcessoPF **vetorProc = NULL;
+    ProcessoPF *processoPF = NULL;
+    int total = 0;
+    int i = 0;
+    int opcao;
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Listagem Advogado                                        |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                           1 - listar por ordem de cadastro                                  |\n");
+    printf("|                           2 - listar por Data                                               |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
+    switch(opcao){
+        case 1: {
+            printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Advogado", "Data", "Status");
+            printf("+--------------------------------------------------------------------------------------------------+\n");
+            while(lista != NULL){
+                if (lista->atividade){
+                    printf("|%-15d %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                    lista->id,
+                    lista->tipo, 
+                    lista->autor, 
+                    lista->reu, 
+                    lista->advOAB, 
+                    lista->descricao, 
+                    lista->data, 
+                    lista->status);
+                    printf("+--------------------------------------------------------------------------------------------------+\n");
+                }
+                lista = lista->prox;
+            }
+            free(processoPF);
+        }; break;
+
+        case 2: {
+            vetorProc = (ProcessoPF**) gerarVetorOrdenado(lista, proc_getProximo, proc_compararData, &total);
+            
+            if (vetorProc == NULL || total == 0) {
+                printf("\nNenhum processo encontrado.\n");
+            } else {
+                printf("\n=== RELATORIO POR DATA ===\n");
+                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Advogado", "DATA", "Status");
+                printf("+---------------------------------------------------------------------------------------------------+\n");
+
+                i = 0;
+                while(i < total) {
+                    processoPF = vetorProc[i];
+                    printf("%-15d %-15s %-15s %-15s %-15s %-15s %-15s \n", 
+                        processoPF->id, processoPF->tipo, processoPF->autor, processoPF->reu, processoPF->advOAB, processoPF->data, processoPF->status);
+                    printf("+---------------------------------------------------------------------------------------------------+\n");
+                    i++;
+                }
+                free(vetorProc);
+            }
+            
+        }; break;
     }
 }

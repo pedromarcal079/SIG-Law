@@ -7,6 +7,8 @@
         "stdio.h": "c",
         "agendamento.h": "c",
         "processomenu.h": "c",
-        "menuagendamento.h": "c"
+        "menuagendamento.h": "c",
+        "processospf.h": "c",
+        "advogado.h": "c"
     }
 }

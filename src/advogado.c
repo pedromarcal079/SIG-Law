@@ -674,17 +674,16 @@ void listaAdvogado(void){
             while(lista != NULL){
                 if (lista->atividade){
                     printf("%-20s %-15s %-20s %-25s %-20s %-30s %-27s %-15s %-15s %-15s\n",
-                        lista->cpf,
-                        lista->nome,
-                        lista->carteiraOAB,
-                        lista->especialidade,
-                        lista->dataNasc,
-                        lista->endereco,
-                        lista->email,
-                        lista->telefone,
-                        lista->idProcessoPF,
-                        lista->idProcessoPJ
-                    );
+                    lista->cpf,
+                    lista->nome,
+                    lista->carteiraOAB,
+                    lista->especialidade,
+                    lista->dataNasc,
+                    lista->endereco,
+                    lista->email,
+                    lista->telefone,
+                    lista->idProcessoPF,
+                    lista->idProcessoPJ);
                 }
                 lista = lista->prox;
                 printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");

@@ -163,3 +163,34 @@ int vali_sexo(char* sexo){
     }
     return true;
 }
+
+int vali_data(char* data) {
+    int dia, mes, ano;
+
+    if (sscanf(data, "%d/%d/%d", &dia, &mes, &ano) != 3) {
+        printf("\n\t[!] Formato invalido! Use DD/MM/AAAA (Ex: 15/05/2024)\n");
+        return false;
+    }
+
+    if (ano < 1900 || ano > 2100) {
+        printf("\n\t[!] Ano invalido! Digite entre 1900 e 2100.\n");
+        return false;
+    }
+    if (mes < 1 || mes > 12) {
+        printf("\n\t[!] Mes invalido! Digite entre 01 e 12.\n");
+        return false;
+    }
+
+    int diasNoMes[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) {
+        diasNoMes[2] = 29;
+    }
+
+    if (dia < 1 || dia > diasNoMes[mes]) {
+        printf("\n\t[!] Dia invalido! O mes %d vai ate o dia %d.\n", mes, diasNoMes[mes]);
+        return false;
+    }
+
+    return true; 
+}
