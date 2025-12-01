@@ -4,6 +4,10 @@
 #include "utilidades.h"
 #include "advogado.h"
 #include "processosPF.h"
+#include "processosPJ.h"
+#include "clientePF.h"
+#include "clientePJ.h"
+#include "utilidades.h"
 
 void input(char *variavel, int tam, char *mensagem){
 
@@ -124,4 +128,24 @@ void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc c
 
     *qtdOut = contador;
     return vetor;
+}
+
+int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
+    rewind(arq_clientePJ);
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
+        if (strcmp(clientePJ->cnpj, cnpj) == 0) {
+            return 1; // encontrado
+        }
+    }
+    return 0; // não encontrado
+}
+
+int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
+    rewind(arq_clientePF);
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
+        if (strcmp(clientePF->cpf, cpf) == 0) {
+            return 1; // encontrado
+        }
+    }
+    return 0; // não encontrado
 }

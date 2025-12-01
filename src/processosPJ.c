@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "processosPJ.h"
-
 #include "clientePF.h"
 #include "clientePJ.h"
 #include "advogado.h"
+#include "validacao.h"
+#include "utilidades.h"
 
 #define MAX_ID_LEN 20
 
@@ -283,25 +284,6 @@ void cadastraProcessoPJ(void) {
 }
 
 
-int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
-    rewind(arq_clientePJ);
-    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
-        if (strcmp(clientePJ->cnpj, cnpj) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
-}
-
-int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
-    rewind(arq_clientePF);
-    while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
-        if (strcmp(clientePF->cpf, cpf) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
-}
 
 void mostraProcessoPJ(void) {
     system("clear");
@@ -449,7 +431,7 @@ void editaProcessoPJ(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
-
+    rewind(arq_processoPJ);
     while (fread(processoPJ, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
         int pesqID = atoi(pesquisar_id);
         if (processoPJ->id == pesqID) {
