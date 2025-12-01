@@ -6,6 +6,7 @@
 #include "menuAgendamento.h"
 #include "sobre.h"
 #include "equipe.h"
+#include "agendaProc.h"
 
 // Projeto Versão 0.1.0-rc1
 
@@ -30,7 +31,7 @@ int main(void) {
             moduloMenuCliente();
             break;
         case 3:
-            moduloAgendamento();
+            moduloMenuProcesso();
             break;
         case 4:
             system("clear");

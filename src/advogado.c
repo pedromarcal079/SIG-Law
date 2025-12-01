@@ -509,6 +509,7 @@ void lixeiraAdvogado(void) {
         printf("|       Você digitou uma opção inválida!       |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        remove("temp_advogado.dat");
         return;
     }
 }
@@ -547,8 +548,18 @@ void relatorioAdvogado(void) {
         printf("+------------------------------------------------------------------------------------------------------+\n");
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
             if (advogado->atividade){
-                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", advogado->cpf, advogado->nome, advogado->carteiraOAB, advogado->especialidade, advogado->dataNasc, advogado->endereco, advogado->email, advogado->telefone, advogado->idProcessoPF, advogado->idProcessoPJ);
-                i++;
+                printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n",
+                    advogado->cpf,
+                    advogado->nome,
+                    advogado->carteiraOAB,
+                    advogado->especialidade,
+                    advogado->dataNasc,
+                    advogado->endereco,
+                    advogado->email,
+                    advogado->telefone,
+                    advogado->idProcessoPF,
+                    advogado->idProcessoPJ);
+                    i++;
             }
         }
         printf("+------------------------------------------------------------------------------------------------------+\n");
