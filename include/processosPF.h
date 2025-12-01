@@ -22,7 +22,7 @@ void editaProcessoPF(void);
 void excluiProcessoPF(void);
 void lixeiraProcessoPF(void);
 void relatorioProcessosPF(void);
-void listaProcessosPF(void);
+void listaProcessoPF(void);
 char* gerarID_PF();
 ProcessoPF* gerarLista_ProcPF();
 
