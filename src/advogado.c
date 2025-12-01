@@ -279,7 +279,7 @@ void editaAdvogado(void) {
             scanf("%d", &dado);  
             getchar();                                     
 
-            if (dado < 1 || dado > 6) {
+            if (dado < 1 || dado > 8) {
                 system("clear");
                 printf("+----------------------------------------------+\n");
                 printf("|                                              |\n");
