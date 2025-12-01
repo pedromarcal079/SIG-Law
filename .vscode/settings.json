@@ -4,6 +4,9 @@
         "string.h": "c",
         "stdlib.h": "c",
         "stdbool.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "agendamento.h": "c",
+        "processomenu.h": "c",
+        "menuagendamento.h": "c"
     }
 }
