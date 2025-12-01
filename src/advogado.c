@@ -426,18 +426,13 @@ void excluiAdvogado(void) {
     fclose(arq_advogado);
     
     if (!encontrado){
-        remove("temp_advogado.dat");
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Advogado não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n"); 
-    } else {
-        remove("advogado.dat");
-        rename("temp_advogado.dat", "advogado.dat");
     }
-    
 }
 
 
