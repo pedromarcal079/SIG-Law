@@ -325,6 +325,7 @@ void editaClientePF(void) {
         if (strcmp(clientePF->cpf, cpf_lido) == 0){
             encontrado = 1;
             if (clientePF->atividade == 1){
+                printf("|\n");
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
                 printf("|\t\tNome: %s\n", clientePF->nome);
                 printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
@@ -530,13 +531,13 @@ void relatorioClientePF(void) {
             free(clientePF);
             return;
         }
-        printf("\n%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "ID do Processo");
-        printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("\n%-20s %-20s %-30s %-31s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "ID do Processo");
+        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if(clientePF->atividade == 1){
                 printf("%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n",clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone, clientePF->idProcesso);
             }
-            printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         }
         fclose(arq_cliente);
         free(clientePF);
