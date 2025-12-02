@@ -19,6 +19,7 @@ void cadastraClientePF(void);
 void mostraClientePF(void);
 void editaClientePF(void);
 void excluiClientePF(void);
+void lixeiraClientePF(void);
 void relatorioClientePF(void);
 
 #endif
