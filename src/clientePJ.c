@@ -188,6 +188,7 @@ void mostraClientePJ(void){
         if (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0){
             encontrado = 1;
             if (clientePJ->atividade == 1){
+                printf("|\n");
                 printf("|\t\tCNPJ: %s\n", clientePJ->cnpj);
                 printf("|\t\tRazão Social: %s\n", clientePJ->razaoSocial);
                 printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
@@ -409,18 +410,18 @@ void excluiClientePJ(void) {
                 printf("|        Cliente excluido com sucesso!                                                        |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(arq_empresa);
+                /*fclose(arq_empresa);
                 fclose(temp_empresa);
-                free(clientePJ);
+                free(clientePJ);*/
             } else if (confi == 2) {
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(arq_empresa);
+                /*fclose(arq_empresa);
                 fclose(temp_empresa);
-                free(clientePJ);
+                free(clientePJ);*/
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -428,17 +429,16 @@ void excluiClientePJ(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
-                fclose(arq_empresa);
+                /*fclose(arq_empresa);
                 fclose(temp_empresa);
-                free(clientePJ);
+                free(clientePJ);*/
                 remove("temp_clientePJ.dat");
-                return;
+                /*return;*/
             }
         }
     }
     fclose(arq_empresa);
     fclose(temp_empresa);
-    free(clientePJ);
 
     if (!encontrado) {
         remove("temp_clientePJ.dat");
@@ -452,6 +452,7 @@ void excluiClientePJ(void) {
         remove("clientePJ.dat");
         rename("temp_clientePJ.dat", "clientePJ.dat");
     }
+    free(clientePJ);
 }
 
 void relatorioClientePJ(void) {
@@ -474,7 +475,7 @@ void relatorioClientePJ(void) {
         printf("+----------------------------------------------+\n");
         return;
     }
-    printf("%-30s %-30s %-30s %-30s %-30s %-30s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
+    printf("%-30s %-30s %-30s %-31s %-30s %-30s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
     printf("+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ)) {
         if (clientePJ->atividade == 1){
