@@ -317,7 +317,7 @@ void editaClientePF(void) {
         fclose(arq_cliente);
         fclose(temp_cliente);
         free(clientePF);
-        free(temp_cliente);
+        /*free(temp_cliente);*/
         return;
     }
 
@@ -388,7 +388,7 @@ void editaClientePF(void) {
     fclose(arq_cliente);
     fclose(temp_cliente);
     free(clientePF);
-    free(temp_cliente);
+    /*free(temp_cliente);*/
 
     if(encontrado) {
         remove("clientePF.dat");
@@ -454,7 +454,7 @@ void excluiClientePF(void) {
                 fclose(arq_cliente);
                 fclose(temp_cliente);
                 free(clientePF);
-                free(temp_cliente);
+                /*free(temp_cliente);*/
             } else if (confi == 2) {
                 fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
                 printf("|                                                                                             |\n");
@@ -464,7 +464,7 @@ void excluiClientePF(void) {
                 fclose(arq_cliente);
                 fclose(temp_cliente);
                 free(clientePF);
-                free(temp_cliente);
+                /*free(temp_cliente);*/
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -475,7 +475,7 @@ void excluiClientePF(void) {
                 fclose(arq_cliente);
                 fclose(temp_cliente);
                 free(clientePF);
-                free(temp_cliente);
+                /*free(temp_cliente);*/
                 remove("temp_clientePF.dat");
                 return;
             }
@@ -484,7 +484,7 @@ void excluiClientePF(void) {
     fclose(arq_cliente);
     fclose(temp_cliente);
     free(clientePF);
-    free(temp_cliente);
+    /*free(temp_cliente);*/
     
     if (!encontrado){
         remove("temp_clientePF.dat");
