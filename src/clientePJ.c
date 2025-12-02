@@ -36,6 +36,11 @@ void moduloClientePJ(void) {
             getchar();
             break;
         case 5:
+            lixeiraClientePJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 6:
             relatorioClientePJ();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -67,7 +72,8 @@ int menuClientePJ(void) {
     printf("|                          2 - Mostra empresa                                                 |\n");
     printf("|                          3 - Edita empresa                                                  |\n");
     printf("|                          4 - Exclui empresa                                                 |\n");
-    printf("|                          5 - Lista empresas                                                 |\n");
+    printf("|                          5 - Lixeira empresa                                                |\n");
+    printf("|                          6 - Lista empresas                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -485,4 +491,84 @@ void relatorioClientePJ(void) {
     }
     fclose(arq_clientePJ);
     free(clientePJ);
+}
+
+void lixeiraClientePJ(void) {
+    system("clear");
+    FILE *arq_empresa;
+    FILE *temp_empresa;
+    ClientePJ *clientePJ;
+
+    int opcao;
+    int encontrado = 0;
+    char pesquisar_cnpj[21];
+
+    clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    
+    printf("+------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                |\n");
+    printf("|                                      Lixeira Empresa                                           |\n");
+    printf("|                                                                                                |\n");
+    printf("+------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                |\n");
+    printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar): ");
+    scanf("%d", &opcao);
+    getchar();
+
+    if (opcao == 1) {
+        arq_empresa = fopen("clientePJ.dat", "r+b");
+        input(pesquisar_cnpj, sizeof(pesquisar_cnpj), "Digite o CPF do cliente que deseja restaurar: ");
+        while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+            if ((clientePJ->atividade == 0) && (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0)){
+                encontrado = 1;
+                clientePJ->atividade = 1;
+                fseek(arq_empresa, -sizeof(ClientePJ), SEEK_CUR);
+                fwrite(clientePJ, sizeof(ClientePJ), 1, arq_empresa);
+                printf("|                                                                                                |\n");
+                printf("|         Empresa restaurada com sucesso!                                                        |\n");
+                printf("|                                                                                                |\n");
+                printf("+------------------------------------------------------------------------------------------------+\n");
+                getchar();
+                fclose(arq_empresa);
+                free(clientePJ);
+                return;
+            }
+        }
+        if (!encontrado){
+            system("clear");
+            printf("+-----------------------------------------------+\n");
+            printf("|                                               |\n");
+            printf("|            Empresa não encontrada!            |\n");
+            printf("|                                               |\n");
+            printf("+-----------------------------------------------+\n");
+            fclose(arq_empresa);
+            free(clientePJ);
+            return;
+        }
+    } 
+    else if (opcao == 2) {
+        arq_empresa = fopen("clientePJ.dat", "rb");
+        temp_empresa = fopen("temp_clientePJ.dat","wb");
+        while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
+            if (clientePJ->atividade == 1){
+                fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
+            }
+        }
+        fclose(arq_empresa);
+        fclose(temp_empresa);
+        free(clientePJ);
+        remove("clientePJ.dat");
+        rename("temp_clientePJ.dat", "clientePJ.dat");
+        return;
+    } 
+    else {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|       Você digitou uma opção inválida!       |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        remove("temp_clientePJ.dat");
+        return;
+    }
 }
