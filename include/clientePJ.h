@@ -20,6 +20,7 @@ void cadastraClientePJ(void);
 void mostraClientePJ(void);
 void editaClientePJ(void);
 void excluiClientePJ(void);
+void lixeiraClientePJ(void);
 void relatorioClientePJ(void);
 
 #endif

@@ -35,6 +35,11 @@ void moduloClientePF(void){
             getchar();
             break;
         case 5:
+            lixeiraClientePF();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
+        case 6:
             relatorioClientePF();
             printf("Pressione ENTER ... \n");
             getchar();
@@ -66,7 +71,8 @@ int menuClientePF(void) {
     printf("|                          2 - Mostra cliente                                                 |\n");
     printf("|                          3 - Edita cliente                                                  |\n");
     printf("|                          4 - Exclui cliente                                                 |\n");
-    printf("|                          5 - Lista clientes                                                 |\n");
+    printf("|                          5 - Lixeira cliente                                                |\n");
+    printf("|                          6 - Lista clientes                                                 |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -325,6 +331,7 @@ void editaClientePF(void) {
         if (strcmp(clientePF->cpf, cpf_lido) == 0){
             encontrado = 1;
             if (clientePF->atividade == 1){
+                printf("|\n");
                 printf("|\t\tCPF: %s\n", clientePF->cpf);
                 printf("|\t\tNome: %s\n", clientePF->nome);
                 printf("|\t\tData de Nascimento: %s\n", clientePF->dataNasc);
@@ -412,25 +419,45 @@ void editaClientePF(void) {
 
 void excluiClientePF(void) {
     system("clear");
-    FILE *arq_cliente;
-    FILE *temp_cliente;
-
-    ClientePF *clientePF;
-    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
-
-    char cpf_lido[16];
+    FILE *arq_cliente = NULL;
+    FILE *temp_cliente = NULL;
+    ClientePF *clientePF = NULL;
+    
+    char cpf_lido[20];
     int confi; // tam nao esta sendo usado!
     int encontrado = 0;
+
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    if(clientePF == NULL){
+        system("clear");
+        printf("\n\n\tErro: Falha na alocacao de memoria. \n\n");
+        return;
+    }
+
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|                                        Excluir Cliente                                      |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
-    input(cpf_lido, sizeof(cpf_lido), "|   ===> Digite o CPF do cliente");
+    printf("|   ===> Digite o CPF do cliente: ");
+    scanf("%s", cpf_lido);
+    getchar();
 
     arq_cliente = fopen("clientePF.dat","rb");
+    if(arq_cliente == NULL){
+        printf("\n\tErro: Arquivo de cliente nao encontrado.\n");
+        free(clientePF);
+        return;;
+    }
+
     temp_cliente = fopen("temp_clientePF.dat","wb");
+    if(temp_cliente == NULL){
+        printf("\n\tErro: Nao foi possivel criar arquivo temporario.\n");
+        fclose(temp_cliente);
+        free(clientePF);
+        return;
+    }
 
     while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
         if (strcmp(clientePF->cpf, cpf_lido) != 0){
@@ -451,20 +478,18 @@ void excluiClientePF(void) {
                 printf("|        Cliente excluido com sucesso!                                                        |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(arq_cliente);
+                /*fclose(arq_cliente);
                 fclose(temp_cliente);
-                free(clientePF);
-                /*free(temp_cliente);*/
+                free(clientePF);*/
             } else if (confi == 2) {
                 fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(arq_cliente);
+                /*fclose(arq_cliente);
                 fclose(temp_cliente);
-                free(clientePF);
-                /*free(temp_cliente);*/
+                free(clientePF);*/
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -472,19 +497,16 @@ void excluiClientePF(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
-                fclose(arq_cliente);
+                /*fclose(arq_cliente);
                 fclose(temp_cliente);
-                free(clientePF);
-                /*free(temp_cliente);*/
+                free(clientePF);*/
                 remove("temp_clientePF.dat");
-                return;
+                /*return;*/
             }
         }
     }
     fclose(arq_cliente);
     fclose(temp_cliente);
-    free(clientePF);
-    /*free(temp_cliente);*/
     
     if (!encontrado){
         remove("temp_clientePF.dat");
@@ -498,7 +520,7 @@ void excluiClientePF(void) {
         remove("clientePF.dat");
         rename("temp_clientePF.dat", "clientePF.dat");
     }
-    
+    free(clientePF);
 }
 
 void relatorioClientePF(void) {
@@ -530,13 +552,13 @@ void relatorioClientePF(void) {
             free(clientePF);
             return;
         }
-        printf("\n%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "ID do Processo");
-        printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("\n%-20s %-20s %-30s %-31s %-30s %-20s %-20s\n", "CPF", "Nome", "Data de Nascimento", "Endereço", "Email", "Telefone", "ID do Processo");
+        printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         while(fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if(clientePF->atividade == 1){
                 printf("%-20s %-20s %-30s %-30s %-30s %-20s %-20s\n",clientePF->cpf, clientePF->nome, clientePF->dataNasc, clientePF->endereco, clientePF->email, clientePF->telefone, clientePF->idProcesso);
             }
-            printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
         }
         fclose(arq_cliente);
         free(clientePF);
@@ -567,5 +589,84 @@ void relatorioClientePF(void) {
         }
         fclose(arq_cliente);
         free(clientePF);
+    }
+}
+
+void lixeiraClientePF(void) {
+    system("clear");
+    FILE *arq_cliente;
+    FILE *temp_cliente;
+    ClientePF *clientePF;
+
+    int opcao;
+    int encontrado = 0;
+    char pesquisar_cpf[15];
+
+    clientePF = (ClientePF*) malloc(sizeof(ClientePF));
+    
+    printf("+------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                |\n");
+    printf("|                                      Lixeira Cliente                                           |\n");
+    printf("|                                                                                                |\n");
+    printf("+------------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                                |\n");
+    printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar): ");
+    scanf("%d", &opcao);
+    getchar();
+    if (opcao == 1) {
+        arq_cliente = fopen("clientePF.dat", "r+b");
+        input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF do cliente que deseja restaurar: ");
+        while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+            if ((clientePF->atividade == 0) && (strcmp(clientePF->cpf, pesquisar_cpf) == 0)){
+                encontrado = 1;
+                clientePF->atividade = 1;
+                fseek(arq_cliente, -sizeof(ClientePF), SEEK_CUR);
+                fwrite(clientePF, sizeof(ClientePF), 1, arq_cliente);
+                printf("|                                                                                             |\n");
+                printf("|         Cliente restaurado com sucesso!                                                     |\n");
+                printf("|                                                                                             |\n");
+                printf("+---------------------------------------------------------------------------------------------+\n");
+                getchar();
+                fclose(arq_cliente);
+                free(clientePF);
+                return;
+            }
+        }
+        if (!encontrado){
+            system("clear");
+            printf("+-----------------------------------------------+\n");
+            printf("|                                               |\n");
+            printf("|            Cliente não encontrado!            |\n");
+            printf("|                                               |\n");
+            printf("+-----------------------------------------------+\n");
+            fclose(arq_cliente);
+            free(clientePF);
+            return;
+        }
+    } 
+    else if (opcao == 2) {
+        arq_cliente = fopen("clientePF.dat", "rb");
+        temp_cliente = fopen("temp_clientePF.dat","wb");
+        while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
+            if (clientePF->atividade == 1){
+                fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);
+            }
+        }
+        fclose(arq_cliente);
+        fclose(temp_cliente);
+        free(clientePF);
+        remove("clientePF.dat");
+        rename("temp_clientePF.dat", "clientePF.dat");
+        return;
+    } 
+    else {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|       Você digitou uma opção inválida!       |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        remove("temp_clientePF.dat");
+        return;
     }
 }
