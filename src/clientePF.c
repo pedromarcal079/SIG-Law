@@ -94,7 +94,6 @@ void cadastraClientePF(void) {
 
     int j, i = 0;
     char temp_dataNasc[13];
-    char temp_cpf[15];
 
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -105,11 +104,8 @@ void cadastraClientePF(void) {
     printf("|        Informe os dados do cliente:                                                         |\n");
     printf("|\n");
     do{
-        printf("|   ===> CPF: ");
-        scanf("%s", temp_cpf);
-        getchar();
-        /*input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");*/
-    }while(!vali_cpf(temp_cpf));
+        input(clientePF->cpf, sizeof(clientePF->cpf), "|   ===> CPF: ");
+    }while(!vali_cpf(clientePF->cpf));
 
     do{
         input(clientePF->nome, sizeof(clientePF->nome), "|   ===> Nome: ");
@@ -177,7 +173,7 @@ void cadastraClientePF(void) {
     i = 0;
 
     // PARTE QUE SEPARA O CPF COM OS '.' e o '-'
-    for(j = 0; j < 3; j++){
+    /*for(j = 0; j < 3; j++){
         clientePF->cpf[i++] = temp_cpf[j];
     }
 
@@ -199,7 +195,7 @@ void cadastraClientePF(void) {
         clientePF->cpf[i++] = temp_cpf[j];
     }
 
-    clientePF->cpf[i] = '\0';
+    clientePF->cpf[i] = '\0';*/
 
 
 
