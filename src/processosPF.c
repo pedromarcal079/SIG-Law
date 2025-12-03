@@ -715,13 +715,14 @@ void excluiProcessoPF(void) {
                 printf("|        Processo excluído com sucesso!                                                       |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                return;
                 /*fclose(arq_processoPF);*/
             } else if (confi == 2) {
-                fwrite(processoPF, sizeof(ProcessoPF), 1, arq_processoPF);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                return;
                 /*fclose(arq_processoPF);*/
             } else {
                 system("clear");
@@ -730,6 +731,7 @@ void excluiProcessoPF(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                return;
             }
         }
     }
