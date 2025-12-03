@@ -177,8 +177,7 @@ void mostraAdvogado(void){
     printf("|                                    Mostrar Advogado                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
-    printf("|   ===> Digite o CPF do advogado: ");
-    input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF: ");
+    input(pesquisar_cpf, sizeof(pesquisar_cpf), "|   ===> Digite o CPF do advogado: ");
     arq_advogado = fopen("advogado.dat", "rb");
     if (arq_advogado == NULL) {
         system("clear");
