@@ -571,7 +571,7 @@ void editaProcessoPJ(void) {
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 printf("|                                                                                             |\n");
                 printf("|   ===> Qual dado você deseja editar?                                                        |\n");
-                printf("|        1 - Autor (CPF)                                                                      |\n");
+                printf("|        1 - Autor (CNPJ)                                                                      |\n");
                 printf("|        2 - Réu (CNPJ ou CPF)                                                                |\n");
                 printf("|        3 - Advogado Responsável (OAB)                                                       |\n");
                 printf("|        4 - Tipo                                                                             |\n");
@@ -609,7 +609,7 @@ void editaProcessoPJ(void) {
                 } else {
                     switch (dado) {
                         case 1: {
-                            input(edicao, sizeof(edicao), "|   ===> Digite o novo Autor (CPF): "); 
+                            input(edicao, sizeof(edicao), "|   ===> Digite o novo Autor (CNPJ): "); 
                             strcpy(processoPJ->autor, edicao);
                         }; break;
                         case 2:{
