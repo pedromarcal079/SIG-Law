@@ -143,8 +143,13 @@ int menuProcessoPF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&procPfOpcao);
-    getchar();
+    if (scanf("%d", &procPfOpcao) != 1) {
+        procPfOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return procPfOpcao;
 }
 
@@ -236,7 +241,6 @@ void cadastraProcessoPF(void) {
     arq_cliente = fopen("clientePF.dat", "rb");
     if(arq_cliente == NULL){
         printf("\nERRO: Nao foi possivel abrir o arquivo de clientes (clientePF.dat)!");
-        fclose(arq_cliente);
         free(processoPF);
         free(advogado);
         free(clientePF);
@@ -249,7 +253,6 @@ void cadastraProcessoPF(void) {
     if(temp_cliente == NULL){
         printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_cliente.dat)!");
         fclose(arq_cliente);
-        fclose(temp_cliente);
         free(processoPF);
         free(clientePF);
         free(novoID_str);
@@ -263,7 +266,6 @@ void cadastraProcessoPF(void) {
         printf("\nERRO: Nao foi possivel abrir o arquivo de advogados (advogado.dat)!");
         fclose(arq_cliente);
         fclose(temp_cliente);
-        fclose(arq_advogado);
         free(processoPF);
         free(clientePF);
         free(advogado);
@@ -278,7 +280,6 @@ void cadastraProcessoPF(void) {
         fclose(arq_cliente);
         fclose(temp_cliente);
         fclose(arq_advogado);
-        fclose(temp_advogado);
         free(processoPF);
         free(clientePF);
         free(advogado);
@@ -293,7 +294,6 @@ void cadastraProcessoPF(void) {
         fclose(arq_cliente);
         fclose(temp_cliente);
         fclose(arq_advogado);
-        fclose(arq_processoPF);
         fclose(temp_advogado);
         free(advogado);
         free(processoPF);
@@ -343,7 +343,6 @@ void cadastraProcessoPF(void) {
         printf("\n*** AVISO: Os dados do cliente foram salvos em temp_cliente.dat! ***");
         getchar();
     }
-    rename("temp_clientePF.dat", "clientePF.dat");
 
     remove("advogado.dat");
     if(rename("temp_advogado.dat", "advogado.dat") != 0){
@@ -374,6 +373,15 @@ void mostraProcessoPF(void) {
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
 
+    if (!processoPF || !clientePJ || !clientePF || !advogado) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        if (processoPF) free(processoPF);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
+
     char pesquisar_id[5];
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -395,17 +403,16 @@ void mostraProcessoPF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(arq_clientePF);
-        fclose(arq_advogado);
-        fclose(arq_processoPF);
-        fclose(arq_clientePJ);
+        if (arq_clientePF) fclose(arq_clientePF);
+        if (arq_advogado) fclose(arq_advogado);
+        if (arq_processoPF) fclose(arq_processoPF);
+        if (arq_clientePJ) fclose(arq_clientePJ);
         free(clientePJ);
         free(advogado);
         free(processoPF);
         free(clientePF);
         return;
     }
-    rewind(arq_processoPF);
     while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1) {
         int pesqID = atoi(pesquisar_id);
         if (processoPF->id == pesqID) {
@@ -424,17 +431,29 @@ void mostraProcessoPF(void) {
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
                 }
-                rewind(arq_advogado);
-                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                    if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
-                        printf("|\t\tAdvogado Responsável: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                if (arq_advogado) {
+                    rewind(arq_advogado);
+                    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                        if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
+                            printf("|\t\tAdvogado Responsável: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                        }
                     }
+                } else {
+                    printf("|\t\tAdvogado Responsável: Arquivo de advogados indisponível.\n");
                 }
 
                 printf("|\t\tTipo: %s\n", processoPF->tipo);
                 printf("|\t\tData de abertura: %s\n", processoPF->data);
                 printf("|\t\tDescrição: %s\n", processoPF->descricao);
                 printf("|\t\tStatus: %s\n", processoPF->status);
+                if (arq_processoPF) fclose(arq_processoPF);
+                if (arq_clientePJ) fclose(arq_clientePJ);
+                if (arq_clientePF) fclose(arq_clientePF);
+                if (arq_advogado) fclose(arq_advogado);
+                free(processoPF);
+                free(clientePJ);
+                free(clientePF);
+                free(advogado);
                 return;
             } else {
                 system("clear");
@@ -443,10 +462,23 @@ void mostraProcessoPF(void) {
                 printf("|              Processo Inativo!               |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                if (arq_processoPF) fclose(arq_processoPF);
+                if (arq_clientePJ) fclose(arq_clientePJ);
+                if (arq_clientePF) fclose(arq_clientePF);
+                if (arq_advogado) fclose(arq_advogado);
+                free(processoPF);
+                free(clientePJ);
+                free(clientePF);
+                free(advogado);
                 return;
             }
         }
     }
+
+    if (arq_processoPF) fclose(arq_processoPF);
+    if (arq_clientePJ) fclose(arq_clientePJ);
+    if (arq_clientePF) fclose(arq_clientePF);
+    if (arq_advogado) fclose(arq_advogado);
 
     if (!encontrado) {
         system("clear");
@@ -455,21 +487,14 @@ void mostraProcessoPF(void) {
         printf("|           Processo não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        return;
     }
-
-    printf("|                                                                                             |\n");
-    printf("+---------------------------------------------------------------------------------------------+\n");
-
+    
     free(processoPF);
     free(clientePJ);
     free(clientePF);
     free(advogado);
-
-    fclose(arq_processoPF);
-    fclose(arq_clientePJ);
-    fclose(arq_clientePF);
-    fclose(arq_advogado);
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
 }
 
 
@@ -482,6 +507,15 @@ void editaProcessoPF(void) {
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+
+    if (!processoPF || !clientePF || !clientePJ || !advogado) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        if (processoPF) free(processoPF);
+        if (clientePF) free(clientePF);
+        if (clientePJ) free(clientePJ);
+        if (advogado) free(advogado);
+        return;
+    }
 
     char pesquisar_id[5];
     int dado;
@@ -500,13 +534,22 @@ void editaProcessoPF(void) {
     arq_clientePJ = fopen("clientePJ.dat","rb");
     arq_advogado = fopen("advogado.dat","rb");
     temp_processoPF = fopen("temp_processoPF.dat", "wb");
-    if (arq_processoPF == NULL) {
+    if (arq_processoPF == NULL || temp_processoPF == NULL) {
         system("clear");
         printf("+----------------------------------------------+\n");
         printf("|                                              |\n");
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_clientePF) fclose(arq_clientePF);
+        if (arq_clientePJ) fclose(arq_clientePJ);
+        if (arq_advogado) fclose(arq_advogado);
+        if (arq_processoPF) fclose(arq_processoPF);
+        if (temp_processoPF) fclose(temp_processoPF);
+        free(processoPF);
+        free(clientePF);
+        free(clientePJ);
+        free(advogado);
         return;
     }
 
@@ -528,10 +571,15 @@ void editaProcessoPF(void) {
                 } else {
                     printf("|\t\tRéu: Não encontrado!\n");
                 }
-                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                    if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
-                        printf("|\t\tAdvogado Responsável: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                if (arq_advogado) {
+                    rewind(arq_advogado);
+                    while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                        if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
+                            printf("|\t\tAdvogado Responsável: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                        }
                     }
+                } else {
+                    printf("|\t\tAdvogado Responsável: Arquivo de advogados indisponível.\n");
                 }
                 printf("|\t\tTipo: %s\n", processoPF->tipo);
                 printf("|\t\tData de abertura: %s\n", processoPF->data);
@@ -551,8 +599,13 @@ void editaProcessoPF(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 printf("===> Digite sua opcao: ");
-                scanf("%d", &dado);  
-                getchar();
+                if (scanf("%d", &dado) != 1) {
+                    dado = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
 
                 if (dado < 1 || dado > 6) {
                     system("clear");
@@ -561,6 +614,16 @@ void editaProcessoPF(void) {
                     printf("|       Você digitou uma opção inválida!       |\n");
                     printf("|                                              |\n");
                     printf("+----------------------------------------------+\n");
+                    // cleanup before returning
+                    if (arq_processoPF) fclose(arq_processoPF);
+                    if (arq_advogado) fclose(arq_advogado);
+                    if (arq_clientePF) fclose(arq_clientePF);
+                    if (arq_clientePJ) fclose(arq_clientePJ);
+                    if (temp_processoPF) fclose(temp_processoPF);
+                    free(processoPF);
+                    free(clientePF);
+                    free(clientePJ);
+                    free(advogado);
                     return;
                 } else {
                     switch (dado) {
@@ -597,7 +660,16 @@ void editaProcessoPF(void) {
                 printf("|              Processo Inativo!              |\n");
                 printf("|                                             |\n");
                 printf("+---------------------------------------------+\n");
+                if (temp_processoPF) fclose(temp_processoPF);
+                if (arq_processoPF) fclose(arq_processoPF);
+                if (arq_advogado) fclose(arq_advogado);
+                if (arq_clientePF) fclose(arq_clientePF);
+                if (arq_clientePJ) fclose(arq_clientePJ);
                 remove("temp_processoPF.dat");
+                free(processoPF);
+                free(clientePF);
+                free(clientePJ);
+                free(advogado);
                 return;
             }
         }
@@ -624,6 +696,7 @@ void editaProcessoPF(void) {
         printf("|           Processo não encontrado!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        remove("temp_processoPF.dat");
     }
     free(processoPF);
     free(clientePF);
@@ -644,6 +717,15 @@ void excluiProcessoPF(void) {
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+
+    if (!processoPF || !clientePJ || !clientePF || !advogado) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        if (processoPF) free(processoPF);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
 
     char pesquisar_id[5];
     int confi;
@@ -669,6 +751,13 @@ void excluiProcessoPF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_clientePJ) fclose(arq_clientePJ);
+        if (arq_clientePF) fclose(arq_clientePF);
+        if (arq_advogado) fclose(arq_advogado);
+        free(processoPF);
+        free(clientePF);
+        free(clientePJ);
+        free(advogado);
         return;
     }
 
@@ -691,11 +780,15 @@ void excluiProcessoPF(void) {
                 printf("|\t\tRéu: Não encontrado!\n");
             }
 
-            rewind(arq_advogado);
-            while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
-                if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
-                    printf("|\t\tAdvogado: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+            if (arq_advogado) {
+                rewind(arq_advogado);
+                while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
+                    if (strcmp(advogado->carteiraOAB, processoPF->advOAB) == 0) {
+                        printf("|\t\tAdvogado: %s (OAB: %s)\n", advogado->nome, advogado->carteiraOAB);
+                    }
                 }
+            } else {
+                printf("|\t\tAdvogado: Arquivo de advogados indisponível.\n");
             }
 
             printf("|\t\tTipo: %s\n", processoPF->tipo);
@@ -704,8 +797,13 @@ void excluiProcessoPF(void) {
             printf("|\t\tStatus: %s\n", processoPF->status);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o processo que deseja excluir? 1 = Sim, 2 = Não: ");
-            scanf("%d", &confi);
-            getchar();
+            if (scanf("%d", &confi) != 1) {
+                confi = -1;
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF) { }
+            } else {
+                int c = getchar(); (void)c;
+            }
 
             if (confi == 1) {
                 processoPF->atividade = 0;
@@ -715,15 +813,29 @@ void excluiProcessoPF(void) {
                 printf("|        Processo excluído com sucesso!                                                       |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                if (arq_processoPF) fclose(arq_processoPF);
+                if (arq_clientePJ) fclose(arq_clientePJ);
+                if (arq_clientePF) fclose(arq_clientePF);
+                if (arq_advogado) fclose(arq_advogado);
+                free(processoPF);
+                free(clientePF);
+                free(clientePJ);
+                free(advogado);
                 return;
-                /*fclose(arq_processoPF);*/
             } else if (confi == 2) {
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                if (arq_processoPF) fclose(arq_processoPF);
+                if (arq_clientePJ) fclose(arq_clientePJ);
+                if (arq_clientePF) fclose(arq_clientePF);
+                if (arq_advogado) fclose(arq_advogado);
+                free(processoPF);
+                free(clientePF);
+                free(clientePJ);
+                free(advogado);
                 return;
-                /*fclose(arq_processoPF);*/
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -731,15 +843,23 @@ void excluiProcessoPF(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
+                fclose(arq_processoPF);
+                fclose(arq_clientePJ);
+                fclose(arq_clientePF);
+                fclose(arq_advogado);
+                free(processoPF);
+                free(clientePF);
+                free(clientePJ);
+                free(advogado);
                 return;
             }
         }
     }
 
-    fclose(arq_processoPF);
-    fclose(arq_clientePJ);
-    fclose(arq_clientePF);
-    fclose(arq_advogado);
+    if (arq_processoPF) fclose(arq_processoPF);
+    if (arq_clientePJ) fclose(arq_clientePJ);
+    if (arq_clientePF) fclose(arq_clientePF);
+    if (arq_advogado) fclose(arq_advogado);
 
     if (!encontrado) {
         system("clear");
@@ -762,6 +882,10 @@ void lixeiraProcessoPF(void) {
     FILE *temp_processoPF;
     ProcessoPF *processoPF;
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    if (processoPF == NULL) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        return;
+    }
     int opcao;
     int encontrado = 0;
     char pesquisar_id[5];
@@ -772,8 +896,13 @@ void lixeiraProcessoPF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Você deseja restaurar um processo ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     if (opcao == 1) {
         arq_processoPF = fopen("processoPF.dat", "r+b");
         if (arq_processoPF == NULL) {
@@ -783,6 +912,7 @@ void lixeiraProcessoPF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        free(processoPF);
         return;
     }
         input(pesquisar_id, sizeof(pesquisar_id), "|   ===> Digite o ID do Processo que deseja restaurar: ");
@@ -797,18 +927,20 @@ void lixeiraProcessoPF(void) {
                 printf("|        Processo restaurado com sucesso!                                                     |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                fclose(arq_processoPF);
+                if (arq_processoPF) fclose(arq_processoPF);
+                free(processoPF);
                 return;
             }  
         }
-        if(!encontrado){
+            if(!encontrado){
             system("clear");
             printf("+----------------------------------------------+\n");
             printf("|                                              |\n");
             printf("|          Processo não encontrado!            |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
-            fclose(arq_processoPF);
+            if (arq_processoPF) fclose(arq_processoPF);
+            free(processoPF);
             return;
         }
     } 
@@ -822,6 +954,9 @@ void lixeiraProcessoPF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_processoPF) fclose(arq_processoPF);
+        if (temp_processoPF) fclose(temp_processoPF);
+        free(processoPF);
         return;
     }
         while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1){
@@ -829,10 +964,15 @@ void lixeiraProcessoPF(void) {
                 fwrite(processoPF, sizeof(ProcessoPF), 1, temp_processoPF);
             }
         }
-        fclose(arq_processoPF);
-        fclose(temp_processoPF);
+        if (arq_processoPF) fclose(arq_processoPF);
+        if (temp_processoPF) fclose(temp_processoPF);
         remove("processoPF.dat");
         rename("temp_processoPF.dat", "processoPF.dat");
+        printf("|                                                                                             |\n");
+        printf("|        Lixeira esvaziada com sucesso!                                                       |\n");
+        printf("|                                                                                             |\n");
+        printf("+---------------------------------------------------------------------------------------------+\n");
+        free(processoPF);
         return;
     } 
     else {
@@ -843,6 +983,7 @@ void lixeiraProcessoPF(void) {
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
         remove("temp_processoPF.dat");
+        free(processoPF);
         return;
     }
 }
@@ -853,6 +994,11 @@ void relatorioProcessosPF(void) {
     FILE *arq_processoPF;
     ProcessoPF *processoPF;
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+    if (!processoPF) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        return;
+    }
+    
     int opcao, filtro, pesq_filtro;
     char *tipo;
     int i = 0;
@@ -862,8 +1008,13 @@ void relatorioProcessosPF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("| gostaria de filtrar algum dado? (1- Sim / 2- Não): ");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     if(opcao == 2){
         arq_processoPF = fopen ("processoPF.dat", "rb");
         if (arq_processoPF == NULL){
@@ -873,6 +1024,7 @@ void relatorioProcessosPF(void) {
             printf("|           Erro ao abrir o arquivo!           |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
+            free(processoPF);
             return;
         }
         printf("\n %-15s %-15s %-25s %-26s %-20s %-27s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "Descrição", "Data", "Status");
@@ -896,7 +1048,6 @@ void relatorioProcessosPF(void) {
         printf("|   Total de Processos ativos: %d                                                                       |\n", i);
         printf("+------------------------------------------------------------------------------------------------------+\n");
         fclose(arq_processoPF);
-        free(processoPF);
     }
     else if (opcao == 1){
         printf("+---------------------------------------------------------------------------------------------+\n");
@@ -906,22 +1057,43 @@ void relatorioProcessosPF(void) {
         printf("|        2 - Status                                                                           |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
-        scanf("%d", &filtro);
-        getchar();
+        if (scanf("%d", &filtro) != 1) {
+            filtro = -1;
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF) { }
+        } else {
+            int c = getchar(); (void)c;
+        }
         switch(filtro){
             case 1: {
                 printf("|     ===> Digite o tipo de processo que deseja filtrar:      |\n");
                 printf("| 1-Civil  2-Penal  3-Trabalista  4-Tributário  5-Empresarial |\n");
-                scanf("%d", &pesq_filtro);
-                getchar();
+                if (scanf("%d", &pesq_filtro) != 1) {
+                    pesq_filtro = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
                 switch(pesq_filtro){
                     case 1: (tipo = "Civil"); break;
                     case 2: (tipo = "Penal"); break;
                     case 3: (tipo = "Trabalhista"); break;
                     case 4: (tipo = "Tributário"); break;
                     case 5: (tipo = "Empresarial"); break;
+                    default: (tipo = ""); break;
                 }
                 arq_processoPF = fopen ("processoPF.dat", "rb");
+                if (arq_processoPF == NULL) {
+                    system("clear");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|           Erro ao abrir o arquivo!           |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    free(processoPF);
+                    return;
+                }
                 printf("\n %-15s %-15s %-25s %-26s %-20s %-27s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "Descrição", "Data", "Status");
                 printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
                 while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1) {
@@ -943,18 +1115,33 @@ void relatorioProcessosPF(void) {
                 printf("|   Total de processos ativos: %d                                                                      |\n", i);
                 printf("+------------------------------------------------------------------------------------------------------+\n");
                 fclose(arq_processoPF);
-                free(processoPF);
             }; break;
             case 2: {
                 printf("|     ===> Digite o status do processo que deseja filtrar:      |\n");
                 printf("|                1-Em Andamento  2-Concluído                    |\n");
-                scanf("%d", &pesq_filtro);
-                getchar();
+                if (scanf("%d", &pesq_filtro) != 1) {
+                    pesq_filtro = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
                 switch(pesq_filtro){
                     case 1: (tipo = "Em Andamento"); break;
                     case 2: (tipo = "Concluído"); break;
+                    default: (tipo = ""); break;
                 }
                 arq_processoPF = fopen ("processoPF.dat", "rb");
+                if (arq_processoPF == NULL) {
+                    system("clear");
+                    printf("+----------------------------------------------+\n");
+                    printf("|                                              |\n");
+                    printf("|           Erro ao abrir o arquivo!           |\n");
+                    printf("|                                              |\n");
+                    printf("+----------------------------------------------+\n");
+                    free(processoPF);
+                    return;
+                }
                 printf("\n %-15s %-15s %-25s %-26s %-20s %-27s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "Descrição", "Data", "Status");
                 printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
                 while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF) == 1) {
@@ -976,15 +1163,16 @@ void relatorioProcessosPF(void) {
                 printf("|   Total de processos ativos: %d                                                                      |\n", i);
                 printf("+------------------------------------------------------------------------------------------------------+\n");
                 fclose(arq_processoPF);
-                free(processoPF);
             }; break;
         }
     }
+    free(processoPF);
 }
 
 void listaProcessoPF(void){
     system("clear");
     ProcessoPF *lista = gerarLista_ProcPF(); 
+    ProcessoPF *listaTemp = lista;
     ProcessoPF **vetorProc = NULL;
     ProcessoPF *processoPF = NULL;
     int total = 0;
@@ -999,28 +1187,32 @@ void listaProcessoPF(void){
     printf("|                           2 - listar por Data                                               |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     switch(opcao){
         case 1: {
             printf("\n %-15s %-15s %-25s %-26s %-20s %-27s %-15s %-15s\n", "ID", "Tipo", "Autor", "Réu", "Cart. OAB", "Descrição", "Data", "Status");
             printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-            while(lista != NULL){
-                if (lista->atividade){
+            while(listaTemp != NULL){
+                if (listaTemp->atividade){
                     printf("|%-15d %-15s %-25s %-25s %-20s %-25s %-15s %-15s\n",
-                    lista->id,
-                    lista->tipo, 
-                    lista->autor, 
-                    lista->reu, 
-                    lista->advOAB, 
-                    lista->descricao, 
-                    lista->data, 
-                    lista->status);
+                    listaTemp->id,
+                    listaTemp->tipo, 
+                    listaTemp->autor, 
+                    listaTemp->reu, 
+                    listaTemp->advOAB, 
+                    listaTemp->descricao, 
+                    listaTemp->data, 
+                    listaTemp->status);
                     printf("+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
                 }
-                lista = lista->prox;
+                listaTemp = listaTemp->prox;
             }
-            free(processoPF);
         }; break;
 
         case 2: {
@@ -1045,5 +1237,13 @@ void listaProcessoPF(void){
             }
             
         }; break;
+    }
+    
+    // Liberar a lista ligada criada por gerarLista_ProcPF
+    listaTemp = lista;
+    while(listaTemp != NULL) {
+        ProcessoPF *temp = listaTemp;
+        listaTemp = listaTemp->prox;
+        free(temp);
     }
 }

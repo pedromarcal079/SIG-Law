@@ -77,8 +77,13 @@ int menuClientePF(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&cliPfOpcao);
-    getchar();
+    if (scanf("%d", &cliPfOpcao) != 1) {
+        cliPfOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return cliPfOpcao;
 }
 
@@ -139,7 +144,6 @@ void cadastraClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(arq_cliente);
         free(clientePF);
         return;
     }
@@ -237,7 +241,6 @@ void mostraClientePF(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(arq_cliente);
         free(clientePF);
         return;
     }
@@ -296,7 +299,7 @@ void editaClientePF(void) {
     clientePF = (ClientePF*) malloc(sizeof(ClientePF));
 
     char cpf_lido[16];
-    int tam, dado;   // tam nao esta sendo usado!
+    int dado;
     int encontrado = 0;
     char edicao[100];
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -348,8 +351,13 @@ void editaClientePF(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 printf("===> Digite sua opcao: ");
-                scanf("%d", &dado);  
-                getchar();                                     
+                if (scanf("%d", &dado) != 1) {
+                    dado = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
 
                 if (dado < 1 || dado > 6) {
                     system("clear");
@@ -363,8 +371,10 @@ void editaClientePF(void) {
                     printf("|                                                                                             |\n");
                     printf("|   ===> Digite o novo dado: ");
                     fgets(edicao, sizeof(edicao), stdin);
-                    tam = strlen(edicao);
-                    edicao[tam - 1] = '\0';
+                    int len = strlen(edicao);
+                    if (len > 0 && edicao[len - 1] == '\n') {
+                        edicao[len - 1] = '\0';
+                    }
 
                     switch (dado) {
                         case 1: strcpy(clientePF->cpf, edicao); break;
@@ -437,7 +447,11 @@ void excluiClientePF(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o CPF do cliente: ");
-    scanf("%s", cpf_lido);
+    if (scanf("%19s", cpf_lido) != 1) {
+        printf("Erro ao ler CPF.\n");
+        free(clientePF);
+        return;
+    }
     getchar();
 
     arq_cliente = fopen("clientePF.dat","rb");
@@ -544,7 +558,6 @@ void relatorioClientePF(void) {
             printf("|           Erro ao abrir o arquivo!           |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
-            fclose(arq_cliente);
             free(clientePF);
             return;
         }
@@ -561,10 +574,25 @@ void relatorioClientePF(void) {
     }
     else if(opcao == 1){
         arq_cliente = fopen ("clientePF.dat", "rb");
+        if (arq_cliente == NULL) {
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            free(clientePF);
+            return;
+        }
         printf("|\n");
         printf("| Qual genero quero mostrar? (M = Masculino) ou (F = Feminino): ");
-        scanf("%c", op_sexo);
-        getchar();
+        if (scanf("%c", op_sexo) != 1) {
+            op_sexo[0] = 'F';
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF) { }
+        } else {
+            int c = getchar(); (void)c;
+        }
 
         if(op_sexo[0] == 'm' || op_sexo[0] == 'M'){
             strcpy(filtro_sexo, "Masculino");
@@ -607,10 +635,25 @@ void lixeiraClientePF(void) {
     printf("+------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                |\n");
     printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar): ");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     if (opcao == 1) {
         arq_cliente = fopen("clientePF.dat", "r+b");
+        if (arq_cliente == NULL) {
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            free(clientePF);
+            return;
+        }
         input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF do cliente que deseja restaurar: ");
         while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if ((clientePF->atividade == 0) && (strcmp(clientePF->cpf, pesquisar_cpf) == 0)){
@@ -643,6 +686,18 @@ void lixeiraClientePF(void) {
     else if (opcao == 2) {
         arq_cliente = fopen("clientePF.dat", "rb");
         temp_cliente = fopen("temp_clientePF.dat","wb");
+        if (arq_cliente == NULL || temp_cliente == NULL) {
+            if (arq_cliente) fclose(arq_cliente);
+            if (temp_cliente) fclose(temp_cliente);
+            free(clientePF);
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            return;
+        }
         while (fread(clientePF, sizeof(ClientePF), 1, arq_cliente) == 1){
             if (clientePF->atividade == 1){
                 fwrite(clientePF, sizeof(ClientePF), 1, temp_cliente);

@@ -78,8 +78,13 @@ int menuClientePJ(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&opcaoEmpresa);
-    getchar();
+    if (scanf("%d", &opcaoEmpresa) != 1) {
+        opcaoEmpresa = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return opcaoEmpresa;
 }
 
@@ -141,7 +146,6 @@ void cadastraClientePJ(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(arq_empresa);
         free(clientePJ);
         return;
     }
@@ -162,9 +166,12 @@ void mostraClientePJ(void){
 
     ClientePJ *clientePJ;
     clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    if (clientePJ == NULL) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        return;
+    }
 
     char pesquisar_cnpj[21];
-    int tam;
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -174,8 +181,10 @@ void mostraClientePJ(void){
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
-    tam = strlen(pesquisar_cnpj);
-    pesquisar_cnpj[tam-1] = '\0';
+    int tam = strlen(pesquisar_cnpj);
+    if (tam > 0 && pesquisar_cnpj[tam-1] == '\n') {
+        pesquisar_cnpj[tam-1] = '\0';
+    }
 
     arq_empresa = fopen("clientePJ.dat", "rb");
     if (arq_empresa == NULL) {
@@ -185,7 +194,6 @@ void mostraClientePJ(void){
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
-        fclose(arq_empresa);
         free(clientePJ);
         return;
     }
@@ -206,6 +214,8 @@ void mostraClientePJ(void){
                 printf("|\t\tTelefone: %s\n", clientePJ->telefone);
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
+                fclose(arq_empresa);
+                free(clientePJ);
                 return;
             } else {
                 system("clear");
@@ -255,7 +265,9 @@ void editaClientePJ(void) {
     printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
     tam = strlen(pesquisar_cnpj);
-    pesquisar_cnpj[tam-1] = '\0';
+    if (tam > 0 && pesquisar_cnpj[tam-1] == '\n') {
+        pesquisar_cnpj[tam-1] = '\0';
+    }
 
     arq_empresa = fopen("clientePJ.dat", "rb");
     temp_empresa = fopen("temp_clientePJ.dat", "wb");
@@ -266,6 +278,9 @@ void editaClientePJ(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_empresa) fclose(arq_empresa);
+        if (temp_empresa) fclose(temp_empresa);
+        free(clientePJ);
         return;
     }
 
@@ -299,8 +314,13 @@ void editaClientePJ(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 printf("===> Digite sua opcao: ");
-                scanf("%d", &dado);  
-                getchar();   
+                if (scanf("%d", &dado) != 1) {
+                    dado = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
                 
                 if (dado < 1 || dado > 9) {
                     system("clear");
@@ -317,8 +337,10 @@ void editaClientePJ(void) {
                     printf("|                                                                                             |\n");
                     printf("|   ===> Digite o novo dado: ");
                     fgets(edicao, sizeof(edicao), stdin);
-                    tam = strlen(edicao);
-                    edicao[tam-1] = '\0';
+                    int len = strlen(edicao);
+                    if (len > 0 && edicao[len-1] == '\n') {
+                        edicao[len-1] = '\0';
+                    }
 
                     switch (dado) {
                         case 1: strcpy(clientePJ->cnpj, edicao); break;
@@ -378,9 +400,13 @@ void excluiClientePJ(void) {
     
     ClientePJ *clientePJ;
     clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    if (clientePJ == NULL) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        return;
+    }
 
     char pesquisar_cnpj[21];
-    int tam, confi;
+    int confi;
     int encontrado = 0;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -390,11 +416,25 @@ void excluiClientePJ(void) {
     printf("|                                                                                             |\n");
     printf("|   ===> Digite o CNPJ da empresa: ");
     fgets(pesquisar_cnpj, sizeof(pesquisar_cnpj), stdin);
-    tam = strlen(pesquisar_cnpj);
-    pesquisar_cnpj[tam-1] = '\0';
+    int tam = strlen(pesquisar_cnpj);
+    if (tam > 0 && pesquisar_cnpj[tam-1] == '\n') {
+        pesquisar_cnpj[tam-1] = '\0';
+    }
 
     arq_empresa = fopen("clientePJ.dat", "rb");
     temp_empresa = fopen("temp_clientePJ.dat", "wb");
+    if (arq_empresa == NULL || temp_empresa == NULL) {
+        if (arq_empresa) fclose(arq_empresa);
+        if (temp_empresa) fclose(temp_empresa);
+        free(clientePJ);
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return;
+    }
 
     while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
         if (strcmp(clientePJ->cnpj, pesquisar_cnpj) != 0){
@@ -406,8 +446,13 @@ void excluiClientePJ(void) {
             printf("|\t\tNome Fantasia: %s\n", clientePJ->nomeFantasia);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o cliente que deseja excluir? 1 = Sim, 2 = Não: ");
-            scanf("%d", &confi);
-            getchar();
+            if (scanf("%d", &confi) != 1) {
+                confi = -1;
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF) { }
+            } else {
+                int c = getchar(); (void)c;
+            }
 
             if (confi == 1) {
                 clientePJ->atividade = 0;
@@ -416,18 +461,12 @@ void excluiClientePJ(void) {
                 printf("|        Cliente excluido com sucesso!                                                        |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                /*fclose(arq_empresa);
-                fclose(temp_empresa);
-                free(clientePJ);*/
             } else if (confi == 2) {
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
-                /*fclose(arq_empresa);
-                fclose(temp_empresa);
-                free(clientePJ);*/
             } else {
                 system("clear");
                 printf("+----------------------------------------------+\n");
@@ -435,11 +474,7 @@ void excluiClientePJ(void) {
                 printf("|       Você digitou uma opção inválida!       |\n");
                 printf("|                                              |\n");
                 printf("+----------------------------------------------+\n");
-                /*fclose(arq_empresa);
-                fclose(temp_empresa);
-                free(clientePJ);*/
                 remove("temp_clientePJ.dat");
-                /*return;*/
             }
         }
     }
@@ -466,6 +501,10 @@ void relatorioClientePJ(void) {
     FILE *arq_clientePJ;
     ClientePJ *clientePJ;
     clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
+    if (clientePJ == NULL) {
+        printf("Erro: Falha na alocacao de memoria.\n");
+        return;
+    }
     printf("+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                                                                                     |\n");
     printf("|                                                                        Relatório de Advogados                                                                       |\n");
@@ -479,6 +518,7 @@ void relatorioClientePJ(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        free(clientePJ);
         return;
     }
     printf("%-30s %-30s %-30s %-31s %-30s %-30s\n", "CNPJ", "Razao Social", "Nome Comercial", "Endereço", "Email", "Telefone");
@@ -512,11 +552,26 @@ void lixeiraClientePJ(void) {
     printf("+------------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                                |\n");
     printf("|   ===> Você deseja restaurar um advogado ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar): ");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
 
     if (opcao == 1) {
         arq_empresa = fopen("clientePJ.dat", "r+b");
+        if (arq_empresa == NULL) {
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            free(clientePJ);
+            return;
+        }
         input(pesquisar_cnpj, sizeof(pesquisar_cnpj), "Digite o CPF do cliente que deseja restaurar: ");
         while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
             if ((clientePJ->atividade == 0) && (strcmp(clientePJ->cnpj, pesquisar_cnpj) == 0)){
@@ -549,6 +604,18 @@ void lixeiraClientePJ(void) {
     else if (opcao == 2) {
         arq_empresa = fopen("clientePJ.dat", "rb");
         temp_empresa = fopen("temp_clientePJ.dat","wb");
+        if (arq_empresa == NULL || temp_empresa == NULL) {
+            if (arq_empresa) fclose(arq_empresa);
+            if (temp_empresa) fclose(temp_empresa);
+            free(clientePJ);
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            return;
+        }
         while (fread(clientePJ, sizeof(ClientePJ), 1, arq_empresa) == 1){
             if (clientePJ->atividade == 1){
                 fwrite(clientePJ, sizeof(ClientePJ), 1, temp_empresa);

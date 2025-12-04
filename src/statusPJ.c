@@ -39,8 +39,13 @@ int menuStatusPJ(void){
     printf("|                                                                                              |\n");
     printf("+----------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&menuProOpcao);
-    getchar();
+    if (scanf("%d", &menuProOpcao) != 1) {
+        menuProOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return menuProOpcao;
 }
 
@@ -55,6 +60,10 @@ void listarStatusPJ(void){
     FILE *arq_processoPJ;
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    if (!processoPJ) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        return;
+    }
     int opcao;
 
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -64,8 +73,13 @@ void listarStatusPJ(void){
     printf("|        2 - Concluído                                                                        |\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Digite sua opcao: ");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
 
     printf("\n");
     switch(opcao){
@@ -116,4 +130,5 @@ void listarStatusPJ(void){
             fclose(arq_processoPJ);
             break;
     }
+    free(processoPJ);
 }
