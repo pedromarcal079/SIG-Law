@@ -1,10 +1,6 @@
 #ifndef PROCESSOSPJ_H
 #define PROCESSOSPJ_H
 
-#include <stdio.h>
-#include "clientePF.h"
-#include "clientePJ.h"
-
 typedef struct processoPJ{
     int id;
     int atividade;
@@ -15,6 +11,7 @@ typedef struct processoPJ{
     char descricao[200];
     char status[20];
     char data[13];
+    struct processoPJ* prox;
 } ProcessoPJ;
 
 void moduloProcPJ(void);
@@ -25,7 +22,8 @@ void editaProcessoPJ(void);
 void excluiProcessoPJ(void);
 void lixeiraProcessoPJ(void);
 void relatorioProcessosPJ(void);
-
+void listaProcessosPJ(void);
 char* gerarID_PJ();
+ProcessoPJ* gerarLista_ProcPJ();
 
 #endif

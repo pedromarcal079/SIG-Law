@@ -1,6 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "processospj.h": "c"
+        "processospj.h": "c",
+        "clientepf.h": "c",
+        "validacao.h": "c"
     }
 }
