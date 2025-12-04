@@ -12,6 +12,7 @@ typedef struct clientePJ{
     char endereco[100];         
     char email[100];         
     char telefone[20];   
+    char idProcesso[20];
     struct clientePJ *prox;
 } ClientePJ;
 

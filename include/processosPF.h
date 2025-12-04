@@ -12,7 +12,7 @@ typedef struct processoPF{
         char status[20];
         char data[13];
         struct processoPF* prox;
-    } ProcessoPF;
+} ProcessoPF;
 
 void moduloProcPF(void);
 int menuProcessoPF(void);

@@ -215,6 +215,49 @@ ProcessoPF* gerarLista_ProcPF(void){
     return lista;
 }
 
+ProcessoPJ* gerarLista_ProcPJ(void){
+    ProcessoPJ* lista = NULL;
+    ProcessoPJ* ultimo = NULL;
+    FILE *arq_processoPJ = fopen("processoPJ.dat", "rb");
+    if (arq_processoPJ == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return NULL;
+    }
+
+    ProcessoPJ buffer;
+    while (fread(&buffer, sizeof(ProcessoPJ), 1, arq_processoPJ) == 1) {
+        if (buffer.atividade) {
+            ProcessoPJ* node = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+            if (!node) {
+                ProcessoPJ* t = lista;
+                while (t) {
+                    ProcessoPJ* nxt = t->prox;
+                    free(t);
+                    t = nxt;
+                }
+                fclose(arq_processoPJ);
+                printf("\nERRO: Falha na alocacao de memoria.\n");
+                return NULL;
+            }
+            memcpy(node, &buffer, sizeof(ProcessoPJ));
+            node->prox = NULL;
+            if (lista == NULL) {
+                lista = node;
+            } else {
+                ultimo->prox = node;
+            }
+            ultimo = node;
+        }
+    }
+    fclose(arq_processoPJ);
+    return lista;
+}
+
 void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc comparar, int* qtdOut) {
     *qtdOut = 0;
     if (lista == NULL) return NULL;
@@ -242,6 +285,43 @@ void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc c
 
     *qtdOut = contador;
     return vetor;
+}
+
+void* proc_getProximo(void* item) {
+    return ((ProcessoPF*)item)->prox;
+}
+
+int proc_compararData(const void* a, const void* b) {
+    ProcessoPF* pA = *(ProcessoPF**)a;
+    ProcessoPF* pB = *(ProcessoPF**)b;
+    int d1, m1, y1;
+    int d2, m2, y2;
+    
+    sscanf(pA->data, "%d/%d/%d", &d1, &m1, &y1);
+    sscanf(pB->data, "%d/%d/%d", &d2, &m2, &y2);
+    if (y1 != y2) return y1 - y2;
+    if (m1 != m2) return m1 - m2;
+
+    return d1 - d2;
+}
+
+
+void* procPJ_getProximo(void* item) {
+    return ((ProcessoPJ*)item)->prox;
+}
+
+int procPJ_compararData(const void* a, const void* b) {
+    ProcessoPJ* pA = *(ProcessoPJ**)a;
+    ProcessoPJ* pB = *(ProcessoPJ**)b;
+    int d1, m1, y1;
+    int d2, m2, y2;
+    
+    sscanf(pA->data, "%d/%d/%d", &d1, &m1, &y1);
+    sscanf(pB->data, "%d/%d/%d", &d2, &m2, &y2);
+    if (y1 != y2) return y1 - y2;
+    if (m1 != m2) return m1 - m2;
+
+    return d1 - d2;
 }
 
 int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
