@@ -9,7 +9,9 @@
 void input(char *, int, char *);
 Advogado* gerarLista_adv(void);
 ProcessoPF* gerarLista_ProcPF(void);
+ClientePF* gerarLista_cliPF(void);
 int compararNomesAdvogado(const void *a, const void *b);
+int compararNomesClientePF(const void *a, const void *b);
 typedef void* (*GetProximoFunc)(void* atual);
 typedef int   (*CompararFunc)(const void* a, const void* b);
 void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc comparar, int* qtdOut);
