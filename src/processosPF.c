@@ -12,25 +12,6 @@
 #define MAX_ID_LEN 20
 
 
-void* proc_getProximo(void* item) {
-    return ((ProcessoPF*)item)->prox;
-}
-
-int proc_compararData(const void* a, const void* b) {
-    ProcessoPF* pA = *(ProcessoPF**)a;
-    ProcessoPF* pB = *(ProcessoPF**)b;
-    int d1, m1, y1;
-    int d2, m2, y2;
-    
-    sscanf(pA->data, "%d/%d/%d", &d1, &m1, &y1);
-    sscanf(pB->data, "%d/%d/%d", &d2, &m2, &y2);
-    if (y1 != y2) return y1 - y2;
-    if (m1 != m2) return m1 - m2;
-
-    return d1 - d2;
-}
-
-
 char* gerarID_PF(){
     FILE *arq_processoPF = NULL;
     ProcessoPF *idProcPF = NULL;
@@ -884,6 +865,7 @@ void lixeiraProcessoPF(void) {
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
     if (processoPF == NULL) {
         printf("Erro: Falha na alocacao de memoria.\n");
+        free(processoPF);
         return;
     }
     int opcao;
@@ -996,6 +978,7 @@ void relatorioProcessosPF(void) {
     processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
     if (!processoPF) {
         printf("Erro: Falha na alocacao de memoria.\n");
+        free(processoPF);
         return;
     }
     
