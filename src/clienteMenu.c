@@ -51,7 +51,12 @@ int clienteMenu(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&menuCliOpcao);
-    getchar();
+    if (scanf("%d", &menuCliOpcao) != 1) {
+        menuCliOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return menuCliOpcao;
 }

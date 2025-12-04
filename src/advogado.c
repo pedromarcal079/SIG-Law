@@ -97,6 +97,10 @@ void cadastraAdvogado(void) {
     int espec;
     FILE *arq_advogado;
     advogado = (Advogado*) malloc(sizeof(Advogado));
+    if (advogado == NULL) {
+        printf("\nERRO: Falha na alocacao de memoria para o advogado. \n");
+        return;
+    }
     advogado->atividade = 1;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -186,6 +190,7 @@ void mostraAdvogado(void){
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (advogado) free(advogado);
         return;
     }
     while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1) {
@@ -202,6 +207,8 @@ void mostraAdvogado(void){
             printf("|\t\tTelefone: %s\n", advogado->telefone);
             printf("|                                                                                             |\n");
             printf("+---------------------------------------------------------------------------------------------+\n");
+            fclose(arq_advogado);
+            free(advogado);
             return;
         }
     }
@@ -248,6 +255,9 @@ void editaAdvogado(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_advogado) fclose(arq_advogado);
+        if (temp_advogado) fclose(temp_advogado);
+        if (advogado) free(advogado);
         return;
     }
 
@@ -378,6 +388,16 @@ void excluiAdvogado(void) {
     input(pesquisar_cpf, sizeof(pesquisar_cpf), "|   ===> Digite o cpf do advogado: ");
 
     arq_advogado = fopen("advogado.dat", "r+b");
+    if (arq_advogado == NULL) {
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        if (advogado) free(advogado);
+        return;
+    }
 
     while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
         if (strcmp(advogado->cpf, pesquisar_cpf) == 0){
@@ -407,7 +427,7 @@ void excluiAdvogado(void) {
                 free(advogado);
                 return;
             } else if (confi == 2) {
-                fwrite(advogado, sizeof(Advogado), 1, arq_advogado);
+                /* não sobrescrever o registro se a exclusão foi cancelada */
                 printf("|                                                                                             |\n");
                 printf("|        Exclusão cancelada!                                                                  |\n");
                 printf("|                                                                                             |\n");
@@ -463,6 +483,16 @@ void lixeiraAdvogado(void) {
     getchar();
     if (opcao == 1) {
         arq_advogado = fopen("advogado.dat", "r+b");
+        if (arq_advogado == NULL) {
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            if (advogado) free(advogado);
+            return;
+        }
         input(pesquisar_cpf, sizeof(pesquisar_cpf), "Digite o CPF do advogado que deseja restaurar: ");
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
             if ((advogado->atividade == 0) && (strcmp(advogado->cpf, pesquisar_cpf) == 0)){
@@ -494,6 +524,18 @@ void lixeiraAdvogado(void) {
     else if (opcao == 2) {
         arq_advogado = fopen("advogado.dat", "rb");
         temp_advogado = fopen("temp_advogado.dat","wb");
+        if (arq_advogado == NULL || temp_advogado == NULL) {
+            if (arq_advogado) fclose(arq_advogado);
+            if (temp_advogado) fclose(temp_advogado);
+            if (advogado) free(advogado);
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            return;
+        }
         while (fread(advogado, sizeof(Advogado), 1, arq_advogado) == 1){
             if (advogado->atividade == 1){
                 fwrite(advogado, sizeof(Advogado), 1, temp_advogado);
@@ -544,7 +586,6 @@ void relatorioAdvogado(void) {
             printf("|           Erro ao abrir o arquivo!           |\n");
             printf("|                                              |\n");
             printf("+----------------------------------------------+\n");
-            fclose(arq_advogado);
             free(advogado);
             return;
         }
@@ -576,6 +617,16 @@ void relatorioAdvogado(void) {
 
     else if (opcao == 1){
         arq_advogado = fopen ("advogado.dat", "rb");
+        if (arq_advogado == NULL) {
+            system("clear");
+            printf("+----------------------------------------------+\n");
+            printf("|                                              |\n");
+            printf("|           Erro ao abrir o arquivo!           |\n");
+            printf("|                                              |\n");
+            printf("+----------------------------------------------+\n");
+            free(advogado);
+            return;
+        }
         printf("+---------------------------------------------------------------------------------------------+\n");
         printf("|                                                                                             |\n");
         printf("|   ===> Qual dado você deseja filtrar?                                                       |\n");
@@ -693,8 +744,12 @@ void listaAdvogado(void){
                 lista = lista->prox;
                 printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
-            free(advogado);
-            free(lista);
+            /* liberar toda a lista ligada */
+            while (advogado != NULL) {
+                Advogado *tmp = advogado->prox;
+                free(advogado);
+                advogado = tmp;
+            }
             /*free(aux);*/
         }; break;
 
@@ -708,6 +763,12 @@ void listaAdvogado(void){
 
             if (quantidade == 0) {
                 printf("Nenhum advogado ativo.\n");
+                /* liberar toda a lista ligada antes de sair */
+                while (lista != NULL) {
+                    Advogado *tmp = lista->prox;
+                    free(lista);
+                    lista = tmp;
+                }
                 return;
             }
             Advogado **vetor = (Advogado**) malloc(quantidade * sizeof(Advogado*));
@@ -740,9 +801,12 @@ void listaAdvogado(void){
                 printf("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             }
             free(vetor);
-            /*free(advogado);
-            free(aux);*/
-            free(lista);
+            /* liberar toda a lista ligada */
+            while (lista != NULL) {
+                Advogado *tmp = lista->prox;
+                free(lista);
+                lista = tmp;
+            }
         }; break;
     }
 }

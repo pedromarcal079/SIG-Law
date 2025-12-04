@@ -117,8 +117,13 @@ int menuProcessoPJ(void) {
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&procPjOpcao);
-    getchar();
+    if (scanf("%d", &procPjOpcao) != 1) {
+        procPjOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return procPjOpcao;
 }
 
@@ -130,8 +135,6 @@ void cadastraProcessoPJ(void) {
     Advogado *advogado = NULL;
     char *novoID_str = NULL;
     FILE *arq_processoPJ = NULL;
-    FILE *arq_cliente = NULL;
-    FILE *temp_cliente = NULL;
     FILE *arq_advogado = NULL;
     FILE *temp_advogado = NULL;
     
@@ -211,8 +214,6 @@ void cadastraProcessoPJ(void) {
     arq_advogado = fopen("advogado.dat", "rb");
     if(arq_advogado == NULL){
         printf("\nERRO: Nao foi possivel abrir o arquivo de advogados (advogado.dat)!");
-        fclose(arq_cliente);
-        fclose(temp_cliente);
         free(processoPJ);
         free(clientePJ);
         free(advogado);
@@ -224,8 +225,6 @@ void cadastraProcessoPJ(void) {
     temp_advogado = fopen("temp_advogado.dat", "wb");
     if(temp_advogado == NULL){
         printf("\nERRO: Nao foi possivel criar o arquivo temporario (temp_advogado.dat)!");
-        fclose(arq_cliente);
-        fclose(temp_cliente);
         fclose(arq_advogado);
         free(processoPJ);
         free(clientePJ);
@@ -237,11 +236,12 @@ void cadastraProcessoPJ(void) {
 
     arq_processoPJ = fopen("processoPJ.dat","ab");
     if (arq_processoPJ == NULL){
-        printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPF.dat)!");
-        fclose(arq_cliente);
-        fclose(temp_cliente);
+        printf("\nERRO: Nao foi possivel abrir o arquivo de processos (processosPJ.dat)!");
+        fclose(arq_advogado);
+        fclose(temp_advogado);
         free(processoPJ);
         free(clientePJ);
+        free(advogado);
         free(novoID_str);
         getchar();
         return;
@@ -267,10 +267,9 @@ void cadastraProcessoPJ(void) {
     remove("advogado.dat");
     if(rename("temp_advogado.dat", "advogado.dat") != 0){
         perror("ERRO CRITICO AO RENOMEAR O ARQUIVO DE ADVOGADO");
-        printf("\n*** AVISO: Os dados do advogado foram salvos em temp_advogado.dat! ***");
+        printf("\n*** AVISO: Os dados do advogado foram salvos em temp_advogado.dat! ***\n");
         getchar();
     }
-    rename("temp_advogado.dat", "advogado.dat");
 
 
     printf("|                                                                                             |\n");
@@ -294,6 +293,24 @@ void mostraProcessoPJ(void) {
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+    
+    if (!processoPJ || !clientePJ || !clientePF || !advogado) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        if (processoPJ) free(processoPJ);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
+    
+    if (!processoPJ || !clientePJ || !clientePF || !advogado) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        if (processoPJ) free(processoPJ);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
 
     char pesquisar_id[5];
     int tam;
@@ -384,10 +401,10 @@ void mostraProcessoPJ(void) {
     free(clientePF);
     free(advogado);
 
-    fclose(arq_processoPJ);
-    fclose(arq_clientePJ);
-    fclose(arq_clientePF);
-    fclose(arq_advogado);
+    if (arq_processoPJ) fclose(arq_processoPJ);
+    if (arq_clientePJ) fclose(arq_clientePJ);
+    if (arq_clientePF) fclose(arq_clientePF);
+    if (arq_advogado) fclose(arq_advogado);
 }
 
 
@@ -400,6 +417,15 @@ void editaProcessoPJ(void) {
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+    
+    if (!processoPJ || !clientePJ || !clientePF || !advogado) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        if (processoPJ) free(processoPJ);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
 
     char pesquisar_id[5];
     int tam, dado;
@@ -474,10 +500,15 @@ void editaProcessoPJ(void) {
                 printf("|                                                                                             |\n");
                 printf("+---------------------------------------------------------------------------------------------+\n");
                 printf("===> Digite sua opcao: ");
-                scanf("%d", &dado);  
-                getchar();
+                if (scanf("%d", &dado) != 1) {
+                    dado = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
 
-                if (dado < 1 || dado > 9) {
+                if (dado < 1 || dado > 6) {
                     system("clear");
                     printf("+----------------------------------------------+\n");
                     printf("|                                              |\n");
@@ -553,6 +584,15 @@ void excluiProcessoPJ(void) {
     ClientePJ *clientePJ = (ClientePJ*) malloc(sizeof(ClientePJ));
     ClientePF *clientePF = (ClientePF*) malloc(sizeof(ClientePF));
     Advogado *advogado = (Advogado*) malloc(sizeof(Advogado));
+    
+    if (!processoPJ || !clientePJ || !clientePF || !advogado) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        if (processoPJ) free(processoPJ);
+        if (clientePJ) free(clientePJ);
+        if (clientePF) free(clientePF);
+        if (advogado) free(advogado);
+        return;
+    }
 
     char pesquisar_id[5];
     int tam, confi;
@@ -582,6 +622,15 @@ void excluiProcessoPJ(void) {
         printf("|           Erro ao abrir o arquivo!           |\n");
         printf("|                                              |\n");
         printf("+----------------------------------------------+\n");
+        if (arq_processoPJ) fclose(arq_processoPJ);
+        if (temp_processoPJ) fclose(temp_processoPJ);
+        if (arq_clientePJ) fclose(arq_clientePJ);
+        if (arq_clientePF) fclose(arq_clientePF);
+        if (arq_advogado) fclose(arq_advogado);
+        free(processoPJ);
+        free(clientePJ);
+        free(clientePF);
+        free(advogado);
         return;
     }
 
@@ -615,11 +664,16 @@ void excluiProcessoPJ(void) {
             printf("|\t\tTipo: %s\n", processoPJ->tipo);
             printf("|\t\tData de abertura: %s\n", processoPJ->data);
             printf("|\t\tDescrição: %s\n", processoPJ->descricao);
-            printf("|\t\tStatus: %s\n", processoPJ->status);
+            printf("|		Status: %s\n", processoPJ->status);
             printf("|                                                                                             |\n");
             printf("|   ===> Esse é o processo que deseja excluir? 1 = Sim, 2 = Não: ");
-            scanf("%d", &confi);
-            getchar();
+            if (scanf("%d", &confi) != 1) {
+                confi = -1;
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF) { }
+            } else {
+                int c = getchar(); (void)c;
+            }
 
             if (confi == 1) {
                 processoPJ->atividade = 0;
@@ -648,6 +702,16 @@ void excluiProcessoPJ(void) {
             }
         }
     }
+    
+    fclose(arq_processoPJ);
+    fclose(temp_processoPJ);
+    if (arq_clientePJ) fclose(arq_clientePJ);
+    if (arq_clientePF) fclose(arq_clientePF);
+    if (arq_advogado) fclose(arq_advogado);
+    free(processoPJ);
+    free(clientePJ);
+    free(clientePF);
+    free(advogado);
 }
 
 void lixeiraProcessoPJ(void) {
@@ -656,6 +720,10 @@ void lixeiraProcessoPJ(void) {
     FILE *temp_processoPJ;
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    if (!processoPJ) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        return;
+    }
     int opcao;
     char pesquisar_id[5];
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -665,8 +733,13 @@ void lixeiraProcessoPJ(void) {
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
     printf("|   ===> Você deseja restaurar um processo ou esvaziar a lixeira? (1- Restaurar / 2- esvaziar)|\n");
-    scanf("%d", &opcao);
-    getchar();
+    if (scanf("%d", &opcao) != 1) {
+        opcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     arq_processoPJ = fopen("processoPJ.dat", "rb");
     temp_processoPJ = fopen("temp_processoPJ.dat","wb");
 
@@ -744,6 +817,10 @@ void relatorioProcessosPJ(void) {
     FILE *arq_processoPJ;
     ProcessoPJ *processoPJ;
     processoPJ = (ProcessoPJ*) malloc(sizeof(ProcessoPJ));
+    if (!processoPJ) {
+        printf("\nERRO: Falha na alocacao de memoria.\n");
+        return;
+    }
     int opcao, filtro, pesq_filtro;
     printf("+---------------------------------------------------------------------------------------------+\n");
     printf("|                                                                                             |\n");
@@ -774,6 +851,7 @@ void relatorioProcessosPJ(void) {
         }
         fclose(arq_processoPJ);
         free(processoPJ);
+        return;
     }
     else if (opcao == 1){
         printf("+---------------------------------------------------------------------------------------------+\n");
@@ -783,14 +861,24 @@ void relatorioProcessosPJ(void) {
         printf("|        2 - Status                                                                           |\n");
         printf("|                                                                                             |\n");
         printf("+---------------------------------------------------------------------------------------------+\n");
-        scanf("%d", &filtro);
-        getchar();
+        if (scanf("%d", &filtro) != 1) {
+            filtro = -1;
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF) { }
+        } else {
+            int c = getchar(); (void)c;
+        }
         switch(filtro){
             case 1: {
                 printf("|     ===> Digite o tipo de processo que deseja filtrar:      |\n");
                 printf("| 1-Civil  2-Penal  3-Trabalista  4-Tributário  5-Empresarial |\n");
-                scanf("%d", &pesq_filtro);
-                getchar();
+                if (scanf("%d", &pesq_filtro) != 1) {
+                    pesq_filtro = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
                 switch(pesq_filtro){
                     case 1: {
                         arq_processoPJ = fopen ("processoPJ.dat", "rb");
@@ -857,8 +945,13 @@ void relatorioProcessosPJ(void) {
             case 2: {
                 printf("|     ===> Digite o status do processo que deseja filtrar:      |\n");
                 printf("|                1-Em andamento  2-Concluído                    |\n");
-                scanf("%d", &pesq_filtro);
-                getchar();
+                if (scanf("%d", &pesq_filtro) != 1) {
+                    pesq_filtro = -1;
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF) { }
+                } else {
+                    int c = getchar(); (void)c;
+                }
                 switch(pesq_filtro){
                     case 1: {
                         arq_processoPJ = fopen ("processoPJ.dat", "rb");

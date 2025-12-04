@@ -7,7 +7,6 @@
 #include "processosPJ.h"
 #include "clientePF.h"
 #include "clientePJ.h"
-#include "utilidades.h"
 
 void input(char *variavel, int tam, char *mensagem){
 
@@ -23,37 +22,44 @@ void input(char *variavel, int tam, char *mensagem){
 Advogado* gerarLista_adv(void){
     Advogado* lista = NULL;
     Advogado* ultimo = NULL;
-    Advogado* advogado = (Advogado*) malloc(sizeof(Advogado));
-    
     FILE *arq_advogado = fopen("advogado.dat", "rb");
     if (arq_advogado == NULL){
-            system("clear");
-            printf("+----------------------------------------------+\n");
-            printf("|                                              |\n");
-            printf("|           Erro ao abrir o arquivo!           |\n");
-            printf("|                                              |\n");
-            printf("+----------------------------------------------+\n");
-            fclose(arq_advogado);
-            free(advogado);
-            return NULL;
-        }
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return NULL;
+    }
 
-    while (fread(advogado, sizeof(Advogado), 1, arq_advogado)) {
-        if (advogado->atividade) {
-            advogado->prox = NULL;
-            if (lista == NULL) {
-                lista = advogado;
-            } 
-            else {
-                ultimo->prox = advogado;
+    Advogado buffer;
+    while (fread(&buffer, sizeof(Advogado), 1, arq_advogado) == 1) {
+        if (buffer.atividade) {
+            Advogado* node = (Advogado*) malloc(sizeof(Advogado));
+            if (!node) {
+                // em caso de falha, liberar lista já criada e sair
+                Advogado* t = lista;
+                while (t) {
+                    Advogado* nxt = t->prox;
+                    free(t);
+                    t = nxt;
+                }
+                fclose(arq_advogado);
+                printf("\nERRO: Falha na alocacao de memoria.\n");
+                return NULL;
             }
-            ultimo = advogado;
-            advogado = (Advogado*) malloc(sizeof(Advogado));
+            memcpy(node, &buffer, sizeof(Advogado));
+            node->prox = NULL;
+            if (lista == NULL) {
+                lista = node;
+            } else {
+                ultimo->prox = node;
+            }
+            ultimo = node;
         }
     }
-    free(advogado);
     fclose(arq_advogado);
-
     return lista;
 }
 
@@ -67,37 +73,43 @@ int compararNomesAdvogado(const void *a, const void *b) {
 ProcessoPF* gerarLista_ProcPF(void){
     ProcessoPF* lista = NULL;
     ProcessoPF* ultimo = NULL;
-    ProcessoPF* processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
-    
     FILE *arq_processoPF = fopen("processoPF.dat", "rb");
     if (arq_processoPF == NULL){
-            system("clear");
-            printf("+----------------------------------------------+\n");
-            printf("|                                              |\n");
-            printf("|           Erro ao abrir o arquivo!           |\n");
-            printf("|                                              |\n");
-            printf("+----------------------------------------------+\n");
-            fclose(arq_processoPF);
-            free(processoPF);
-            return NULL;
-        }
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return NULL;
+    }
 
-    while (fread(processoPF, sizeof(ProcessoPF), 1, arq_processoPF)) {
-        if (processoPF->atividade) {
-            processoPF->prox = NULL;
-            if (lista == NULL) {
-                lista = processoPF;
-            } 
-            else {
-                ultimo->prox = processoPF;
+    ProcessoPF buffer;
+    while (fread(&buffer, sizeof(ProcessoPF), 1, arq_processoPF) == 1) {
+        if (buffer.atividade) {
+            ProcessoPF* node = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+            if (!node) {
+                ProcessoPF* t = lista;
+                while (t) {
+                    ProcessoPF* nxt = t->prox;
+                    free(t);
+                    t = nxt;
+                }
+                fclose(arq_processoPF);
+                printf("\nERRO: Falha na alocacao de memoria.\n");
+                return NULL;
             }
-            ultimo = processoPF;
-            processoPF = (ProcessoPF*) malloc(sizeof(ProcessoPF));
+            memcpy(node, &buffer, sizeof(ProcessoPF));
+            node->prox = NULL;
+            if (lista == NULL) {
+                lista = node;
+            } else {
+                ultimo->prox = node;
+            }
+            ultimo = node;
         }
     }
-    free(processoPF);
     fclose(arq_processoPF);
-
     return lista;
 }
 
@@ -131,6 +143,7 @@ void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc c
 }
 
 int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
+    if (arq_clientePJ == NULL) return 0;
     rewind(arq_clientePJ);
     while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
         if (strcmp(clientePJ->cnpj, cnpj) == 0) {
@@ -141,6 +154,7 @@ int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clienteP
 }
 
 int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
+    if (arq_clientePF == NULL) return 0;
     rewind(arq_clientePF);
     while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
         if (strcmp(clientePF->cpf, cpf) == 0) {

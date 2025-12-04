@@ -53,7 +53,12 @@ int statusPro(void){
     printf("|                                                                                              |\n");
     printf("+----------------------------------------------------------------------------------------------+\n");
     printf("===> Digite sua opcao: ");
-    scanf("%d",&menuProOpcao);
-    getchar();
+    if (scanf("%d", &menuProOpcao) != 1) {
+        menuProOpcao = -1;
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    } else {
+        int c = getchar(); (void)c;
+    }
     return menuProOpcao;
 }
