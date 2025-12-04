@@ -63,6 +63,108 @@ Advogado* gerarLista_adv(void){
     return lista;
 }
 
+ClientePJ* gerarLista_cliPJ(void){
+    ClientePJ* lista = NULL;
+    ClientePJ* ultimo = NULL;
+    FILE *arq_clientePJ = fopen("clientePJ.dat", "rb");
+    if (arq_clientePJ == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return NULL;
+    }
+
+    ClientePJ buffer;
+    while (fread(&buffer, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
+        if (buffer.atividade) {
+            ClientePJ* node = (ClientePJ*) malloc(sizeof(ClientePJ));
+            if (!node) {
+                // em caso de falha, liberar lista já criada e sair
+                ClientePJ* t = lista;
+                while (t) {
+                    ClientePJ* nxt = t->prox;
+                    free(t);
+                    t = nxt;
+                }
+                fclose(arq_clientePJ);
+                printf("\nERRO: Falha na alocacao de memoria.\n");
+                return NULL;
+            }
+            memcpy(node, &buffer, sizeof(ClientePJ));
+            node->prox = NULL;
+            if (lista == NULL) {
+                lista = node;
+            } else {
+                ultimo->prox = node;
+            }
+            ultimo = node;
+        }
+    }
+    fclose(arq_clientePJ);
+    return lista;
+}
+
+int compararNomesClientePJ(const void *a, const void *b) {
+    ClientePJ *cliPJA = *(ClientePJ**)a;
+    ClientePJ *cliPJB = *(ClientePJ**)b;
+    
+    return strcasecmp(cliPJA->nomeFantasia, cliPJB->nomeFantasia);
+}
+
+ClientePF* gerarLista_cliPF(void){
+    ClientePF* lista = NULL;
+    ClientePF* ultimo = NULL;
+    FILE *arq_cliente = fopen("clientePF.dat", "rb");
+    if (arq_cliente == NULL){
+        system("clear");
+        printf("+----------------------------------------------+\n");
+        printf("|                                              |\n");
+        printf("|           Erro ao abrir o arquivo!           |\n");
+        printf("|                                              |\n");
+        printf("+----------------------------------------------+\n");
+        return NULL;
+    }
+
+    ClientePF buffer;
+    while (fread(&buffer, sizeof(ClientePF), 1, arq_cliente) == 1) {
+        if (buffer.atividade) {
+            ClientePF* node = (ClientePF*) malloc(sizeof(ClientePF));
+            if (!node) {
+                // em caso de falha, liberar lista já criada e sair
+                ClientePF* t = lista;
+                while (t) {
+                    ClientePF* nxt = t->prox;
+                    free(t);
+                    t = nxt;
+                }
+                fclose(arq_cliente);
+                printf("\nERRO: Falha na alocacao de memoria.\n");
+                return NULL;
+            }
+            memcpy(node, &buffer, sizeof(ClientePF));
+            node->prox = NULL;
+            if (lista == NULL) {
+                lista = node;
+            } else {
+                ultimo->prox = node;
+            }
+            ultimo = node;
+        }
+    }
+    fclose(arq_cliente);
+    return lista;
+}
+
+int compararNomesClientePF(const void *a, const void *b) {
+    ClientePF *cliPFA = *(ClientePF**)a;
+    ClientePF *cliPFB = *(ClientePF**)b;
+    
+    return strcasecmp(cliPFA->nome, cliPFB->nome);
+}
+
 int compararNomesAdvogado(const void *a, const void *b) {
     Advogado *advA = *(Advogado**)a;
     Advogado *advB = *(Advogado**)b;

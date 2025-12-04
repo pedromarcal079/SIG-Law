@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <utilidades.h>
+#include "utilidades.h"
 #include "validacao.h"
 #include "clientePF.h"
 
@@ -44,6 +44,11 @@ void moduloClientePF(void){
             printf("Pressione ENTER ... \n");
             getchar();
             break;
+        case 7:
+            listaClientePF();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
         default:
             system("clear");
             printf("+----------------------------------------------+\n");
@@ -72,7 +77,8 @@ int menuClientePF(void) {
     printf("|                          3 - Edita cliente                                                  |\n");
     printf("|                          4 - Exclui cliente                                                 |\n");
     printf("|                          5 - Lixeira cliente                                                |\n");
-    printf("|                          6 - Lista clientes                                                 |\n");
+    printf("|                          6 - Relatorio clientes                                             |\n");
+    printf("|                          7 - Listar clientes                                                |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -719,5 +725,110 @@ void lixeiraClientePF(void) {
         printf("+----------------------------------------------+\n");
         remove("temp_clientePF.dat");
         return;
+    }
+}
+
+void listaClientePF(void){
+    system("clear");
+    ClientePF *lista = gerarLista_cliPF();
+    ClientePF *clientePF = lista;
+    int quantidade = 0;
+    ClientePF *aux = lista;
+    int opcao;
+
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Listagem ClientePF                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                           1 - listar por ordem de cadastro                                  |\n");
+    printf("|                           2 - listar por Ordem alfabética                                   |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
+    switch(opcao){
+        case 1: {
+            printf("\n%-20s %-15s %-20s %-25s %-21s %-30s %-25s %-20s \n", "CPF", "Nome", "Genero", "Data Nasc.","Endereço", "Email", "Telefone", "ID Processo");
+            printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            while(lista != NULL){
+                if (lista->atividade){
+                    printf("%-20s %-15s %-20s %-25s %-20s %-30s %-27s %-20s\n",
+                    lista->cpf,
+                    lista->nome,
+                    lista->sexo,
+                    lista->dataNasc,
+                    lista->endereco,
+                    lista->email,
+                    lista->telefone,
+                    lista->idProcesso
+                    );
+                }
+                lista = lista->prox;
+                printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            }
+            /* liberar toda a lista ligada */
+            while (clientePF != NULL) {
+                ClientePF *tmp = clientePF->prox;
+                free(clientePF);
+                clientePF = tmp;
+            }
+            /*free(aux);*/
+        }; break;
+
+        case 2: {
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    quantidade++;
+                }
+                aux = aux->prox;
+            }
+
+            if (quantidade == 0) {
+                printf("Nenhum advogado ativo.\n");
+                /* liberar toda a lista ligada antes de sair */
+                while (lista != NULL) {
+                    ClientePF *tmp = lista->prox;
+                    free(lista);
+                    lista = tmp;
+                }
+                return;
+            }
+            ClientePF **vetor = (ClientePF**) malloc(quantidade * sizeof(ClientePF*));
+            aux = lista;
+            int i = 0;
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    vetor[i] = aux;
+                    i++;
+                }
+                aux = aux->prox;
+            }
+            qsort(vetor, quantidade, sizeof(ClientePF*), compararNomesClientePF);
+            printf("\n%-20s %-15s %-20s %-25s %-21s %-30s %-25s %-20s \n", "CPF", "Nome", "Genero", "Data Nasc.","Endereço", "Email", "Telefone", "ID Processo");
+            printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            for (int j = 0; j < quantidade; j++) {
+                ClientePF *cliPF = vetor[j]; 
+                printf("%-20s %-15s %-20s %-25s %-20s %-30s %-27s %-20s\n", 
+                    cliPF->cpf, 
+                    cliPF->nome, 
+                    cliPF->sexo,
+                    cliPF->dataNasc,
+                    cliPF->endereco,
+                    cliPF->email,
+                    cliPF->telefone,
+                    cliPF->idProcesso
+                    
+                );
+                printf("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+            }
+            free(vetor);
+            /* liberar toda a lista ligada */
+            while (lista != NULL) {
+                ClientePF *tmp = lista->prox;
+                free(lista);
+                lista = tmp;
+            }
+        }; break;
     }
 }
