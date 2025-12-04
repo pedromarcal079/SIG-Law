@@ -19,6 +19,32 @@ void input(char *variavel, int tam, char *mensagem){
     }
 }
 
+int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
+    if (arq_clientePJ == NULL) return 0;
+    rewind(arq_clientePJ);
+    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
+        if (strcmp(clientePJ->cnpj, cnpj) == 0) {
+            return 1; // encontrado
+        }
+    }
+    return 0; // não encontrado
+}
+
+int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
+    if (arq_clientePF == NULL) return 0;
+    rewind(arq_clientePF);
+    while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
+        if (strcmp(clientePF->cpf, cpf) == 0) {
+            return 1; // encontrado
+        }
+    }
+    return 0; // não encontrado
+}
+
+
+
+
+ //toda função de gerar lista ou comparação que estiver abaixo desse comentario foi feito com a ajuda do Gemini.//
 Advogado* gerarLista_adv(void){
     Advogado* lista = NULL;
     Advogado* ultimo = NULL;
@@ -49,7 +75,7 @@ Advogado* gerarLista_adv(void){
                 printf("\nERRO: Falha na alocacao de memoria.\n");
                 return NULL;
             }
-            memcpy(node, &buffer, sizeof(Advogado));
+            memcpy(node, &buffer, sizeof(Advogado)); //copia um número especificado de bytes de uma área de memória (fonte) para outra (destino)//
             node->prox = NULL;
             if (lista == NULL) {
                 lista = node;
@@ -169,7 +195,7 @@ int compararNomesAdvogado(const void *a, const void *b) {
     Advogado *advA = *(Advogado**)a;
     Advogado *advB = *(Advogado**)b;
     
-    return strcasecmp(advA->nome, advB->nome);
+    return strcasecmp(advA->nome, advB->nome); //função que compara duas strings sem diferenciar maiúsculas de minúsculas
 }
 
 ProcessoPF* gerarLista_ProcPF(void){
@@ -288,8 +314,8 @@ void** gerarVetorOrdenado(void* lista, GetProximoFunc getProximo, CompararFunc c
 }
 
 void* proc_getProximo(void* item) {
-    return ((ProcessoPF*)item)->prox;
-}
+    return ((ProcessoPF*)item)->prox;  //Essa função serve para ensinar o computador a caminhar na lista. Ela diz: Pegue esse item genérico, trate-o como um ProcessoPF e me dê o endereço do próximo item.  //como dar um mapa para a função genérica navegar pela sua lista encadeada.
+}                                      //como dar um mapa para a função genérica navegar pela sua lista encadeada.
 
 int proc_compararData(const void* a, const void* b) {
     ProcessoPF* pA = *(ProcessoPF**)a;
@@ -322,26 +348,4 @@ int procPJ_compararData(const void* a, const void* b) {
     if (m1 != m2) return m1 - m2;
 
     return d1 - d2;
-}
-
-int encontraClientePJ(ClientePJ *clientePJ, const char *cnpj, FILE *arq_clientePJ) {
-    if (arq_clientePJ == NULL) return 0;
-    rewind(arq_clientePJ);
-    while (fread(clientePJ, sizeof(ClientePJ), 1, arq_clientePJ) == 1) {
-        if (strcmp(clientePJ->cnpj, cnpj) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
-}
-
-int encontraClientePF(ClientePF *clientePF, const char *cpf, FILE *arq_clientePF) {
-    if (arq_clientePF == NULL) return 0;
-    rewind(arq_clientePF);
-    while (fread(clientePF, sizeof(ClientePF), 1, arq_clientePF) == 1) {
-        if (strcmp(clientePF->cpf, cpf) == 0) {
-            return 1; // encontrado
-        }
-    }
-    return 0; // não encontrado
 }
