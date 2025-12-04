@@ -45,6 +45,11 @@ void moduloClientePJ(void) {
             printf("Pressione ENTER ... \n");
             getchar();
             break;
+        case 7:
+            listaClientePJ();
+            printf("Pressione ENTER ... \n");
+            getchar();
+            break;
         default:
             system("clear");
             printf("+----------------------------------------------+\n");
@@ -73,7 +78,8 @@ int menuClientePJ(void) {
     printf("|                          3 - Edita empresa                                                  |\n");
     printf("|                          4 - Exclui empresa                                                 |\n");
     printf("|                          5 - Lixeira empresa                                                |\n");
-    printf("|                          6 - Lista empresas                                                 |\n");
+    printf("|                          6 - Relatorio empresas                                             |\n");
+    printf("|                          7 - Listar empresas                                                |\n");
     printf("|                          0 - Voltar                                                         |\n");
     printf("|                                                                                             |\n");
     printf("+---------------------------------------------------------------------------------------------+\n");
@@ -637,5 +643,105 @@ void lixeiraClientePJ(void) {
         printf("+----------------------------------------------+\n");
         remove("temp_clientePJ.dat");
         return;
+    }
+}
+
+void listaClientePJ(void){
+    system("clear");
+    ClientePJ *lista = gerarLista_cliPJ();
+    ClientePJ *clientePJ = lista;
+    int quantidade = 0;
+    ClientePJ *aux = lista;
+    int opcao;
+
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                                                                                             |\n");
+    printf("|                                    Listagem ClientePJ                                       |\n");
+    printf("|                                                                                             |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("|                           1 - listar por ordem de cadastro                                  |\n");
+    printf("|                           2 - listar por Ordem alfabética                                   |\n");
+    printf("+---------------------------------------------------------------------------------------------+\n");
+    printf("===> Digite sua opcao: ");
+    scanf("%d",&opcao);
+    getchar();
+    switch(opcao){
+        case 1: {
+            printf("\n%-20s %-15s %-20s %-25s %-21s %-30s \n", "CNPJ", "Nome", "repres", "Endereço", "Email", "Telefone");
+            printf("+------------------------------------------------------------------------------------------------------------------+\n");
+            while(lista != NULL){
+                if (lista->atividade){
+                    printf("%-20s %-15s %-20s %-24s %-20s %-30s \n",
+                    lista->cnpj, 
+                    lista->nomeFantasia, 
+                    lista->repres,
+                    lista->endereco,
+                    lista->email,
+                    lista->telefone
+                    );
+                }
+                lista = lista->prox;
+                printf("+------------------------------------------------------------------------------------------------------------------+\n");
+            }
+            /* liberar toda a lista ligada */
+            while (clientePJ != NULL) {
+                ClientePJ *tmp = clientePJ->prox;
+                free(clientePJ);
+                clientePJ = tmp;
+            }
+            /*free(aux);*/
+        }; break;
+
+        case 2: {
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    quantidade++;
+                }
+                aux = aux->prox;
+            }
+
+            if (quantidade == 0) {
+                printf("Nenhum advogado ativo.\n");
+                /* liberar toda a lista ligada antes de sair */
+                while (lista != NULL) {
+                    ClientePJ *tmp = lista->prox;
+                    free(lista);
+                    lista = tmp;
+                }
+                return;
+            }
+            ClientePJ **vetor = (ClientePJ**) malloc(quantidade * sizeof(ClientePJ*));
+            aux = lista;
+            int i = 0;
+            while (aux != NULL) {
+                if (aux->atividade) {
+                    vetor[i] = aux;
+                    i++;
+                }
+                aux = aux->prox;
+            }
+            qsort(vetor, quantidade, sizeof(ClientePJ*), compararNomesClientePJ);
+            printf("\n%-20s %-15s %-20s %-25s %-21s %-30s \n", "CNPJ", "Nome", "repres", "Endereço", "Email", "Telefone");
+            printf("+------------------------------------------------------------------------------------------------------------------+\n");
+            for (int j = 0; j < quantidade; j++) {
+                ClientePJ *cliPJ = vetor[j]; 
+                printf("%-20s %-15s %-20s %-24s %-20s %-30s \n", 
+                    cliPJ->cnpj, 
+                    cliPJ->nomeFantasia, 
+                    cliPJ->repres,
+                    cliPJ->endereco,
+                    cliPJ->email,
+                    cliPJ->telefone 
+                );
+                printf("+------------------------------------------------------------------------------------------------------------------+\n");
+            }
+            free(vetor);
+            /* liberar toda a lista ligada */
+            while (lista != NULL) {
+                ClientePJ *tmp = lista->prox;
+                free(lista);
+                lista = tmp;
+            }
+        }; break;
     }
 }

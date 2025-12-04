@@ -12,6 +12,7 @@ typedef struct clientePJ{
     char endereco[100];         
     char email[100];         
     char telefone[20];   
+    struct clientePJ *prox;
 } ClientePJ;
 
 void moduloClientePJ(void);
@@ -22,5 +23,6 @@ void editaClientePJ(void);
 void excluiClientePJ(void);
 void lixeiraClientePJ(void);
 void relatorioClientePJ(void);
+void listaClientePJ(void);
 
 #endif
