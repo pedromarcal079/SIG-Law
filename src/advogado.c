@@ -754,6 +754,7 @@ void listaAdvogado(void){
         }; break;
 
         case 2: {
+            //saber quantos advogados existem na lista.
             while (aux != NULL) {
                 if (aux->atividade) {
                     quantidade++;
@@ -771,7 +772,7 @@ void listaAdvogado(void){
                 }
                 return;
             }
-            Advogado **vetor = (Advogado**) malloc(quantidade * sizeof(Advogado*));
+            Advogado **vetor = (Advogado**) malloc(quantidade * sizeof(Advogado*)); //cria uma lista de "atalhos" ou "links" para os advogados que já estão na memória.
             aux = lista;
             int i = 0;
             while (aux != NULL) {
